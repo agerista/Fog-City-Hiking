@@ -3,17 +3,17 @@
 
 <h1>Fog City Hiking</h1>
 
-<form action="login", method=['POST']>
+<form action="/login", method="POST">
     <div>
          <label>
-            Email: <input type="text" name="email" placeholder="Enter your email address"></br>
+            Email: <input type="text" name="email" placeholder="Enter your email address" required></br>
         </label>
     </div>
     <div>
         <label>
-            Password: <input type="text" name="password" placeholder="Enter your password"></br>
+            Password: <input type="text" name="password" placeholder="Enter your password" required></br>
         </label>
     </div>
     <div>
-        <input type="submit" value="Login">
+        <input type="submit" value="Log In">
 {% endblock %} 

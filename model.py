@@ -25,9 +25,9 @@ class User(db.Model):
         """Provide helpful representation when printed"""
 
         return "<User user_id=%s email=%s password=%s first_name=%s\
-                last_name=%s>" % (self.user_id, 
-                                  self.email_id,
-                                  self.password_id,
+                last_name=%s>" % (self.user_id,
+                                  self.email,
+                                  self.password,
                                   self.first_name,
                                   self.last_name)
 

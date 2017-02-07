@@ -79,7 +79,7 @@ def log_into_account():
     user = User.query.filter_by(email=email).first()
 
     if not user:
-        flash("Please register for an account")
+        flash("Please try again or register for an account")
         return redirect("/login")
 
     if user.password != password:
@@ -92,11 +92,21 @@ def log_into_account():
     return redirect("/users/%s" % user.user_id)
 
 
-@app.route('/users/<email>')
-def user_profile_page(email):
+@app.route('/logout')
+def log_out():
+    """Allows user to log out of account."""
+
+    del session["user_id"]
+    flash("You are now logged out")
+    return redirect("/")  # Can we keep them on the same page?
+
+
+@app.route('/users/<int:user_id>')
+def user_profile_page(user_id):
     """Shows the users profile page"""
 
-    email = User.query.get(email)
+    user = User.query.get(user_id)
+
     return render_template("user.html", user=user)
 
 ################################################################################

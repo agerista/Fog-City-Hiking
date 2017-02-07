@@ -1,0 +1,6 @@
+venv
+env
+secrets.ssh
+.DS_Store
+*pyc
+fog_city_data_model.xlsx

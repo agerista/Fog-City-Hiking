@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Fog City Hiking</h1>
+
+<h2>Please sign up for an account!</h2>
+<form action="register" method="POST">
+
+    <div>
+        <label>
+            Email: <input type="text" name="email" placeholder="Enter your email address"></br>
+        </label>
+    </div>
+        <label>
+            Password: <input type="text" name="password" placeholder="Enter your password"></br>
+        </label>
+    </div>
+        <label>
+            First Name: <input type="text" name="first_name" placeholder="Enter your First Name"></br>
+        </label>
+    </div>
+    <div>
+        <label>
+            Last Name: <input type="text" name="last_name" placeholder="Enter your Last Name"></br>
+        </label>
+    </div>
+    <div>
+        <input type="submit" value="Register">
+    </div>
+
+
+{% endblock %} 

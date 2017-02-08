@@ -1,6 +1,6 @@
 venv
 env
-secrets.ssh
+secrets.sh
 .DS_Store
 *pyc
 fog_city_data_model.xlsx

@@ -51,7 +51,9 @@ def seed_trail_table():
             duration = None
             intensity = None
 
-        print trail_id, trail_name
+        print trail_id, trail_name, map_url, image, length, duration, intensity
+        print
+        print
 
         trail = Trail.query.get(trail_id)
 
@@ -65,48 +67,49 @@ def seed_trail_table():
                               duration=duration,
                               intensity=intensity)
 
-            db.session.add(new_trail)
+        db.session.add(new_trail)
 
     db.session.commit()
 
 
-def seed_park_table():
-    """Data for park table"""
+# def seed_park_table():
+#     """Data for park table"""
 
-    parks = trailheads()
+#     parks = trailheads()
 
-    for park in parks:
-        latitude = park['latitude']
-        longitude = park['longitude']
+#     for park in parks:
+#         trail_id = park['trail_id']
+#         latitude = park['latitude']
+#         longitude = park['longitude']
 
-        description = park['description']
-        park_name = park['park_name']
+#         description = park['description']
+#         park_name = park['park_name']
 
-        print park_name
+#         print park_name, trail_id
 
-        image_data = photos(trail['id'])
+#         image_data = photos(trail['id'])
 
-        if image_data == []:
-            image = None
+#         if image_data == []:
+#             image = None
 
-        elif image_data is not None:
-            image_url = image_data.pop()
+#         elif image_data is not None:
+#             image_url = image_data.pop()
 
-            try:
-                image = image_url['flicker_url']
+#             try:
+#                 image = image_url['flicker_url']
 
-            except:
-                pass
+#             except:
+#                 pass
 
-        park = Park(latitude=latitude,
-                    longitude=longitude,
-                    description=description,
-                    park_name=park_name)
-                    # image=image)
+#         park = Park(latitude=latitude,
+#                     longitude=longitude,
+#                     description=description,
+#                     park_name=park_name,
+#                     image=image)
 
-        db.session.add(park)
+#         db.session.add(park)
 
-    db.session.commit()
+#     db.session.commit()
 
 if __name__ == "__main__":
     connect_to_db(app)
@@ -115,5 +118,5 @@ if __name__ == "__main__":
     db.create_all()
 
     # Import different types of data
-    seed_park_table()
+    # seed_park_table()
     seed_trail_table()

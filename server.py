@@ -123,6 +123,14 @@ def results_of_search():
 
     return render_template("search_results.html")
 
+
+@app.route('/trails')
+def trail_list():
+    """See a list of all trails"""
+
+    trails = Trail.query.order_by("trail_name asc").all()
+    return render_template("trail_list.html", trails=trails)
+
 ################################################################################
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the

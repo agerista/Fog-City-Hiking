@@ -3,18 +3,24 @@
 
   <h1>{{ hike.name }}</h1>
 
-  <p>Ratings</p>
+  <p>Your matching hikes:</p>
 
   {% if user.ratings %}
 
     <h2>Ratings</h2>
-    <ul>
-    {% for movie_id in rating.movie_id %}
-      <li>
-        <a href="/trails/{{ trail.trail_name }}">{{ trail.trail_name }}</a>
-      </li>
+
+    <table>
+      {% for trail in trail_name%}
+      <tr>
+        <td><img src="{{ trail.image }}"></td>
+        <td><input type="checkbox" name="hikes" value="Completed">
+          <input type="checkbox" name="hikes" value="Wishlist"</td>
+        <td>{{ trail.name }}</td>
+        <td>{{ review }}</td> <!--make sure this matches the table-->
+        <td>{{ trail.description }}</td>
+      </tr>
     {% endfor %}
-    </ul>
+    </table>
   {% endif %}
 
 {% endblock %}

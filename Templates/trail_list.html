@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Bay Area Hiking Trails</h2>
+<ul>
+    {% for trail in trails %}
+    <li>
+        <a href="/trails/{{ trail.trail_name }}">
+            {{ trail.name }}  
+        </a>
+    </li>
+
+
+    {% endfor %}
+</ul>
+{% endblock %}

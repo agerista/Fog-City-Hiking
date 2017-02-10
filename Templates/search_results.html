@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h1>{{ hike.name }}</h1>
+
+  <p>Ratings</p>
+
+  {% if user.ratings %}
+
+    <h2>Ratings</h2>
+    <ul>
+    {% for movie_id in rating.movie_id %}
+      <li>
+        <a href="/trails/{{ trail.trail_name }}">{{ trail.trail_name }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+{% endblock %}

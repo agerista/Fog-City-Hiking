@@ -35,6 +35,15 @@ def user_list():
     return render_template("/user_list.html", users=users)
 
 
+@app.route('/users/<int:user_id>')
+def user_profile_page(user_id):
+    """Shows the users profile page"""
+
+    user = User.query.get(user_id)
+
+    return render_template("user.html", user=user)
+
+
 @app.route('/register')
 def registration_form():
     """Show registration form"""
@@ -101,16 +110,20 @@ def log_out():
     return redirect("/")  # Can we keep them on the same page?
 
 
-@app.route('/users/<int:user_id>')
-def user_profile_page(user_id):
-    """Shows the users profile page"""
+@app.route('/search')
+def search_for_hikes():
+    """Allows a user to search for hikes"""
 
-    user = User.query.get(user_id)
+    return render_template("search_form.html")
 
-    return render_template("user.html", user=user)
+
+@app.route('/search')
+def results_of_search():
+    """Returns relevant hikes from user search"""
+
+    return render_template("search_results.html")
 
 ################################################################################
-
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension

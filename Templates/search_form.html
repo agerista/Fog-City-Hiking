@@ -1,21 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <h1>{{ movie.title }}</h1>
+  <h1>Fog City Hiking</h1>
 
-  <p>Enter Search Parameters Below</p>
+  <h3>Enter Search Parameters Below:</h3>
 
-  {% if user.ratings %}
-
-    <h2>Ratings</h2>
-    <ul>
-    {% for movie_id in rating.movie_id %}
-      <li>
-        <a href="/movies/{{ rating.movie_id }}">{{ rating.user_id }}</a>
-        was rated {{ rating.score }}
-      </li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+  <form action="/search_results">
+    <div>
+      <label>
+          Trail Name: <input type="text" name="trail" placeholder="Enter name of trail">
+      </label> 
+    </div>
+    <div>
+      Duration:<select name="duration">
+          <option value="Full Day">Full Day</option>
+          <option value="Half Day">Half Day</option>
+        </select>
+    </div>
+    <div>
+      <label>
+        <input type="text" name="length" placeholder="Enter distance in miles">
+      </label>
+    </div>
+    <div>
+      Difficulty:<select name="intensity">
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Difficult">Difficult</option>
+        <option value="Strenuous">Strenuous</option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Search">
+    </div>
+  </form>
 
 {% endblock %}
+
+<select>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option>
+</select>
+Try it Yourself »

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h1>{{ trail.trail_name }}</h1>
+
+    <h2>Description</h2>
+    <ul>
+    {% for trail_name in trail.trail_id %}
+      <li>
+        <a href="/trail/{{ trail.trail_id }}">{{ trail.trail_name }}</a>
+      </li>
+      <li><a href="{{ trail.image}}"></a></li>
+      <li>{{ trail.description}}</li>
+
+    {% endfor %}
+    </ul>
+  {% endif %}
+
+{% endblock %}

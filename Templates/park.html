@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h1>{{ park.park_name }}</h1>
+
+    <h2>Description</h2>
+    <ul>
+    {% for park_name in park.park_id %}
+      <li>
+        <a href="/park/{{ park.park_id }}">{{ park.park_name }}</a>
+      </li>
+      <li><a href="{{ park.image }}"></a></li>
+      <li>{{ park.description}}</li>
+
+    {% endfor %}
+    </ul>
+
+{% endblock %}

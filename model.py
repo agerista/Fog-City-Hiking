@@ -78,8 +78,7 @@ class Trail(db.Model):
     duration = db.Column(db.String(50), nullable=True)
     length = db.Column(db.Float)
     intensity = db.Column(db.String(20))
-    attributes = db.Column(db.String(500), nullable=True)
-    maps = db.Column(db.String(100), nullable=True)
+    maps = db.Column(db.String(300), nullable=True)
 
     hike = db.relationship("Hike")
     park = db.relationship("Park")
@@ -96,7 +95,8 @@ class Trail(db.Model):
                               self.image,
                               self.duration,
                               self.length,
-                              self.intensity)
+                              self.intensity,
+                              self.maps)
 
 
 class Park(db.Model):

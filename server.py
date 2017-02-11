@@ -22,9 +22,7 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Homepage."""
 
-    #a = jsonify([1, 3])
-
-    return render_template("homepage.html")
+    return render_template("homepage.html", weather=weather)
 
 
 @app.route('/users')
@@ -35,7 +33,7 @@ def user_list():
     return render_template("/user_list.html", users=users)
 
 
-@app.route('/users/<int:user_id>')
+@app.route('/users/<string:user_name>')
 def user_profile_page(user_id):
     """Shows the users profile page"""
 
@@ -112,24 +110,51 @@ def log_out():
 
 @app.route('/search')
 def search_for_hikes():
-    """Allows a user to search for hikes"""
+    """Allows a user to search for hikes."""
 
     return render_template("search_form.html")
 
 
 @app.route('/search')
 def results_of_search():
-    """Returns relevant hikes from user search"""
+    """Returns relevant hikes from user search."""
 
     return render_template("search_results.html")
 
 
-@app.route('/trails')
+@app.route('/trail')
 def trail_list():
-    """See a list of all trails"""
+    """See a list of all trails."""
 
     trails = Trail.query.order_by("trail_name asc").all()
     return render_template("trail_list.html", trails=trails)
+
+
+@app.route('/trail/<string:trail_name>')
+def trail_details(trail_name):
+    """See details for a chosen trail."""
+
+    trail = Trail.query.get("trail_name")
+    return render_template("trail.html", trails=trails)
+
+
+@app.route('/park')
+def park_list():
+    """See a list of all parks."""
+
+    parks = Park.query.order_by("park_name asc").all()
+    return render_template("park.html", parks=parks)
+
+
+@app.route('/park/<string:park_name>')
+def park_description(park_name):
+    """See details for a chosen trail"""
+
+    park = Park.query.get("park_name")
+    return render_template("park_list.html", parks=parks)
+
+
+
 
 ################################################################################
 if __name__ == "__main__":

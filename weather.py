@@ -4,21 +4,24 @@ import forecastio
 from model import db, connect_to_db, Park
 from server import app
 
-def weather_forecast():
-    api_key = os.environ['DARK_KEY']
-    # lat = 37.7749
-    # lng = -122.4194
 
-    coordinates = db.session.query(Park.latitude, Park.longitude).first()
-    # seperate query call for lat and long needed
+api_key = os.environ["DARK_KEY"]
+
+
+def weather_forecast():
+
+    coordinates = db.session.query(Park.latitude, Park.longitude).distinct().first()
 
     for coordinate in coordinates:
-        forecastio.load_forecast(api_key, lat, lng)
 
-        byHour = forecast.hourly()
-        weather = byHour.summary
+
+        weather = forecastio.load_forecast(api_key, coordinate)
+  
+
 
     return weather
 
+
 if __name__ == "__main__":
     connect_to_db(app)
+    weather_forecast()

@@ -2,18 +2,18 @@
 {% block content %}
 
   <h1>{{ trail.trail_name }}</h1>
+  <img src="{{ trail.image}}">
+  <h2>Description</h2>
+  
+  <ul>
 
-    <h2>Description</h2>
-    <ul>
-    {% for trail_name in trail.trail_id %}
-      <li>
-        <a href="/trail/{{ trail.trail_id }}">{{ trail.trail_name }}</a>
-      </li>
-      <li><a href="{{ trail.image}}"></a></li>
-      <li>{{ trail.description}}</li>
+    <li>{{ trail.description}}</li>
+    <li>{{ trail.length }}, {{ trail.intensity }}, {{ trail.duration }}
+    <li><img src="{{ trail.maps }}"></li>
 
-    {% endfor %}
-    </ul>
-  {% endif %}
+  </ul>
+
+
+
 
 {% endblock %}

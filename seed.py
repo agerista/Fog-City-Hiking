@@ -1,9 +1,14 @@
-from sqlalchemy import func
+from sqlalchemy import *
 from model import *
-from model import connect_to_db, db
 from server import app
 from transit import *
 
+
+                  
+                  # image=image,
+                  # length=length,
+                  # duration=duration,
+                  # intensity=intensity)
 
 def seed_trail_table():
     """Information for trail table"""
@@ -14,131 +19,86 @@ def seed_trail_table():
         trail_id = trail['id']
         trail_name = trail['name']
 
-        map_data = maps(trail['id'])
-        image_data = photos(trail['id'])
-        trip = trips(trail['id'])
+        print trail_id, trail_name
 
-        if map_data == [] and image_data == [] and trip == []:
-            map_url = None
-            image = None
-            length = None
-            duration = None
-            intensity = None
+#         # map_data = maps(trail['id'])
+#         # image_data = photos(trail['id'])
+#         # trip = trips(trail['id'])
 
-        elif map_data != [] and image_data != [] and trip != []:
-            map_link = map_data.pop()
-            map_url = map_link['url']
+#         # if map_data == [] and image_data == [] and trip == []:
+#         #     map_url = None
+#         #     image = None
+#         #     length = None
+#         #     duration = None
+#         #     intensity = None
 
-            length = trip['length_miles']
-            duration = trip['duration']
-            intensity = trip["intensity"]
+#         # elif map_data != [] and image_data != [] and trip != []:
+#         #     map_link = map_data.pop()
+#         #     map_url = map_link['url']
 
-            image_url = image_data.pop()
+#         #     length = trip['length_miles']
+#         #     duration = trip['duration']
+#         #     intensity = trip["intensity"]
 
-            try:
-                image = image_url['flicker_url']
+#         #     image_url = image_data.pop()
 
-            except:
-                pass
+#         #     try:
+#         #         image = image_url['flicker_url']
 
-        elif map_data != [] and image_data != [] and trip == []:
-
-            map_link = map_data.pop()
-            map_url = map_link['url']
-
-            length = None
-            duration = None
-            intensity = None
-
-            image_url = image_data.pop()
-
-            try:
-                image = image_url['flicker_url']
-
-            except:
-                pass
-
-        elif map_data != [] and image_data == [] and trip != []:
-
-            map_link = map_data.pop()
-            map_url = map_link['url']
-
-            length = trip['length_miles']
-            duration = trip['duration']
-            intensity = trip["intensity"]
-
-            image = None
-
-        elif map_data == [] and image_data != [] and trip != []:
-
-            map_url = None
-
-            length = trip['length_miles']
-            duration = trip['duration']
-            intensity = trip["intensity"]
-
-            image_url = image_data.pop()
-
-            try:
-                image = image_url['flicker_url']
-
-            except:
-                pass
-
-        elif map_data != [] and image_data == [] and trip == []:
- 
-            map_link = map_data.pop()
-            map_url = map_link['url']
-
-            image = None
-
-            length = None
-            duration = None
-            intensity = None
-
-        elif map_data == [] and image_data == [] and trip != []:
-
-            length = trip['length_miles']
-            duration = trip['duration']
-            intensity = trip["intensity"]
-
-            map_url = None
-
-            image = None
-
-        elif map_data == [] and image_data != [] and trip == []:
-
-            map_url = None
-
-            length = None
-            duration = None
-            intensity = None
-
-            image_url = image_data.pop()
-
-            try:
-                image = image_url['flicker_url']
-
-            except:
-                pass
-
-        print trail_id, trail_name, map_url, image, length, duration, intensity
+#         #     except:
+#         #         pass
+        
 
         trail = Trail.query.get(trail_id)
 
-        if trail is not None:
 
-            new_trail = Trail(trail_id=trail_id,
-                              trail_name=trail_name,
-                              maps=map_url,
-                              image=image,
-                              length=length,
-                              duration=duration,
-                              intensity=intensity)
+        new_trail = Trail(trail_id=trail_id,
+                          trail_name=trail_name)
 
+        if trail is None:
             db.session.add(new_trail)
 
     db.session.commit()
+    print "done committing trails"
+
+# def add_maps():
+
+#     trails = trailheads()
+
+#     for trail in trails[40:50]:
+
+#         trail_id = trail['id']
+#         map_data = maps(trail['id'])
+
+#         if map_data != []:
+#             map_link = map_data.pop()
+#             map_url = map_link['url']
+
+#         else:
+#             map_url = None
+#         print map_url
+
+#         print trail_id, map_url
+
+#         trail = Trail.query.filter_by(trail_id=trail_id).first()
+#         # trail.maps == map_url
+
+#         setattr(trail, 'maps', map_url)
+
+#         db.session.commit()
+
+#         # if trail is not None:
+
+#         #     db.session.query().filter(Trail.trail_id == trail_id).update(maps, map_url)
+
+    
+
+#     print "done with maps"
+#             # m = new_trail.insert()
+#             # m.execute(maps=map_url)
+
+            
+
 
 
 # def add_images():
@@ -195,8 +155,6 @@ def seed_trail_table():
 #         description = park['description']
 #         park_name = park['park_name']
 
-#     for park in parks:
-
 #         image_data = photos(park['id'])
 
 #         if image_data != []:
@@ -228,3 +186,4 @@ if __name__ == "__main__":
     # Import different types of data
     # seed_park_table()
     seed_trail_table()
+    # add_maps()

@@ -1,10 +1,29 @@
 body {
-  background-color: #d7e0a8;
+    text-align: center;
+    background: #f0f0f0;
 }
 
-.navbar {
-    color: #D9E6D5
+.nav-bar {
+    color: #f0f8ff;
 }
 
+ul {
+  list-style-type: none;
+  color: #485E85;
+}
+
+h1{
+    color: #494663;
+}
+.fog{
+    height: 300px;
+    width: 1300px;
+    margin: -25px -50px 25px -50px;
+    text-align: center;
+   }
+.fog img{
+    height: 100%;
+    width: 100%;
+}
 
 /*/*

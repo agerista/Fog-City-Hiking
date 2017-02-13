@@ -3,8 +3,9 @@
 <head>
     <link rel="stylesheet"
           href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.css"/>
-    </link>
-    <link rel="stylesheet" href="../static/css/styles.css"></link>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/
+      3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -50,11 +51,13 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-</nav>        
+</nav> 
 
-
-</body>
-            
+<div class="container-fluid">  
+  <div class="row fog">
+    <div class="col-xs-12"><img src="../static/fog_city.jpg"></div>
+  </div>
+      
 <hr>
 
 {% for flash in get_flashed_messages() %}

@@ -22,7 +22,8 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Homepage."""
 
-    return render_template("homepage.html", weather=weather)
+    return render_template("homepage.html")
+        #  , weather=weather)
 
 
 @app.route('/users')
@@ -130,12 +131,12 @@ def trail_list():
     return render_template("trail_list.html", trails=trails)
 
 
-@app.route('/trail/<string:trail_name>')
-def trail_details(trail_name):
+@app.route('/trail/<int:trail_id>')
+def trail_details(trail_id):
     """See details for a chosen trail."""
 
-    trail = Trail.query.get("trail_name")
-    return render_template("trail.html", trails=trails)
+    trail = Trail.query.get(trail_id)
+    return render_template("trail.html", trail=trail)
 
 
 @app.route('/park')

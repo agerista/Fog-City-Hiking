@@ -14,8 +14,10 @@ def weather_forecast():
 
     for coordinate in coordinates:
 
+        lat = coordinate[0]
+        lng = coordinate[1]
 
-        weather = forecastio.load_forecast(api_key, coordinate)
+        weather = forecastio.load_forecast(api_key, lat, lng)
   
 
 

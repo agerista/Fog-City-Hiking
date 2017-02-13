@@ -1,30 +1,32 @@
 import requests
 import os
-import forecastio
 from model import db, connect_to_db, Park
 from server import app
-
+import forecastio
 
 api_key = os.environ["DARK_KEY"]
 
 
-def weather_forecast():
-    """Get the weather"""
+# def weather_forecast():
+#     """Get the weather"""
 
-    coordinates = db.session.query(Park.latitude, Park.longitude).distinct().all()
 
-    for coordinate in coordinates:
+    # Cap is 1,000 calls per day 
+    # coordinates = db.session.query(Park.latitude, Park.longitude).distinct().first()
 
-        type(coordinate)
-        print coordinate
+    # for coordinate in coordinates:
 
-        lat = coordinate[0]
-        lng = coordinate[1]
+    #     type(coordinate)
+    #     print coordinate
 
-        weather = forecastio.load_forecast(api_key, lat, lng)
+    #     lat = coordinate[0]
+    #     lng = coordinate[1]
+
+weather = forecastio.load_forecast(api_key,50.0,10.0)
+        # weather = forecastio.load_forecast(api_key, lat, lng)
         # weather = forecastio.load_forecast(api_key, coordinate[0], coordinate[1])
 
-    return weather
+    # return weather
 
 
 if __name__ == "__main__":

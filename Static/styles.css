@@ -75,7 +75,17 @@ h3{
     margin: 5px 200px 100px 200px;
 }
 
-
+/* Always set the map height explicitly to define the size of the div
+* element that contains the map. */
+#map {
+height: 50%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+height: 100%;
+margin: 500px -25px -25px -25px;
+padding: 0;
+}
 
 
 /*/*

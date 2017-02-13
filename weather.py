@@ -10,7 +10,7 @@ api_key = os.environ["DARK_KEY"]
 
 def weather_forecast():
 
-    coordinates = db.session.query(Park.latitude, Park.longitude).distinct().first()
+    coordinates = db.session.query(Park.latitude, Park.longitude).distinct().all()
 
     for coordinate in coordinates:
 

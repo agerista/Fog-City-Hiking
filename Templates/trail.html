@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<div class="trail">
   <h1>{{ trail.trail_name }}</h1>
-  <img src="{{ trail.image}}">
+  <img src="{{ trail.image }}">
   <h2>Description</h2>
   
   <ul>
@@ -12,7 +13,7 @@
     <li><img src="{{ trail.maps }}"></li>
 
   </ul>
-
+</div>
 
 
 

@@ -5,36 +5,46 @@
 
   <h3>Enter Search Parameters Below:</h3>
 
-  <form action="/search_results">
-    <div>
-      <label>
+  <div class="search-form">
+    <form action="/search_results">
+
+      <div class="row">
+        <div class="col-xs-12">
           Trail Name: <input type="text" name="trail" placeholder="Enter name of trail">
           City: <input type="text" name="city" placeholder="Enter a city">
-      </label> 
-    </div>
-    <div>
-      Duration:<select name="duration">
-          <option value="Full Day">Full Day</option>
-          <option value="Half Day">Half Day</option>
-        </select>
-    </div>
-    <div>
-      <label>
-        <input type="text" name="length" placeholder="Enter distance in miles">
-      </label>
-    </div>
-    <div>
-      Difficulty:<select name="intensity">
-        <option value="Easy">Easy</option>
-        <option value="Medium">Medium</option>
-        <option value="Difficult">Difficult</option>
-        <option value="Strenuous">Strenuous</option>
-        </select>
-    </div>
-    <div>
-        <input type="submit" value="Search">
-    </div>
-  </form>
+        </div><!--column-->  
+      </div><!--row-->
+      
 
+        <div class="row">
+          <div class="col-xs-4">
+            Duration:<select name="duration">
+                <option value="Full Day">Full Day</option>
+                <option value="Half Day">Half Day</option>
+              </select>
+          </div>
+          
+          <div class="col-xs-4">  
+            <input type="text" name="length" placeholder="Enter distance in miles">
+           </div>
+
+          <div class="col-xs-4">
+            Difficulty:<select name="intensity">
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Difficult">Difficult</option>
+              <option value="Strenuous">Strenuous</option>
+              </select>
+          </div>
+        </div><!--row-->
+
+          <div class="row">
+            <div class="col-xs-offset-4 col-xs-4">
+              <input type="submit" value="Search">
+            </div>
+          </div>
+        
+    </form>
+  </div>
 {% endblock %}
 

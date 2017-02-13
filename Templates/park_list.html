@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="park_list">
+<h1>Fog City Hiking</h1>
+<h3>All available parks in the Bay Area<h3>
+
+
+<ul>
+    {% for park in parks %}
+    <li>
+        <a href="/park/{{ park.park_id }}">{{ park.park_name }}</a>
+    </li>
+
+
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

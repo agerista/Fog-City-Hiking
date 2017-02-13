@@ -1,22 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<div class="search-form">
 <form action="/login", method="POST">
-    <div>
-         <label>
-            Email: <input type="text" name="email" placeholder="Enter your email address" required></br>
-        </label>
-    </div>
-    <div>
-        <label>
-            Password: <input type="text" name="password" placeholder="Enter your password" required></br>
-        </label>
-    </div>
-    <div>
+    <div >
+        Email: <input type="text" name="email" placeholder="Enter your email" required></br>
+        Password: <input type="text" name="password" placeholder="Enter your password" required></br>
         <input type="submit" value="Log In">
     </div>
 </form>
 <form action="/register">
     <input type="submit" value="Register">
 </form>
+</div>
+
 {% endblock %} 

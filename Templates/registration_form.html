@@ -3,7 +3,9 @@
 
 <h1>Fog City Hiking</h1>
 
-<h2>Please sign up for an account!</h2>
+<h3>Please sign up for an account!</h3>
+
+<div class="registration">
 <form action="register" method="POST">
 
     <div>
@@ -11,10 +13,12 @@
             Email: <input type="text" name="email" placeholder="Enter your email address" required></br>
         </label>
     </div>
+    <div>
         <label>
             Password: <input type="text" name="password" placeholder="Enter your password" required></br>
         </label>
     </div>
+    <div>
         <label>
             First Name: <input type="text" name="first_name" placeholder="Enter your First Name" required></br>
         </label>
@@ -27,6 +31,6 @@
     <div>
         <input type="submit" value="Register">
     </div>
-
+</div>
 
 {% endblock %} 

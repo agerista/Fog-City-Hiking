@@ -127,7 +127,7 @@ def results_of_search():
 def trail_list():
     """See a list of all trails."""
 
-    trails = Trail.query.order_by("trail_name asc").all()
+    trails = Trail.query.order_by("trail_name asc").distinct().all()
     return render_template("trail_list.html", trails=trails)
 
 
@@ -143,16 +143,16 @@ def trail_details(trail_id):
 def park_list():
     """See a list of all parks."""
 
-    parks = Park.query.order_by("park_name asc").all()
-    return render_template("park.html", parks=parks)
+    parks = Park.query.order_by("park_name asc").distinct().all()
+    return render_template("park_list.html", parks=parks)
 
 
-@app.route('/park/<string:park_name>')
-def park_description(park_name):
+@app.route('/park/<int:park_id>')
+def park_description(park_id):
     """See details for a chosen trail"""
 
-    park = Park.query.get("park_name")
-    return render_template("park_list.html", parks=parks)
+    park = Park.query.get("park_id")
+    return render_template("park.html", park=park)
 
 
 

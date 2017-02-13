@@ -1,29 +1,81 @@
 body {
-    text-align: center;
     background: #f0f0f0;
 }
 
 .nav-bar {
     color: #f0f8ff;
+    padding: 10px;
+    margin: -5px 30px -30px 30px;
 }
 
 ul {
   list-style-type: none;
   color: #485E85;
+  text-align: left;
+  padding-top: 25px;
 }
 
 h1{
     color: #494663;
+    text-align: center;
 }
+
+h3{
+    text-align: center;
+}
+
 .fog{
     height: 300px;
     width: 1300px;
-    margin: -25px -50px 25px -50px;
+    margin: -30px -50px 25px -50px;
     text-align: center;
    }
 .fog img{
     height: 100%;
     width: 100%;
 }
+.trail-list{
+    background-color: #f0f0f0;
+    border: 1px solid #494663;
+    padding: 25px 100px 25px 100px;
+    margin: 5px 200px 100px 200px;
+}
+.trail{
+    background-color: #f0f0f0;
+    border: 1px solid #494663;
+    padding: 25px 100px 25px 100px;
+    margin: 5px 200px 100px 200px;
+}
+
+.park_list{
+    background-color: #f0f0f0;
+    border: 1px solid #494663;
+    padding: 25px 100px 25px 100px;
+    margin: 5px 200px 100px 200px;
+}
+
+.search-form{
+    background-color: #f0f0f0;
+    border: 1px solid #494663;
+    padding: 25px 100px 25px 100px;
+    margin: 5px 200px 100px 200px;
+}
+
+.log-in{
+    background-color: #f0f0f0;
+    border: 1px solid #494663;
+    padding: 25px 100px 25px 100px;
+    margin: 5px 200px 100px 200px;
+}
+
+.registration{
+    background-color: #f0f0f0;
+    border: 1px solid #494663;
+    padding: 25px 100px 25px 100px;
+    margin: 5px 200px 100px 200px;
+}
+
+
+
 
 /*/*

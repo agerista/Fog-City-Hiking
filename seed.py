@@ -4,142 +4,127 @@ from server import app
 from transit import *
 
 
-                  
-                  # image=image,
-                  # length=length,
-                  # duration=duration,
-                  # intensity=intensity)
+# def seed_trail_table():
+#     """Information for trail table"""
+#     trails = trailheads()
 
-def seed_trail_table():
-    """Information for trail table"""
+#     for trail in trails:
+#         trail_id = trail['id']
+#         trail_name = trail['name']
+
+#         print trail_id, trail_name
+
+#         trail = Trail.query.get(trail_id)
+
+#         if trail is not None:
+
+#             new_trail = Trail(trail_id=trail_id,
+#                               trail_name=trail_name)
+
+#             db.session.add(new_trail)
+
+#     db.session.commit()
+
+
+def add_maps():
+    """Add maps to trail table"""
+
+    trails = trailheads()
+
+    for trail in trails:
+
+        map_data = maps(trail['id'])
+        trail_id = trail['id']
+
+        if map_data == []:
+            map_url = None
+            print map_url
+        else:
+            map_link = map_data.pop()
+            map_url = map_link['url']
+            print map_url
+
+        trail = Trail.query.get(trail_id)
+
+        if trail is not None:
+
+            new_map = Trail(maps=map_url)
+
+            db.session.add(new_map)
+
+    db.session.commit()
+
+
+def add_images():
+    """Add images to trail table"""
 
     trails = trailheads()
 
     for trail in trails:
         trail_id = trail['id']
-        trail_name = trail['name']
 
-        print trail_id, trail_name
+        image_data = photos(trail['id'])
 
-#         # map_data = maps(trail['id'])
-#         # image_data = photos(trail['id'])
-#         # trip = trips(trail['id'])
+        if image_data == []:
+            image = None
+            print image
 
-#         # if map_data == [] and image_data == [] and trip == []:
-#         #     map_url = None
-#         #     image = None
-#         #     length = None
-#         #     duration = None
-#         #     intensity = None
+        elif image_data is not None:
+            image_url = image_data.pop()
 
-#         # elif map_data != [] and image_data != [] and trip != []:
-#         #     map_link = map_data.pop()
-#         #     map_url = map_link['url']
+            try:
+                image = image_url['flicker_url']
+                print image
 
-#         #     length = trip['length_miles']
-#         #     duration = trip['duration']
-#         #     intensity = trip["intensity"]
-
-#         #     image_url = image_data.pop()
-
-#         #     try:
-#         #         image = image_url['flicker_url']
-
-#         #     except:
-#         #         pass
-        
+            except:
+                pass
 
         trail = Trail.query.get(trail_id)
 
+        if trail is not None:
 
-        new_trail = Trail(trail_id=trail_id,
-                          trail_name=trail_name)
+            new_image = Trail(image=image)
 
-        if trail is None:
-            db.session.add(new_trail)
+            db.session.add(new_image)
 
     db.session.commit()
-    print "done committing trails"
-
-# def add_maps():
-
-#     trails = trailheads()
-
-#     for trail in trails[40:50]:
-
-#         trail_id = trail['id']
-#         map_data = maps(trail['id'])
-
-#         if map_data != []:
-#             map_link = map_data.pop()
-#             map_url = map_link['url']
-
-#         else:
-#             map_url = None
-#         print map_url
-
-#         print trail_id, map_url
-
-#         trail = Trail.query.filter_by(trail_id=trail_id).first()
-#         # trail.maps == map_url
-
-#         setattr(trail, 'maps', map_url)
-
-#         db.session.commit()
-
-#         # if trail is not None:
-
-#         #     db.session.query().filter(Trail.trail_id == trail_id).update(maps, map_url)
-
-    
-
-#     print "done with maps"
-#             # m = new_trail.insert()
-#             # m.execute(maps=map_url)
-
-            
 
 
+def add_trips():
+    """Add trips to trail table"""
 
-# def add_images():
+    trails = trailheads()
 
-#     trails = trailheads()
+    for trail in trails:
+        trail_id = trail['id']
 
-#     for trail in trails:
+    trip = trips(trail['id'])
 
-#         image_data = photos(trail['id'])
+    if trip:
+        length = trip['length_miles']
+        duration = trip['duration']
+        intensity = trip["intensity"]
 
-#         if image_data != []:
-#             image_url = image_data.pop()
-#             image = image_url['flickr_url']
+        print length, intensity, duration
 
-#         else:
-#             image = None
+    else:
+        length = None
+        duration = None
+        intensity = None
 
-#             new_trail = trails.insert(image=image)
-#             new_trail.execute()
+        print length, intensity, duration
 
+    trail = Trail.query.get(trail_id)
 
-# def add_searches():
+    if trail is not None:
 
-#     trails = trailheads()
+        new_trip = Trail(length=length,
+                         duration=duration,
+                         intensity=intensity)
 
-#     for trail in trails:
+        db.session.add(new_trip)
 
-#         trip = trips(trail['id'])
-
-#         if trip:
-#             length = trip['length_miles']
-#             duration = trip['duration']
-#             intensity = trip["intensity"]
-
-#         else:
-#             length = None
-#             duration = None
-#             intensity = None
-
-#             new_trail = trails.insert()
-#             new_trail.execute(length=length, duration=duration, intensity=intensity)
+    db.session.commit()
 
 
 # def seed_park_table():
@@ -185,5 +170,7 @@ if __name__ == "__main__":
 
     # Import different types of data
     # seed_park_table()
-    seed_trail_table()
-    # add_maps()
+    # seed_trail_table()
+    add_maps()
+    add_images()
+    add_trips()

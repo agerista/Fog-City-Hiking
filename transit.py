@@ -60,15 +60,12 @@ def trips(trail_id):
 
     key = os.environ['TRANSIT_KEY']
     endpoint = API_ROOT + "/trips/{}".format(trail_id)
-    data = {"key": key}
+    data = {"key": key,
+            "starting_trail_id": trail_id}
 
     response = requests.get(endpoint, data=data)
 
-    try:
-        response
-
-    except:
-        ValueError
+    return response.json()
 
 
 

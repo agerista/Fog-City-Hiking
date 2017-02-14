@@ -1,5 +1,7 @@
 import requests
 import os
+from model import db, connect_to_db, Park
+from server import app
 
 SECRET = os.environ["YELP_SECRET"]
 Y_ID = os.environ["YELP_ID"]
@@ -28,16 +30,32 @@ def get_business_id():
     token = obtain_bearer_token()
     headers = {"Authorization": 'Bearer {}'.format(token)}
 
-    data = {"term": "golden-gate-park",
-            "categories": "parks",
-            "latitude": 37.767413217936834,
-            "longitude": -122.42820739746094,
-            "limit": 3}
+    searches = db.session.query(Park.park_name, Park.latitude, Park.longitude).limit(5).all()
 
-    response = requests.get(endpoint, params=data, headers=headers)
+    for search in searches:
+        name = search[0]
+        lat = search[1]
+        lng = search[2]
 
-    return response.json()
+        data = {"term": name,
+                "categories": "parks",
+                "latitude": lat,
+                "longitude": lng,
+                "limit": 3}
+
+        response = requests.get(endpoint, params=data, headers=headers)
+
+        # db.session.query(Park).filter(Park.park_name == name).update({"yelp_id": id})  # set the second yelp_id in a variable
+
+        #match response to trail id
+        #add business id to park table
+        return response
+
+
+
+    
 
 if __name__ == "__main__":
 
+    connect_to_db(app)
     get_business_id()

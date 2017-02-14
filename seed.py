@@ -26,68 +26,49 @@ from transit import *
 #     db.session.commit()
 
 
-def add_maps():
-    """Add maps to trail table"""
+# def add_maps():
+#     """Add maps to trail table"""
 
-    trails = trailheads()
+#     trails = trailheads()
 
-    for trail in trails:
+#     for trail in trails:
 
-        map_data = maps(trail['id'])
-        trail_id = trail['id']
+#         trail_id = trail['id']
+#         map_data = maps(trail['id'])
 
-        if map_data == []:
-            map_url = None
-            print map_url
-        else:
-            map_link = map_data.pop()
-            map_url = map_link['url']
-            print map_url
+#         if map_data != []:
+#             map_link = map_data.pop()
+#             map_url = map_link['url']
+#             print trail_id, map_url
 
-        trail = Trail.query.get(trail_id)
+#             trail = Trail.query.get(trail_id)
 
-        if trail is not None:
+#             if trail is not None and map_url is not "":
 
-            new_map = Trail(maps=map_url)
-
-            db.session.add(new_map)
-
-    db.session.commit()
+#                 db.session.query(Trail).filter(trail_id == trail_id).update({"maps": map_url})
+#                 db.session.commit()
 
 
-def add_images():
-    """Add images to trail table"""
+# def add_images():
+#     """Add images to trail table"""
 
-    trails = trailheads()
+#     trails = trailheads()
 
-    for trail in trails:
-        trail_id = trail['id']
+#     for trail in trails:
+#         trail_id = trail['id']
 
-        image_data = photos(trail['id'])
+#         image_data = photos(trail['id'])
 
-        if image_data == []:
-            image = None
-            print image
+#         if image_data != []:
+#             image_url = image_data.pop()
+#             image = image_url['flickr_url']
 
-        elif image_data is not None:
-            image_url = image_data.pop()
+#             trail = Trail.query.get(trail_id)
 
-            try:
-                image = image_url['flicker_url']
-                print image
+#             if trail is not None:
 
-            except:
-                pass
-
-        trail = Trail.query.get(trail_id)
-
-        if trail is not None:
-
-            new_image = Trail(image=image)
-
-            db.session.add(new_image)
-
-    db.session.commit()
+#                 db.session.query(Trail).filter(trail_id == trail_id).update({"image": image})
+#                 db.session.commit()
 
 
 def add_trips():
@@ -96,35 +77,29 @@ def add_trips():
     trails = trailheads()
 
     for trail in trails:
+
         trail_id = trail['id']
+        trip = trips()
 
-    trip = trips(trail['id'])
+        if trip != []:
+            length = trip['length_miles']
+            duration = trip['duration']
+            intensity = trip["intensity"]
+            description = trip["description"]
 
-    if trip:
-        length = trip['length_miles']
-        duration = trip['duration']
-        intensity = trip["intensity"]
+            print length, intensity, duration, description
 
-        print length, intensity, duration
+            trail = Trail.query.get(trail_id)
 
-    else:
-        length = None
-        duration = None
-        intensity = None
+            if trail is not None:
 
-        print length, intensity, duration
+                db.session.query(Trail).filter(trail_id == trail_id).update({"length": length,
+                                                                             "intensity": intensity,
+                                                                             "duration": duration,
+                                                                             "description": description})
 
-    trail = Trail.query.get(trail_id)
+                db.session.commit()
 
-    if trail is not None:
-
-        new_trip = Trail(length=length,
-                         duration=duration,
-                         intensity=intensity)
-
-        db.session.add(new_trip)
-
-    db.session.commit()
 
 
 # def seed_park_table():
@@ -171,6 +146,6 @@ if __name__ == "__main__":
     # Import different types of data
     # seed_park_table()
     # seed_trail_table()
-    add_maps()
-    add_images()
+    # add_maps()
+    # add_images()
     add_trips()

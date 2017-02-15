@@ -10,7 +10,7 @@ api_key = os.environ["DARK_KEY"]
 def weather_forecast():
     """Get the weather"""
 
-    # Cap is 1,000 calls per day 
+    # Cap is 1,000 calls per day
     # db.session.query(Park.latitude, Park.longitude).distinct().first()
     coordinates = [(37.7749, -122.4194), (37.8044, -122.2711), (37.8716, -122.2727), (38.0834, -122.7633), (37.6138, -122.4869)]
 

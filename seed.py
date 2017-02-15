@@ -74,7 +74,8 @@ from transit import *
 def add_trips():
     """Add trips to trail table"""
 
-    trails = trailheads()
+    # trails = trailheads()
+
 
     for trail in trails:
 

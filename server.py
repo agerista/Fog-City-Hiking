@@ -34,7 +34,7 @@ def user_list():
     return render_template("/user_list.html", users=users)
 
 
-@app.route('/users/<string:user_name>')
+@app.route('/users/<int:user_id>')
 def user_profile_page(user_id):
     """Shows the users profile page"""
 

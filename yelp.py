@@ -76,6 +76,7 @@ def yelp_information(business_id):
     response = requests.get(endpoint, headers=get_header())
 
     info = response.json()
+    print info
 
     yelp_info = {}
 
@@ -85,19 +86,23 @@ def yelp_information(business_id):
 
     ### key error if hours are not included.
 
-    # opens = info['hours']    # [:]["start"]
-    # closes = info['hours']   # [:]["end"]
+    ## opens = info['hours']    # [:]["start"]
+    ## closes = info['hours']   # [:]["end"]
 
     yelp_info["image_url"] = image_url,
     yelp_info["rating"] = rating
-    # ["opens"] = opens,
-    # ["closes"] = closes
+    ## ["opens"] = opens,
+    ## ["closes"] = closes
     print yelp_info
     return yelp_info
 
 
 def get_yelp_reviews(business_id):
-    """Given a business_id returns yelp reviews"""
+    """Given a business_id returns yelp reviews
+
+        review = [user, review, rating, url]  
+
+    """
 
     endpoint = API_ROOT + "businesses/{}/reviews".format(business_id)
 
@@ -106,21 +111,37 @@ def get_yelp_reviews(business_id):
     information = response.json()
     print information
 
-    # yelp_reviews = {"review_url": [],
-    #                 "review_text": [],
-    #                 "rating": []}
+    reviews = []
 
-        # url = info[0]
-        # text = info[1]
-        # rating = info[2]
+    i = 0
+    base = information['reviews']
 
+    while i < len(base):
 
-        # yelp_reviews["review_url"].append(url)
-        # yelp_reviews["review_text"].append(text)
-        # yelp_reviews["rating"].append(rating)
+        user = base[i]['user']['name']
+        reviews.append(user)
+        print user
+        print "-----"
 
-        # print url, text, rating
-    # return yelp_reviews
+        review = base[i]['text']
+        reviews.append(review)
+        print review
+        print "-----"
+
+        rating = base[i]['rating']
+        reviews.append(rating)
+        print rating
+        print "-----"
+
+        url = base[i]['url']
+        reviews.append(url)
+        print url
+        print "-----"
+
+        i+=1
+
+    print reviews
+    return reviews
 
 
 if __name__ == "__main__":
@@ -129,4 +150,4 @@ if __name__ == "__main__":
     obtain_bearer_token()
     # get_business_ids()
     # yelp_information('miller-knox-regional-park-richmond')
-    get_yelp_reviews('miller-knox-regional-park-richmond')
+    # get_yelp_reviews('miller-knox-regional-park-richmond')

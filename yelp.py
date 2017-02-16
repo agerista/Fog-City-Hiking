@@ -1,17 +1,18 @@
 import requests
 import os
 from model import db, connect_to_db, Park
-from server import app
+
+# Call limit to yelp api is 25,000/day
 
 SECRET = os.environ["YELP_SECRET"]
 Y_ID = os.environ["YELP_ID"]
 API_ROOT = "https://api.yelp.com/v3/"
 
+
 def obtain_bearer_token():
     """Request authorization tokens"""
 
     endpoint = "https://api.yelp.com/oauth2/token"
-
 
     response = requests.post(endpoint, data={"client_secret": SECRET,
                                              "client_id": Y_ID,
@@ -21,6 +22,7 @@ def obtain_bearer_token():
 
     return bearer_token
 
+
 def get_header():
     """get header and token information"""
 
@@ -28,44 +30,6 @@ def get_header():
     headers = {"Authorization": 'Bearer {}'.format(token)}
 
     return headers
-
-
-def get_business_ids():
-    """Get the business id for each park"""
-
-    all_id = []
-
-    endpoint = "businesses/search"
-
-    searches = db.session.query(Park.park_name, Park.latitude, Park.longitude).limit(5).all()
-
-    for search in searches:
-        name = search[0]
-        lat = search[1]
-        lng = search[2]
-
-        data = {"term": name,
-                "categories": "parks",
-                "latitude": lat,
-                "longitude": lng,
-                "limit": 3}
-
-
-
-        response = requests.get(endpoint, params=data, headers=get_header())
-
-        business = response.json()
-
-        business_id = business['businesses'][0]['id']
-
-        all_id.append(business_id)
-
-    print all_id
-        # db.session.query(Park).filter(Park.park_name == name).update({"yelp_id": id})  # set the second yelp_id in a variable
-
-        #match response to trail id
-        #add business id to park table
-    return all_id
 
 
 def yelp_information(business_id):
@@ -138,7 +102,7 @@ def get_yelp_reviews(business_id):
         print url
         print "-----"
 
-        i+=1
+        i += 1
 
     print reviews
     return reviews
@@ -146,6 +110,7 @@ def get_yelp_reviews(business_id):
 
 if __name__ == "__main__":
 
+    from server import app
     connect_to_db(app)
     obtain_bearer_token()
     # get_business_ids()

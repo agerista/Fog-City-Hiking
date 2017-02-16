@@ -5,6 +5,7 @@ from flask import Flask, jsonify, render_template, redirect, request, flash, ses
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Trail, Park, Hike
 from flask_sqlalchemy import SQLAlchemy
+from yelp import *
 
 
 app = Flask(__name__)
@@ -17,13 +18,20 @@ app.secret_key = "ABC"
 # error.
 app.jinja_env.undefined = StrictUndefined
 
-
 @app.route('/')
 def index():
     """Homepage."""
 
+    
+
     return render_template("homepage.html")
-        #  , weather=weather)
+
+
+@app.route('/.json')
+def weather_info():
+    """JSON info about the weather"""
+
+    return jsonify(weather)
 
 
 @app.route('/users')
@@ -116,9 +124,13 @@ def search_for_hikes():
     return render_template("search_form.html")
 
 
-@app.route('/search')
-def results_of_search():
+@app.route('/search-results')
+def search_results():
     """Returns relevant hikes from user search."""
+
+    # takes in parameters from search form
+    # queries database for parameters
+    # returns relevant results
 
     return render_template("search_results.html")
 

@@ -72,7 +72,7 @@ class Trail(db.Model):
 
     trail_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     trail_name = db.Column(db.String(200))
-    park_id = db.Column(db.Integer, db.ForeignKey("parks.park_id"))
+    park_name = db.Column(db.String(200))
     description = db.Column(db.String(5000), nullable=True)
     image = db.Column(db.String(300), nullable=True)
     duration = db.Column(db.String(50), nullable=True)
@@ -81,16 +81,15 @@ class Trail(db.Model):
     maps = db.Column(db.String(300), nullable=True)
 
     hike = db.relationship("Hike")
-    park = db.relationship("Park")
 
     def __repr__(self):
         """Provide helpful representation when printed"""
 
-        return "<Trail trail_id=%s trail_name=%s park_id=%s description=%s\
+        return "<Trail trail_id=%s trail_name=%s park_name=%s description=%s\
                  image=%s duration=%s length=%s intensity=%s attributes=%s\
                  maps=%s>" % (self.trail_id,
                               self.trail_name,
-                              self.park_id,
+                              self.park_name,
                               self.description,
                               self.image,
                               self.duration,
@@ -109,13 +108,11 @@ class Park(db.Model):
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     city = db.Column(db.String(50))
-    state = db.Column(db.String(30))
+    state = db.Column(db.String(30), default="CA")
     average_temp = db.Column(db.Integer, nullable=True)
     image = db.Column(db.String(200), nullable=True)
     description = db.Column(db.String(100000))
-    yelp_id = db.Column(db.String(30))
-
-    trail = db.relationship("Trail")
+    yelp_id = db.Column(db.String(200))
 
     def __repr__(self):
         """Provide helpful representation when printed"""

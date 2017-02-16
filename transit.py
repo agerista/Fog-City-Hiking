@@ -59,9 +59,8 @@ def trips(trail_id):
     """Get trips"""
 
     key = os.environ['TRANSIT_KEY']
-    endpoint = API_ROOT + "/trips/{}".format(trail_id)
-    data = {"key": key,
-            "starting_trail_id": trail_id}
+    endpoint = API_ROOT + "/trips"
+    data = {"key": key}
 
     response = requests.get(endpoint, data=data)
 

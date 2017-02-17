@@ -1,11 +1,17 @@
 """Hiking Trails."""
 
+import requests
+import os
 from jinja2 import StrictUndefined
-from flask import Flask, jsonify, render_template, redirect, request, flash, session
+from flask import Flask, jsonify, render_template, redirect, request, flash, session, json
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Trail, Park, Hike
 from flask_sqlalchemy import SQLAlchemy
-from yelp import *
+from yelp import get_header, obtain_bearer_token, get_yelp_reviews, yelp_information
+from weather import weather_forecast
+import forecastio
+
+api_key = os.environ["DARK_KEY"]
 
 
 app = Flask(__name__)
@@ -19,10 +25,34 @@ app.secret_key = "ABC"
 app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
-def index():
-    """Homepage."""
+def weather_forecast():
+    """Get the weather"""
 
-    
+    # Cap is 1,000 calls per day
+    # db.session.query(Park.latitude, Park.longitude).filter_by(city).distinct().all()
+    coordinates = [(37.7749, -122.4194), (37.8044, -122.2711), (37.8716, -122.2727), (38.0834, -122.7633), (37.6138, -122.4869)]
+    info = []
+    weather_info = []
+
+    for coordinate in coordinates:
+
+        lat = coordinate[0]
+        info.append(lat)
+        lng = coordinate[1]
+        info.append(lng)
+
+        weather = forecastio.load_forecast(api_key, lat, lng)
+
+        hour = weather.hourly()
+        summary = hour.summary
+        info.append(summary)
+
+        icon = hour.icon
+        info.append(icon)
+
+        weather_info.append(info)
+        print weather_info
+
 
     return render_template("homepage.html")
 
@@ -121,6 +151,7 @@ def log_out():
 def search_for_hikes():
     """Allows a user to search for hikes."""
 
+
     return render_template("search_form.html")
 
 
@@ -131,6 +162,10 @@ def search_results():
     # takes in parameters from search form
     # queries database for parameters
     # returns relevant results
+    trail = Trail.query.get(trail_name)
+    reviews = get_yelp_reviews("twin-peaks-san-francisco")
+    yelp_info = json.loads(reviews)
+    print yelp_info
 
     return render_template("search_results.html")
 
@@ -142,13 +177,29 @@ def trail_list():
     trails = Trail.query.order_by("trail_name asc").distinct().all()
     return render_template("trail_list.html", trails=trails)
 
-
 @app.route('/trail/<int:trail_id>')
 def trail_details(trail_id):
-    """See details for a chosen trail."""
+    """See details for a chosen trail"""
 
     trail = Trail.query.get(trail_id)
-    return render_template("trail.html", trail=trail)
+
+    trail_reviews = get_yelp_reviews("twin-peaks-san-francisco")
+
+    yelp_reviews = json.dumps(trail_reviews)
+
+    return render_template("trail.html", trail=trail, yelp_reviews=yelp_reviews)
+
+
+# @app.route('/trail/<int:trail_id>')
+# def trail_details(trail_id):
+#     """See details for a chosen trail."""
+
+#     trail = Trail.query.get(trail_id)
+
+#     # select yelp_id from parks join trails on trails.park_name = parks.park_name where trail_id = 580 limit 1;
+#     # business_id = db.session.query(Park).join(Trail).filter_by(trail_id=trail).first()
+
+#     return render_template("trail.html", trail=trail)
 
 
 @app.route('/park')
@@ -164,6 +215,7 @@ def park_description(park_id):
     """See details for a chosen trail"""
 
     park = Park.query.get("park_id")
+
     return render_template("park.html", park=park)
 
 

@@ -1,7 +1,6 @@
 from sqlalchemy import *
 from model import *
 from transit import *
-from yelp import get_header
 
 
 def seed_trail_table():
@@ -89,12 +88,14 @@ def add_trips():
             duration = trip['duration']
             intensity = trip["intensity"]
             description = trip["description"]
+            trail_id = ['starting_trailhead_id']
+            trail_id = ['ending_trail_id']
 
             print length, intensity, duration, description
 
             trail = Trail.query.get(trail_id)
 
-            if trail is None:
+            if trail is not None:
 
                 db.session.query(Trail).filter(trail_id == trail_id).update({"length": length,
                                                                              "intensity": intensity,
@@ -140,38 +141,6 @@ def seed_park_table():
     db.session.commit()
     print "done committing parks"
 
-# Yelp API to get business id for each park
-
-def get_business_ids():
-    """Get the business id for each park"""
-
-    endpoint = API_ROOT + "businesses/search"
-
-    searches = db.session.query(Park.park_name, Park.latitude, Park.longitude).limit(5).all()
-
-    for search in searches:
-        name = search[0]
-        lat = search[1]
-        lng = search[2]
-
-        data = {"term": name,
-                "categories": "parks",
-                "latitude": lat,
-                "longitude": lng,
-                "limit": 3}
-
-        response = requests.get(endpoint, params=data, headers=get_header())
-
-        business = response.json()
-
-        business_id = business['businesses'][0]['id']
-
-        print business_id
-        db.session.query(Park).filter(Park.park_name == name).update({"yelp_id": business_id})
-
-        db.session.commit()
-    print "done committing yelp ids"
-
 
 if __name__ == "__main__":
     from server import app
@@ -183,8 +152,8 @@ if __name__ == "__main__":
 
     # Import different types of data
     # seed_park_table()
-    seed_trail_table()
-    add_maps()
-    add_images()
+    # seed_trail_table()
+    # add_maps()
+    # add_images()
     # add_trips()
-    # get_business_ids()
+    get_business_ids()

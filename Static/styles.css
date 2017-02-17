@@ -74,7 +74,7 @@ h3{
     padding: 25px 100px 25px 100px;
     margin: 5px 200px 100px 200px;
 }
-.map{
-    margin: -100px;
-    height:900px;
+#weather-map {
+    width: 100%;
+    height: 800px;
 }

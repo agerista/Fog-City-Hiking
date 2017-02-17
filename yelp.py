@@ -64,7 +64,10 @@ def yelp_information(business_id):
 def get_yelp_reviews(business_id):
     """Given a business_id returns yelp reviews
 
-        review = [user, review, rating, url]  
+       reviews{user: [],
+               text: [],
+               rating: [],
+               url: []}
 
     """
 
@@ -74,38 +77,79 @@ def get_yelp_reviews(business_id):
 
     information = response.json()
     print information
-
-    reviews = []
+    review_list = information['reviews']
 
     i = 0
-    base = information['reviews']
+    reviews = {"name": [],
+               "text": [],
+               "rating": [],
+               "url": []}
 
-    while i < len(base):
+    while i < len(review_list):
 
-        user = base[i]['user']['name']
-        reviews.append(user)
-        print user
+        print review_list
+        print review_list[i]
+
+        name = review_list[i]['user']['name']
+        print "name is"
+        reviews['name'].append(name)
+        print name
         print "-----"
 
-        review = base[i]['text']
-        reviews.append(review)
-        print review
+        text = review_list[i]['text']
+        reviews['text'].append(text)
+        print text
         print "-----"
 
-        rating = base[i]['rating']
-        reviews.append(rating)
+        rating = review_list[i]['rating']
+        reviews['rating'].append(rating)
         print rating
         print "-----"
 
-        url = base[i]['url']
-        reviews.append(url)
+        url = review_list[i]['url']
+        reviews['url'].append(url)
         print url
         print "-----"
 
         i += 1
+        print reviews
 
-    print reviews
     return reviews
+
+
+def get_business_ids():
+    """Get the business id for each park"""
+
+    endpoint = API_ROOT + "businesses/search"
+
+    searches = db.session.query(Park.park_name, Park.latitude, Park.longitude).all()
+
+    for search in searches:
+        name = search[0]
+        lat = search[1]
+        lng = search[2]
+
+        data = {"term": name,
+                "categories": "parks",
+                "latitude": lat,
+                "longitude": lng,
+                "limit": 3}
+
+        response = requests.get(endpoint, params=data, headers=get_header())
+
+        business = response.json()
+
+        try:
+            business_id = business['businesses'][0]['id']
+
+            print business_id
+            db.session.query(Park).filter(Park.park_name == name).update({"yelp_id": business_id})
+
+            db.session.commit()
+        except IndexError:
+            pass
+
+    print "done committing yelp ids"
 
 
 if __name__ == "__main__":
@@ -114,5 +158,5 @@ if __name__ == "__main__":
     connect_to_db(app)
     obtain_bearer_token()
     # get_business_ids()
-    # yelp_information('miller-knox-regional-park-richmond')
-    # get_yelp_reviews('miller-knox-regional-park-richmond')
+    yelp_information(business_id)
+    get_yelp_reviews(business_id)

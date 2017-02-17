@@ -55,7 +55,7 @@ def maps(trail_id):
     return response.json()
 
 
-def trips(trail_id):
+def trips():
     """Get trips"""
 
     key = os.environ['TRANSIT_KEY']
@@ -67,7 +67,8 @@ def trips(trail_id):
     return response.json()
 
 
-
-
-# for park in tjson[:25]:
-#     ...:     print "{} {}".format(park['id'], park['name']
+trailheads()
+attributes(trail_id)
+photos(trail_id)
+maps(trail_id)
+trips()

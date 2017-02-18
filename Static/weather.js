@@ -49,32 +49,33 @@ function initMap() {
   });
 
   // Retrieving the information with AJAX
-  $.get('/weather.json', weather, function (weather) {
+  $.get('/.json', function (weather) {
       });
 
       var weather, marker, html;
 
-      for (var key in weather) {
-          weather = weather[key];
+      // for (var key in weather) {
+      //     weather = weather[key];
 
           // Define the marker
+
           marker = new google.maps.Marker({
               position: new google.maps.LatLng(37.8272, -122.2913),
               map: map,
-              title: weather['summary'],
+              icon: "/static/white-marker.png"
           });
 
           // Define the content of the infoWindow
           html = (
               '<div class="window-content">' +
-                  '<p><b>weather summary: </b>' + weather.summary + '</p>' +
+                  '<p><b>weather summary:</p>' +
               '</div>');
 
           // Inside the loop we call bindInfoWindow passing it the marker,
           // map, infoWindow and contentString
           bindInfoWindow(marker, map, infoWindow, html);
       }
-    }
+    // }
   
 
   // This function is outside the for loop.
@@ -90,4 +91,4 @@ function initMap() {
   }
 
 
-google.maps.event.addDomListener(window, 'load', initMap);
+  google.maps.event.addDomListener(window, 'load', initMap);

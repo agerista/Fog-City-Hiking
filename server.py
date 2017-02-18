@@ -136,13 +136,12 @@ def search_results():
     # takes in parameters from search form
     # queries database for parameters
     # returns relevant results
-    trail = Trail.query.get(trail_name)
+    business_id = Trail.query.get(trail_name)
 
-    reviews = get_yelp_reviews("twin-peaks-san-francisco")
+    reviews = get_yelp_reviews(business_id)
     yelp_info = json.dumps(reviews)
 
-
-    return render_template("search_results.html")
+    return render_template("search_results.html", yelp_info=yelp_info)
 
 
 @app.route('/trail')

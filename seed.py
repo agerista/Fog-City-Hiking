@@ -1,6 +1,6 @@
 from sqlalchemy import *
-from model import *
-from transit import *
+from model import Park, Trail
+from transit import trips, maps, photos, attributes, trailheads
 
 
 def seed_trail_table():
@@ -75,23 +75,22 @@ def add_images():
 def add_trips():
     """Add trips to trail table"""
 
-    # trails = trailheads()
+    trips = trips()
 
-
-    for trail in trails:
+    for trip in trips:
 
         trail_id = trail['id']
         trip = trips()
 
         if trip != []:
             length = trip['length_miles']
-            duration = trip['duration']
             intensity = trip["intensity"]
+            duration = trip['duration']
+
             description = trip["description"]
             trail_id = ['starting_trailhead_id']
-            trail_id = ['ending_trail_id']
 
-            print length, intensity, duration, description
+            print length, intensity, duration, description, trail_id
 
             trail = Trail.query.get(trail_id)
 

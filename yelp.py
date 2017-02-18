@@ -76,45 +76,35 @@ def get_yelp_reviews(business_id):
     response = requests.get(endpoint, headers=get_header())
 
     information = response.json()
-    print information
+
     review_list = information['reviews']
 
     i = 0
-    reviews = {"name": [],
-               "text": [],
-               "rating": [],
-               "url": []}
+    yelp_reviews = {}
+    reviews = {}
 
     while i < len(review_list):
 
-        print review_list
-        print review_list[i]
-
         name = review_list[i]['user']['name']
-        print "name is"
-        reviews['name'].append(name)
-        print name
-        print "-----"
+        reviews['name'] = name
 
         text = review_list[i]['text']
-        reviews['text'].append(text)
-        print text
-        print "-----"
+        reviews['text'] = text
 
         rating = review_list[i]['rating']
-        reviews['rating'].append(rating)
-        print rating
-        print "-----"
+        reviews['rating'] = rating
 
         url = review_list[i]['url']
-        reviews['url'].append(url)
-        print url
-        print "-----"
+        reviews['url'] = url
+
+        yelp_reviews["review"] = reviews
 
         i += 1
-        print reviews
+        print yelp_reviews
 
-    return reviews
+
+
+    return yelp_reviews
 
 
 def get_business_ids():

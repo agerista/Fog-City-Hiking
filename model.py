@@ -98,6 +98,52 @@ class Trail(db.Model):
                               self.maps)
 
 
+class Attributes(db.Model):
+    """List of attributes for a trail"""
+
+    __tablename__ = "attributes"
+
+    attribute_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    trail_id = db.Column(db.Integer, db.ForeignKey("trails.trail_id"))
+    water = db.Column(db.Boolean, default=False)
+    restrooms = db.Column(db.Boolean, default=False)
+    visitor_center = db.Column(db.Boolean, default=False)
+    parking = db.Column(db.Boolean, default=False)
+    birding = db.Column(db.Boolean, default=False)
+    picnic_tables = db.Column(db.Boolean, default=False)
+    dirt_path = db.Column(db.Boolean, default=False)
+    gravel_path = db.Column(db.Boolean, default=False)
+    paved_path = db.Column(db.Boolean, default=False)
+    dog_free = db.Column(db.Boolean, default=False)
+    dogs_on_leash = db.Column(db.Boolean, default=False)
+    dogs_off_leash = db.Column(db.Boolean, default=False)
+    transit_near = db.Column(db.Boolean, default=False)
+
+    trail = db.relationship("Trail")
+
+    def __repr__(self):
+        """Provide helpful representation when printed"""
+
+        return "<Attribute attribute_id%s, trail_id=%s water=%s restrooms=%s visitor_center=%s,\
+                parking=%s, birding=%s, picnic_tables=%s, dirt_path=%s,\
+                gravel_path=%s, paved_path=%s, dog_free=%s, dogs_on_leash=%s,\
+                dogs_off_leash%s, transit_near%s>" % (self.attribute_id,
+                                                      self.trail_id,
+                                                      self.water,
+                                                      self.restrooms,
+                                                      self.visitor_center,
+                                                      self.parking,
+                                                      self.birding,
+                                                      self.picnic_tables,
+                                                      self.dirt_path,
+                                                      self.gravel_path,
+                                                      self.paved_path,
+                                                      self.dog_free,
+                                                      self.dogs_on_leash,
+                                                      self.dogs_off_leash,
+                                                      self.transit_near)
+
+
 class Park(db.Model):
     """List of parks that have hiking trails."""
 
@@ -128,7 +174,6 @@ class Park(db.Model):
                                                                         self.image,
                                                                         self.description,
                                                                         self.yelp_id)
-
 ##############################################################################
 # Helper functions
 
@@ -136,7 +181,7 @@ class Park(db.Model):
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
-    # Configure to use PstgreSQL database
+    # Configure to use PostgreSQL database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///hikes'
     app.config['SQLALCHEMY_ECHO'] = True
     db.app = app

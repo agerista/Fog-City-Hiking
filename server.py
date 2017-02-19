@@ -3,9 +3,9 @@
 from jinja2 import StrictUndefined
 from flask import Flask, jsonify, render_template, redirect, request, flash, session, json
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, User, Trail, Park, Hike
+from model import connect_to_db, db, User, Trail, Park
 from flask_sqlalchemy import SQLAlchemy
-from yelp import get_header, obtain_bearer_token, get_yelp_reviews, yelp_information
+from yelp import get_yelp_reviews
 from weather import weather_forecast
 
 app = Flask(__name__)
@@ -125,7 +125,6 @@ def log_out():
 def search_for_hikes():
     """Allows a user to search for hikes."""
 
-
     return render_template("search_form.html")
 
 
@@ -184,8 +183,6 @@ def park_description(park_id):
     yelp_reviews = json.dumps(park_reviews)
 
     return render_template("park.html", park=park, yelp_reviews=yelp_reviews)
-
-
 
 
 ################################################################################

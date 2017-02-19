@@ -1,8 +1,9 @@
+"""Utility - seeds tables. Transitandtrails and Yelp APIs"""
+
 from sqlalchemy import func
 from model import connect_to_db, db
 from model import Park, Trail, Attributes
 from transit import maps, photos, attributes, trailheads, trips
-from server import app
 
 
 def seed_trail_table():
@@ -75,12 +76,26 @@ def add_images():
                 print "done committing images"
 
 
+def add_trail_id_attributes():
+
+    trails = trailheads()
+
+    for trail in trails:
+        trail_id = trail['id']
+
+        attribute = Attributes(trail_id=trail_id)
+
+        db.session.add(attribute)
+
+    db.session.commit()
+    print "done with attrs"
+
 def add_attributes():
     """Add attributes to trail"""
 
     trails = trailheads()
 
-    for trail in trails[100:150]:
+    for trail in trails:
         trail_id = trail['id']
 
         attribute_data = attributes(trail_id)
@@ -94,77 +109,60 @@ def add_attributes():
             while i < len(attribute_list):
 
                 if attribute_list[i]["name"] == 'Drinking Water':
-                    water = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"water": True})
                     print "water"
 
                 if attribute_list[i]["name"] == "Restrooms":
-                    restrooms = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"restrooms": True})
                     print "restrooms"
 
                 if attribute_list[i]["name"] == "Visitor Center":
-                    visitor_center = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"visitor_center": True})
                     print "visit"
 
                 if attribute_list[i]["name"] == "Parking":
-                    parking = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"parking": True})
                     print "parking"
 
                 if attribute_list[i]["name"] == "Birding":
-                    birding = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"birding": True})
                     print "birding"
 
                 if attribute_list[i]["name"] == "Picnic Tables":
-                    picnic_tables = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"picnic_tables": True})
                     print "Picnic"
 
                 if attribute_list[i]["name"] == "Dirt":
-                    dirt_path = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"dirt_path": True})
                     print "dirt"
 
                 if attribute_list[i]["name"] == "Paved":
-                    paved_path = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"paved_path": True})
                     print "paved"
 
                 if attribute_list[i]["name"] == "Gravel":
-                    gravel_path = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"gravel_path": True})
                     print "gravel"
 
                 if attribute_list[i]["name"] == "No Dogs Allowed":
-                    dog_free = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"dog_free": True})
                     print "dog_free"
 
                 if attribute_list[i]["name"] == "Dogs Allowed On-leash":
-                    dogs_on_leash = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"dogs_on_leash": True})
                     print "dogs leash"
 
                 if attribute_list[i]["name"] == "Dogs Allowed Off-leash":
-                    dogs_off_leash = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"dogs_off_leash": True})
                     print "Off-leash"
 
                 if attribute_list[i]["name"] == "Transit":
-                    transit_near = True
+                    db.session.query(Attributes).filter(trail_id == trail_id).update({"transit_near": True})
                     print "transit"
 
+                db.session.commit()
                 i += 1
 
-                attribute = Attributes(trail_id=trail_id,
-                                       water=water,
-                                       restrooms=restrooms,
-                                       visitor_center=visitor_center,
-                                       parking=parking,
-                                       birding=birding,
-                                       picnic_tables=picnic_tables,
-                                       dirt_path=dirt_path,
-                                       gravel_path=gravel_path,
-                                       paved_path=paved_path,
-                                       dog_free=dog_free,
-                                       dogs_on_leash=dogs_on_leash,
-                                       dogs_off_leash=dogs_off_leash,
-                                       transit_near=transit_near)
-
-                db.session.add(attribute)
-
-    db.session.commit()
     print "done committing attributes"
 
 
@@ -239,15 +237,17 @@ def seed_park_table():
 
 if __name__ == "__main__":
 
+    from server import app
     connect_to_db(app)
 
     # In case tables haven't been created, create them
-    # db.create_all()
+    db.create_all()
 
     # Import different types of data
-    seed_park_table()
-    seed_trail_table()
-    add_maps()
-    add_images()
-    add_trips()
+    # seed_park_table()
+    # seed_trail_table()
+    # add_maps()
+    # add_images()
+    # add_trips()
     add_attributes()
+    # add_trail_id_attributes()

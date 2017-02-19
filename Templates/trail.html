@@ -13,8 +13,11 @@
 </ul>
 <ul>
     
+    { % for review in yelp_reviews % }
 
-        <li> {{yelp_reviews}} </li>
+        <li>{{review}}</li>
+
+    { %endfor% }
 
 
 

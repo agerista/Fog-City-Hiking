@@ -1,3 +1,5 @@
+"""Yelp API calls for business ids and reviews. Cap is 25,000 calls per day."""
+
 import requests
 import os
 from model import db, connect_to_db, Park

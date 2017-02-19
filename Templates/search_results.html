@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<div class="search-form">
   <h1>{{ hike.name }}</h1>
 
   <p>Your matching hikes:</p>
@@ -23,7 +24,7 @@
     {% endfor %}
     </table>
   </div>
-
+</div>
   {% endif %}
 
 {% endblock %}

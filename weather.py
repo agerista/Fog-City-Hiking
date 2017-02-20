@@ -32,6 +32,9 @@ def weather_forecast():
         summary = hour.summary
         city["summary"] = summary
 
+        # temperature = hour.temperature
+        # city["temperature"] = temperature
+
         icon = hour.icon
         city["icon"] = icon
 

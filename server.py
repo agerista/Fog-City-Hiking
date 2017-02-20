@@ -38,21 +38,12 @@ def weather():
     return weather
 
 
-@app.route('/users')
-def user_list():
-    """Show list of users"""
+# @app.route('/users')
+# def user_list():
+#     """Show list of users"""
 
-    users = User.query.all()
-    return render_template("/user_list.html", users=users)
-
-
-@app.route('/users/<int:user_id>')
-def user_profile_page(user_id):
-    """Shows the users profile page"""
-
-    user = User.query.get(user_id)
-
-    return render_template("user.html", user=user)
+#     users = User.query.all()
+#     return render_template("/user_list.html", users=users)
 
 
 @app.route('/register')
@@ -79,7 +70,7 @@ def register_new_user():
 
     flash("User %s added." % email)
 
-    return redirect("/")
+    return render_template("/profile", user=new_user)
 
 
 @app.route('/login')
@@ -109,7 +100,7 @@ def log_into_account():
     session["user_id"] = user.user_id
 
     flash("You have successfully logged in!")
-    return redirect("/users/%s" % user.user_id)
+    return render_template("profile.html", user=user)
 
 
 @app.route('/logout')
@@ -128,7 +119,7 @@ def search_for_hikes():
     return render_template("search_form.html")
 
 
-@app.route('/search-results/<trail_name>')
+@app.route('/search-results')
 def search_results():
     """Returns relevant hikes from user search."""
 

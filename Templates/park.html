@@ -10,9 +10,17 @@
 
     <li>{{ park.description}}</li>
     <li><img src="{{ park.image }}"></li>
-
-    <li>{{ yelp_reviews }}</li>
+<ul>
     
+  {% for park in park_reviews %}
+    
+    <li>{{ park['text'] }}</li>
+    
+    <li><span><a href="{{ park['url'] }}"> Reviewer: {{ park['name'] }} </span><span>Rating: {{ park['rating']}}</span></li> 
+
+  {% endfor %}
+
+</ul>
   </ul>
 </div>
 {% endblock %}

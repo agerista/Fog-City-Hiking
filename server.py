@@ -163,12 +163,6 @@ def trail_details(trail_id):
 
     print trail_reviews
 
-    # single_review = trail_reviews['reviews']
-    # yelp_reviews = json.dumps(trail_reviews)
-
-    # print single_review
-
-
     return render_template("trail.html", trail=trail, trail_reviews=trail_reviews)
 
 
@@ -187,9 +181,8 @@ def park_description(park_id):
     park = Park.query.get(park_id)
 
     park_reviews = get_yelp_reviews("twin-peaks-san-francisco")
-    yelp_reviews = json.dumps(park_reviews)
 
-    return render_template("park.html", park=park, yelp_reviews=yelp_reviews)
+    return render_template("park.html", park=park, park_reviews=park_reviews)
 
 
 ################################################################################

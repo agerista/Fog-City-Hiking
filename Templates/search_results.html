@@ -18,8 +18,8 @@
         <td><input type="checkbox" name="hikes" value="Completed">
           <input type="checkbox" name="hikes" value="Wishlist"</td>
         <td>{{ trail.name }}</td>
-        <td>{{ review }}</td> <!--make sure this matches the table-->
         <td>{{ trail.description }}</td>
+        <td>{{ yelp_reviews }}</td> <!--to-do: iterate through-->
       </tr>
     {% endfor %}
     </table>

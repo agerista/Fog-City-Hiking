@@ -2,7 +2,7 @@
 
 from sqlalchemy import func
 from model import connect_to_db, db
-from model import Park, Trail, Attributes
+from model import Park, Trail, Attributes, User
 from transit import maps, photos, attributes, trailheads, trips
 
 
@@ -235,6 +235,23 @@ def seed_park_table():
     print "done committing parks"
 
 
+def add_users():
+    """Seed fake users to data base"""
+
+    for row in open("static/mock_users.csv"):
+        row = row.rstrip()
+        email, password, first_name, last_name = row.split(",")
+
+        user = User(email=email,
+                    password=password,
+                    first_name=first_name,
+                    last_name=last_name)
+
+        db.session.add(user)
+
+    db.session.commit()
+
+################################################################################
 if __name__ == "__main__":
 
     from server import app
@@ -249,5 +266,6 @@ if __name__ == "__main__":
     # add_maps()
     # add_images()
     # add_trips()
-    add_attributes()
+    # add_attributes()
     # add_trail_id_attributes()
+    add_users()

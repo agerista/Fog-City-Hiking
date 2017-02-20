@@ -13,15 +13,15 @@
 </ul>
 <ul>
     
-    { % for review in yelp_reviews % }
+  {% for trail in trail_reviews %}
+    
+    <li>{{ trail['text'] }}</li>
+    
+    <li><span><a href="{{ trail['url'] }}"> Reviewer: {{ trail['name'] }} </span><span>Rating: {{ trail['rating']}}</span></li> 
 
-        <li>{{review}}</li>
+  {% endfor %}
 
-    { %endfor% }
-
-
-
-  </ul>
+</ul>
 </div>
 
 

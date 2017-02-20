@@ -14,7 +14,7 @@ def weather_forecast():
     # coordinates =  db.session.query(Park.latitude, Park.longitude).filter_by(city).distinct().limit(10)
     coordinates = [("San Francisco", 37.7749, -122.4194), ("Oakland", 37.8044, -122.2711), ("Berkeley", 37.8716, -122.2727), ("Marin", 38.0834, -122.7633), ("Pacifica", 37.6138, -122.4869)]
 
-    weather_info = {}
+    weather_info = []
 
     for coordinate in coordinates:
 

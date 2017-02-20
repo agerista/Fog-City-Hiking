@@ -3,7 +3,7 @@
 from jinja2 import StrictUndefined
 from flask import Flask, jsonify, render_template, redirect, request, flash, session, json
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, User, Trail, Park
+from model import connect_to_db, db, User, Trail, Park, Hike
 from flask_sqlalchemy import SQLAlchemy
 from yelp import get_yelp_reviews
 from weather import weather_forecast
@@ -88,6 +88,9 @@ def log_into_account():
     password = request.form["password"]
 
     user = User.query.filter_by(email=email).first()
+    hike = Trail.query(Trail.trail_name, Hike.comment, Hike.user_id).join(Hike).filter_by(user_id=1).all()
+    # select trails.trail_name, hikes.comment, hikes.user_id from trails join hikes on trails.trail_id=hikes.trail_id where user_id = 1;
+    
 
     if not user:
         flash("Please try again or register for an account")
@@ -100,7 +103,13 @@ def log_into_account():
     session["user_id"] = user.user_id
 
     flash("You have successfully logged in!")
-    return render_template("profile.html", user=user)
+
+    # if  hike:
+    #     trail_name = Trail.trail_name
+    #     comment = Hike.comment
+
+
+    return render_template("profile.html", user=user, hike=hike)
 
 
 @app.route('/logout')
@@ -151,9 +160,16 @@ def trail_details(trail_id):
     # select yelp_id from parks join trails on trails.park_name = parks.park_name where trail_id = 580 limit 1;
 
     trail_reviews = get_yelp_reviews("twin-peaks-san-francisco")
-    yelp_reviews = json.dumps(trail_reviews)
 
-    return render_template("trail.html", trail=trail, yelp_reviews=yelp_reviews)
+    print trail_reviews
+
+    # single_review = trail_reviews['reviews']
+    # yelp_reviews = json.dumps(trail_reviews)
+
+    # print single_review
+
+
+    return render_template("trail.html", trail=trail, trail_reviews=trail_reviews)
 
 
 @app.route('/park')

@@ -38,15 +38,13 @@
           </ul>
         </li>
       </ul>
-      <ul>
-         <button class="active"><a href="#"> 
+         <button type="button" class="active">
             {% if "user_id" in session %}
                   <a href="/logout">Logout</a>
                 {% else %}
                   <a href="/login">Login</a>
                 {% endif %}
           <span class="sr-only">(current)</span></a></button>
-      </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

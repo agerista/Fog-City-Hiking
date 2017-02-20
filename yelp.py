@@ -82,10 +82,12 @@ def get_yelp_reviews(business_id):
     review_list = information['reviews']
 
     i = 0
-    yelp_reviews = {}
-    reviews = {}
+    yelp_reviews = []
+    
 
     while i < len(review_list):
+
+        reviews = {}
 
         name = review_list[i]['user']['name']
         reviews['name'] = name
@@ -99,12 +101,10 @@ def get_yelp_reviews(business_id):
         url = review_list[i]['url']
         reviews['url'] = url
 
-        yelp_reviews["review"] = reviews
+        print reviews
+        yelp_reviews.append(reviews)
 
         i += 1
-        print yelp_reviews
-
-
 
     return yelp_reviews
 

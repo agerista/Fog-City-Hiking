@@ -2,7 +2,7 @@
 
 from sqlalchemy import func
 from model import connect_to_db, db
-from model import Park, Trail, Attributes, User
+from model import Park, Trail, Attributes, User, Hike
 from transit import maps, photos, attributes, trailheads, trips
 
 
@@ -236,18 +236,42 @@ def seed_park_table():
 
 
 def add_users():
-    """Seed fake users to data base"""
+    """Seed fake users to database"""
 
     for row in open("static/mock_users.csv"):
         row = row.rstrip()
-        email, password, first_name, last_name = row.split(",")
+        user_id, email, password, first_name, last_name,\
+            _, _, _, _, _, _, _ = row.split(",")
 
-        user = User(email=email,
+        user = User(user_id=user_id,
+                    email=email,
                     password=password,
                     first_name=first_name,
                     last_name=last_name)
 
         db.session.add(user)
+
+    db.session.commit()
+
+
+def add_hikes():
+    """Seed fake hike data to database"""
+
+    for row in open("static/mock_users.csv"):
+        row = row.rstrip()
+        user_id, _, _, _, _, rating, completed, trail_id, date, temperature,\
+            condition, comment = row.split(",")
+
+        hike = Hike(user_id=user_id,
+                    rating=rating,
+                    completed=completed,
+                    trail_id=trail_id,
+                    date=date,
+                    temperature=temperature,
+                    condition=condition,
+                    comment=comment)
+
+        db.session.add(hike)
 
     db.session.commit()
 
@@ -269,3 +293,4 @@ if __name__ == "__main__":
     # add_attributes()
     # add_trail_id_attributes()
     add_users()
+    add_hikes()

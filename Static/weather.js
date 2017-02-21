@@ -64,13 +64,13 @@ function initMap() {
           marker = new google.maps.Marker({
               position: new google.maps.LatLng(weath.latitude, weath.longitude),
               map: map,
-              icon: "/static/white-marker.png"
+              icon: "/static/SVG/" + weath.icon + ".svg"
           });
 
           // Define the content of the infoWindow
           html = (
               '<div class="window-content">' +
-                  '<p><b>weather summary:</p>' +
+                  '<p><b>weather summary: </p>' + weath.summary + '</p>' +
               '</div>');
 
           // Inside the loop we call bindInfoWindow passing it the marker,

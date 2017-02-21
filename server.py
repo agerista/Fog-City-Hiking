@@ -32,10 +32,10 @@ def weather():
 
     forecast = weather_forecast()
     print forecast
-    weather = json.dumps(forecast)
-    print weather
+    # weather = json.dumps(forecast)
+    # print weather
 
-    return weather
+    return jsonify(forecast)
 
 
 # @app.route('/users')
@@ -90,7 +90,7 @@ def log_into_account():
     user = User.query.filter_by(email=email).first()
     hike = Trail.query(Trail.trail_name, Hike.comment, Hike.user_id).join(Hike).filter_by(user_id=1).all()
     # select trails.trail_name, hikes.comment, hikes.user_id from trails join hikes on trails.trail_id=hikes.trail_id where user_id = 1;
-    
+    print hike
 
     if not user:
         flash("Please try again or register for an account")

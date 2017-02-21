@@ -1,4 +1,4 @@
-"use strict";,
+"use strict";
 
 
 function initMap() {
@@ -9,7 +9,7 @@ function initMap() {
   var myLatLng = {lat: 37.8272, lng: -122.2913};
 
   // Create a map object and specify the DOM element for display.
-  var map = new google.maps.Map(document.getElementById('weather'), {
+  var map = new google.maps.Map(document.getElementById('weather-map'), {
     center: myLatLng,
     scrollwheel: false,
     zoom: 5,
@@ -24,8 +24,8 @@ function initMap() {
 ////////////
 
 function addMarker() {
-  var myImageURL = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-  var bayArea = new google.maps.LatLng(37.8272, -122.2913)
+  var myImageURL = 'static/white-marker.png';
+  var bayArea = new google.maps.LatLng(37.8272, -122.2913);
   var marker = new google.maps.Marker({
       position: bayArea,
       map: map,
@@ -35,7 +35,7 @@ function addMarker() {
   return marker;
 }
 
-// var marker = addMarker();
+var marker = addMarker();
 
 /////////////////
 // info window //

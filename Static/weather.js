@@ -50,17 +50,19 @@ function initMap() {
 
   // Retrieving the information with AJAX
   $.get('/.json', function (weather) {
-      });
+      
 
-      var weather, marker, html;
+      var weath, marker, html;
 
-      // for (var key in weather) {
-      //     weather = weather[key];
+      for (var key in weather) {
+          weath = weather[key];
+
+          console.log(weather);
 
           // Define the marker
 
           marker = new google.maps.Marker({
-              position: new google.maps.LatLng(37.8272, -122.2913),
+              position: new google.maps.LatLng(weath.latitude, weath.longitude),
               map: map,
               icon: "/static/white-marker.png"
           });
@@ -74,9 +76,11 @@ function initMap() {
           // Inside the loop we call bindInfoWindow passing it the marker,
           // map, infoWindow and contentString
           bindInfoWindow(marker, map, infoWindow, html);
+
+        google.maps.event.addDomListener(window, 'load');
       }
     // }
-  
+    });
 
   // This function is outside the for loop.
   // When a marker is clicked it closes any currently open infowindows
@@ -89,6 +93,5 @@ function initMap() {
           infoWindow.open(map, marker);
       });
   }
+}
 
-
-  google.maps.event.addDomListener(window, 'load', initMap);

@@ -66,10 +66,10 @@ def yelp_information(business_id):
 def get_yelp_reviews(business_id):
     """Given a business_id returns yelp reviews
 
-       reviews{user: [],
-               text: [],
-               rating: [],
-               url: []}
+       yelp_reviews[reviews{user: "Jane Reviewer",
+                    text: "This place is awesome!",
+                    rating: 5,
+                    url: "www.yelp.com/rest_of_url"}]
 
     """
 
@@ -83,7 +83,6 @@ def get_yelp_reviews(business_id):
 
     i = 0
     yelp_reviews = []
-    
 
     while i < len(review_list):
 
@@ -101,7 +100,6 @@ def get_yelp_reviews(business_id):
         url = review_list[i]['url']
         reviews['url'] = url
 
-        print reviews
         yelp_reviews.append(reviews)
 
         i += 1

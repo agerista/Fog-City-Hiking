@@ -62,6 +62,8 @@ def register_new_user():
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
 
+    # to-do: figure out why this does not auto-generate unique user_id keys
+
     new_user = User(email=email, password=password, first_name=first_name,
                     last_name=last_name)
 
@@ -88,9 +90,11 @@ def log_into_account():
     password = request.form["password"]
 
     user = User.query.filter_by(email=email).first()
-    hike = Trail.query(Trail.trail_name, Hike.comment, Hike.user_id).join(Hike).filter_by(user_id=1).all()
+    hike_log = db.session.query(Trail.trail_name, Hike.comment, Hike.user_id)\
+        .join(Hike).filter_by(user_id=1).all()
+
     # select trails.trail_name, hikes.comment, hikes.user_id from trails join hikes on trails.trail_id=hikes.trail_id where user_id = 1;
-    print hike
+    print hike_log
 
     if not user:
         flash("Please try again or register for an account")
@@ -108,8 +112,7 @@ def log_into_account():
     #     trail_name = Trail.trail_name
     #     comment = Hike.comment
 
-
-    return render_template("profile.html", user=user, hike=hike)
+    return render_template("profile.html", user=user, hike_log=hike_log)
 
 
 @app.route('/logout')

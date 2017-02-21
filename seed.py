@@ -292,5 +292,5 @@ if __name__ == "__main__":
     # add_trips()
     # add_attributes()
     # add_trail_id_attributes()
-    add_users()
-    add_hikes()
+    # add_users()
+    # add_hikes()

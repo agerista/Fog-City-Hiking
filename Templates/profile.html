@@ -9,8 +9,13 @@
   <p>Last Name: {{ user.last_name }}</p>
 
   <ul>
-    <li>{{user.hike.description}}</li> <!--to-do: configure hike diary-->
+    {% for hike in hike_log %}
+        
 
+    <li>{{hike}}</li> <!--to-do: configure hike diary-->
+
+        
+    {% endfor %}
 </ul>
 
 </div>

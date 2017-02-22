@@ -3,7 +3,7 @@
 from jinja2 import StrictUndefined
 from flask import Flask, jsonify, render_template, redirect, request, flash, session, json
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, User, Trail, Park, Hike
+from model import connect_to_db, db, User, Trail, Park, Hike, Attributes
 from flask_sqlalchemy import SQLAlchemy
 from yelp import get_yelp_reviews
 from weather import weather_forecast
@@ -93,9 +93,6 @@ def log_into_account():
     hike_log = db.session.query(Trail.trail_name, Hike.comment, Hike.user_id)\
         .join(Hike).filter_by(user_id=1).all()
 
-    # select trails.trail_name, hikes.comment, hikes.user_id from trails join hikes on trails.trail_id=hikes.trail_id where user_id = 1;
-    print hike_log
-
     if not user:
         flash("Please try again or register for an account")
         return redirect("/login")
@@ -121,36 +118,60 @@ def log_out():
 
     del session["user_id"]
     flash("You are now logged out")
-    return redirect("/")  # Can we keep them on the same page?
+    return redirect("/")  # to-do: can we keep them on the same page?
 
 
-@app.route('/search')
+@app.route('/search', methods=["GET", "POST"])
 def search_for_hikes():
     """Allows a user to search for hikes."""
 
-    return render_template("search_form.html")
+    trail_name = request.form.get("ocean")
+    parking = request.form.get("parking")
+    restrooms = request.form.get("restrooms")
+    # duration = request.form.get("duration")
+    print trail_name, restrooms, parking
+
+    # if trail is not None:
+    trail = Trail.query.join(Attributes).filter(Trail.trail_name.like('%park%'))
+    print trail
+
+    # if parking == "yes":
+    #     build = Trail.query.join(Attributes).filter(Trail.trail_name.like('%park%')).filter(Attributes.parking == True)
+    #     print build
+
+    # if restrooms == "yes":
+    #     build = Trail.query.join(Attributes).filter(Trail.trail_name.like('%park%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
+    #     print build
+
+    trail = trail.all()
+
+    print trail
+
+    return render_template("search_form.html", trail=trail)  # , trail_reviews=trail_reviews
 
 
-@app.route('/search-results')
-def search_results():
-    """Returns relevant hikes from user search."""
+# @app.route('/search-results')
+# def search_results():
+#     """Returns relevant hikes from user search."""
 
     # takes in parameters from search form
     # queries database for parameters
     # returns relevant results
-    business_id = Trail.query.get(trail_name)
 
-    reviews = get_yelp_reviews(business_id)
-    yelp_info = json.dumps(reviews)
+    # select yelp_id from parks join trails on trails.park_name = parks.park_name where trail_name = 'Panoramic Trail';
+    # business_id = db.session.query(Park.yelp_id).join(Trail).filter(Trail.trail_name.like('%trail%'))
+    # trail_reviews = get_yelp_reviews(business_id)
 
-    return render_template("search_results.html", yelp_info=yelp_info)
+
+
+    # return render_template("search-results.html")
 
 
 @app.route('/trail')
 def trail_list():
     """See a list of all trails."""
 
-    trails = Trail.query.order_by("trail_name asc").distinct().all()
+    trails = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct().all()
     return render_template("trail_list.html", trails=trails)
 
 

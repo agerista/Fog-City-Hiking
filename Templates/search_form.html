@@ -5,8 +5,10 @@
 
   <h3>Enter Search Parameters Below:</h3>
 
+<!--Search Form-->
+
   <div class="search-form">
-    <form action="/search_results" method="GET">
+    <form id="search-form" action="/search" method="POST">
 
       <div class="row">
         <div class="col-xs-12">
@@ -14,9 +16,17 @@
           City: <input type="text" name="city" placeholder="Enter a city">
         </div><!--column-->  
       </div><!--row-->
+      <div class="row">
+         <div class="col-xs-12">
+          Has Restrooms: Yes<input type="radio" name="restroom" value="yes">
+          No<input type="radio" name="restroom" value="no">
+          Has Parking: Yes<input type="radio" name="parking" value="yes">
+          No<input type="radio" name="restroom" value="no">
+        </div><!--column-->  
+      </div><!--row--> 
       
-
-        <div class="row">
+<!--
+         <div class="row">
           <div class="col-xs-4">
             Duration:<select name="duration">
                 <option value="Full Day">Full Day</option>
@@ -36,15 +46,22 @@
               <option value="Strenuous">Strenuous</option>
               </select>
           </div>
-        </div><!--row-->
-
+        </div><
+-->
           <div class="row">
             <div class="col-xs-offset-4 col-xs-4">
               <input type="submit" value="Search">
             </div>
           </div>
-        
     </form>
-  </div>
+
+
+{% if trail %}
+
+{{trail}}
+
+{% endif %}
+
 {% endblock %}
+
 

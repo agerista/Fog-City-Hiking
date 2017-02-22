@@ -62,9 +62,11 @@ def register_new_user():
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
 
-    # to-do: figure out why this does not auto-generate unique user_id keys
+    number = db.session.query(User.user_id).order_by(User.user_id.desc()).first()
+    new = number[0]
+    new_id = new + 1
 
-    new_user = User(email=email, password=password, first_name=first_name,
+    new_user = User(user_id=new_id, email=email, password=password, first_name=first_name,
                     last_name=last_name)
 
     db.session.add(new_user)
@@ -72,7 +74,9 @@ def register_new_user():
 
     flash("User %s added." % email)
 
-    return render_template("/profile", user=new_user)
+    hike_log = ["No hikes saved yet!"]
+
+    return render_template("profile.html", user=new_user, hike_log=hike_log)
 
 
 @app.route('/login')
@@ -131,23 +135,22 @@ def search_for_hikes():
     # duration = request.form.get("duration")
     print trail_name, restrooms, parking
 
-    # if trail is not None:
-    trail = Trail.query.join(Attributes).filter(Trail.trail_name.like('%park%'))
-    print trail
+    if trail_name is not None:
+        trail = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail_name%'))
+        print trail
 
-    # if parking == "yes":
-    #     build = Trail.query.join(Attributes).filter(Trail.trail_name.like('%park%')).filter(Attributes.parking == True)
-    #     print build
+    if parking == "yes":
+        trail = Trail.query.join(Attributes).filter(Trail.trail_name.like('%park%')).filter(Attributes.parking == True)
+        print trail
 
-    # if restrooms == "yes":
-    #     build = Trail.query.join(Attributes).filter(Trail.trail_name.like('%park%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
-    #     print build
+    if restrooms == "yes":
+        trail = Trail.query.join(Attributes).filter(Trail.trail_name.like('%park%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
+        print trail
 
-    trail = trail.all()
+    results = trail.all()
+    print results
 
-    print trail
-
-    return render_template("search_form.html", trail=trail)  # , trail_reviews=trail_reviews
+    return render_template("search_form.html", results=results)  # , trail_reviews=trail_reviews
 
 
 # @app.route('/search-results')

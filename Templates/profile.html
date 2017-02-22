@@ -9,6 +9,7 @@
   <p>Last Name: {{ user.last_name }}</p>
 
   <ul>
+    {% if hike_log %}
     {% for hike in hike_log %}
         
 
@@ -16,6 +17,7 @@
 
         
     {% endfor %}
+    {% endif %}
 </ul>
 
 </div>

@@ -57,8 +57,11 @@
 
 <div>
   {% if results %}
+    {% for result in results %}
 
-    {{results}}
+      {{result}}
+
+    {% endfor %}
 
   {% endif %}
 </div>

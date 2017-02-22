@@ -94,8 +94,7 @@ def log_into_account():
     password = request.form["password"]
 
     user = User.query.filter_by(email=email).first()
-    hike_log = db.session.query(Trail.trail_name, Hike.comment, Hike.user_id)\
-        .join(Hike).filter_by(user_id=1).all()
+    hiker = db.session.query(User.user_id).filter(User.email == email).first()
 
     if not user:
         flash("Please try again or register for an account")
@@ -109,34 +108,46 @@ def log_into_account():
 
     flash("You have successfully logged in!")
 
-    # if  hike:
-    #     trail_name = Trail.trail_name
-    #     comment = Hike.comment
+    hikes = db.session.query(Trail.trail_name, Hike.comment, Hike.user_id)\
+        .join(Hike).filter_by(user_id=hiker).all()
+
+    hike_log = []
+
+    for hike in hikes:
+
+        hike = {}
+        trail_name = hikes[0][0]
+        hike["trail_name"] = trail_name
+
+        comment = hikes[0][1]
+        hike["comment"] = comment
+
+        hike_log.append(hike)
 
     return render_template("profile.html", user=user, hike_log=hike_log)
 
 
-@app.route('/profile')
-def profile_page():
-    """Direct route to users profile page"""
+# @app.route('/profile')
+# def profile_page():
+#     """Direct route to users profile page"""
 
-    user = session.get("email")
+#     user = session.get("email")
 
-    if user:
-        setattr(g, "user", user)
-        return user
+#     if user:
+#         setattr(g, "user", user)
+#         return user
 
-    else:
-        return flash("Please log-in to your account")
+#     else:
+#         return flash("Please log-in to your account")
 
-    return render_template("profile.html", user=user)
+#     return render_template("profile.html", user=user)
 
 
 @app.route('/logout')
 def log_out():
     """Allows user to log out of account."""
 
-    del session["user_id"]
+    del session["user"]
     flash("You are now logged out")
     return redirect("/")  # to-do: can we keep them on the same page?
 

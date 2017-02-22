@@ -1,17 +1,18 @@
 use strict;
 
-function showSearchResults(result) {
-    alert(result);
+function showSearchResults(results) {
+    alert(results);
+    console.log(results);
 }
 
 function submitSearch(evt) {
-    evt.preventDefault();
+
     
     var formValues = {
-        "trail": $("#trail-field").val(),
-        "city": $("#city-field").val(),
-        "duration": $("#duration-field").val(),
-        "intensity": $("#intensity-field").val(),
+
+        "trail": $("#trail").val(),
+        "parking": $("#parking").val(),
+        "restrooms": $("#restrooms").val(),
     };
 
     $.post("/search",

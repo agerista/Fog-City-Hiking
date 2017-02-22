@@ -116,6 +116,22 @@ def log_into_account():
     return render_template("profile.html", user=user, hike_log=hike_log)
 
 
+@app.route('/profile')
+def profile_page():
+    """Direct route to users profile page"""
+
+    user = session.get("email")
+
+    if user:
+        setattr(g, "user", user)
+        return user
+
+    else:
+        return flash("Please log-in to your account")
+
+    return render_template("profile.html", user=user)
+
+
 @app.route('/logout')
 def log_out():
     """Allows user to log out of account."""
@@ -125,49 +141,44 @@ def log_out():
     return redirect("/")  # to-do: can we keep them on the same page?
 
 
-@app.route('/search', methods=["GET", "POST"])
-def search_for_hikes():
+@app.route('/search', methods=["POST"])
+def results_from_search():
     """Allows a user to search for hikes."""
 
-    trail_name = request.form.get("ocean")
+    trail = request.form.get("trail")
     parking = request.form.get("parking")
     restrooms = request.form.get("restrooms")
-    # duration = request.form.get("duration")
-    print trail_name, restrooms, parking
 
-    if trail_name is not None:
-        trail = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail_name%'))
-        print trail
+    print trail, restrooms, parking
+
+    if trail:
+        trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'))
+        print trails
 
     if parking == "yes":
-        trail = Trail.query.join(Attributes).filter(Trail.trail_name.like('%park%')).filter(Attributes.parking == True)
-        print trail
+        trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True)
+        print trails
 
     if restrooms == "yes":
-        trail = Trail.query.join(Attributes).filter(Trail.trail_name.like('%park%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
-        print trail
+        trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
+        print trails
 
-    results = trail.all()
+    # else:
+    #     trail = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct()
+
+    results = trails.all()
     print results
 
     return render_template("search_form.html", results=results)  # , trail_reviews=trail_reviews
 
+@app.route('/search', methods=['GET'])
+def search_for_hikes():
+    """Empty search form"""
 
-# @app.route('/search-results')
-# def search_results():
-#     """Returns relevant hikes from user search."""
+    results = None
 
-    # takes in parameters from search form
-    # queries database for parameters
-    # returns relevant results
+    return render_template("search_form.html", results=results)
 
-    # select yelp_id from parks join trails on trails.park_name = parks.park_name where trail_name = 'Panoramic Trail';
-    # business_id = db.session.query(Park.yelp_id).join(Trail).filter(Trail.trail_name.like('%trail%'))
-    # trail_reviews = get_yelp_reviews(business_id)
-
-
-
-    # return render_template("search-results.html")
 
 
 @app.route('/trail')

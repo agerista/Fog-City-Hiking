@@ -82,11 +82,12 @@ class Trail(db.Model):
 
     hike = db.relationship("Hike")
 
+
     def __repr__(self):
         """Provide helpful representation when printed"""
 
         return "<Trail trail_id=%s trail_name=%s park_name=%s description=%s\
-                 image=%s duration=%s length=%s intensity=%s attributes=%s\
+                 image=%s duration=%s length=%s intensity=%s\
                  maps=%s>" % (self.trail_id,
                               self.trail_name,
                               self.park_name,

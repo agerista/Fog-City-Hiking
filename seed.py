@@ -8,7 +8,7 @@ from transit import maps, photos, attributes, trailheads, trips
 
 def seed_trail_table():
     """Information for trail table"""
-    trails = trailheads()
+    trails = trailheads(46)
 
     for trail in trails:
         trail_id = trail['id']
@@ -32,7 +32,7 @@ def seed_trail_table():
 def add_maps():
     """Add maps to trail table"""
 
-    trails = trailheads()
+    trails = trailheads(46)
 
     for trail in trails:
 
@@ -42,7 +42,6 @@ def add_maps():
         if map_data != []:
             map_link = map_data.pop()
             map_url = map_link['url']
-            print trail_id, map_url
 
             trail = Trail.query.get(trail_id)
 
@@ -56,7 +55,7 @@ def add_maps():
 def add_images():
     """Add images to trail table"""
 
-    trails = trailheads()
+    trails = trailheads(46)
 
     for trail in trails:
         trail_id = trail['id']
@@ -78,7 +77,7 @@ def add_images():
 
 def add_trail_id_attributes():
 
-    trails = trailheads()
+    trails = trailheads(46)
 
     for trail in trails:
         trail_id = trail['id']
@@ -93,7 +92,7 @@ def add_trail_id_attributes():
 def add_attributes():
     """Add attributes to trail"""
 
-    trails = trailheads()
+    trails = trailheads(46)
 
     for trail in trails:
         trail_id = trail['id']
@@ -169,7 +168,7 @@ def add_attributes():
 def add_trips():
     """Add trips to trail table"""
 
-    trails = trailheads()
+    trails = trailheads(46)
 
     for t in trails:
 
@@ -202,7 +201,7 @@ def add_trips():
 def seed_park_table():
     """Data for park table"""
 
-    parks = trailheads()
+    parks = trailheads(46)
 
     for park in parks:
         trail_id = park['id']

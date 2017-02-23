@@ -75,6 +75,37 @@ def add_images():
                 print "done committing images"
 
 
+def add_difficulties():
+    """Add length, intensity, duration to trails from csv file
+
+    Transitandtrails api server is down for this portion of hike data
+    """
+
+    for row in open("static/length-intensity.csv"):
+
+        row = row.rstrip()
+
+        #trail_name, city, miles, description, total elevation:, intensity(elevation change)
+        trail_name, city, length, description, total, intensity = row.split("|")
+
+        trail_name = trail_name
+        length = length
+        description = description
+        intensity = intensity
+
+        trail = db.session.query(Trail).filter(Trail.trail_name.like('%trail_name'))
+
+        if trail:
+
+            db.session.query(Trail).filter(Trail.trail_name == trail).update({"length": length,
+                                                                      "intensity": intensity,
+                                                                      "description": description})
+                                                                 
+
+    db.session.commit()
+    print "Done committing trips"
+
+
 def add_trail_id_attributes():
 
     trails = trailheads(46)
@@ -88,6 +119,7 @@ def add_trail_id_attributes():
 
     db.session.commit()
     print "done with attrs"
+
 
 def add_attributes():
     """Add attributes to trail"""
@@ -293,3 +325,4 @@ if __name__ == "__main__":
     # add_trail_id_attributes()
     # add_users()
     # add_hikes()
+    add_difficulties()

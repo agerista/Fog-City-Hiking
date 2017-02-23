@@ -2,9 +2,9 @@
 
 from jinja2 import StrictUndefined
 from flask import Flask, jsonify, render_template, redirect, request, flash, session, json
+# from flask_sqlalchemy import SQLAlchemy
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Trail, Park, Hike, Attributes
-from flask_sqlalchemy import SQLAlchemy
 from yelp import get_yelp_reviews
 from weather import weather_forecast
 
@@ -127,28 +127,29 @@ def log_into_account():
     return render_template("profile.html", user=user, hike_log=hike_log)
 
 
-# @app.route('/profile')
-# def profile_page():
-#     """Direct route to users profile page"""
+@app.route('/profile')
+def profile_page():
+    """Direct route to users profile page"""
 
-#     user = session.get("email")
+    user = session.get("email")
 
-#     if user:
-#         setattr(g, "user", user)
-#         return user
+    if user:
+        setattr(g, "user", user)
+        return user
 
-#     else:
-#         return flash("Please log-in to your account")
+    else:
+        return flash("Please log-in to your account")
 
-#     return render_template("profile.html", user=user)
+    return render_template("profile.html", user=user)
 
 
 @app.route('/logout')
 def log_out():
     """Allows user to log out of account."""
 
-    del session["user"]
+    del session["user_id"]
     flash("You are now logged out")
+
     return redirect("/")  # to-do: can we keep them on the same page?
 
 
@@ -159,7 +160,7 @@ def results_from_search():
     trail = request.form.get("trail")
     parking = request.form.get("parking")
     restrooms = request.form.get("restrooms")
-
+    db.session.rollback()
     print trail, restrooms, parking
 
     if trail:
@@ -167,15 +168,17 @@ def results_from_search():
         print trails
 
     if parking == "yes":
-        trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True)
+        trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),\
+            Attributes.parking == True)
         print trails
 
     if restrooms == "yes":
-        trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
+        trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),\
+            Attributes.parking == True, Attributes.restrooms == True)
         print trails
-
-    # else:
-    #     trail = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct()
+        # trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
+    else:
+        trail = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct()
 
     results = trails.all()
     print results
@@ -236,6 +239,7 @@ def park_description(park_id):
 
 ################################################################################
 if __name__ == "__main__":
+
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
     app.debug = True

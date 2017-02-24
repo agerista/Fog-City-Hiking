@@ -1,7 +1,7 @@
 """Hiking Trails."""
 
 from jinja2 import StrictUndefined
-from flask import Flask, jsonify, render_template, redirect, request, flash, session, json
+from flask import Flask, jsonify, render_template, redirect, request, flash, session
 # from flask_sqlalchemy import SQLAlchemy
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Trail, Park, Hike, Attributes
@@ -59,33 +59,36 @@ def register_new_user():
     """Register a new user."""
 
     email = request.form["email"]
-    verification = request.form["verify-email"]
+    print email
+    verification = request.form["verify-password"]
+    print verification
     password = request.form["password"]
+    print password
     first_name = request.form["first-name"]
     last_name = request.form["last-name"]
 
-    if password == verification:
-   
-        print password
-        # hashed = argon2.hash(password)
+    if password != verification:
+
+        flash("Passwords do not match")
+        return redirect("/register")
 
     else:
 
-        flash("Passwords do not match")
+        hashed = argon2.hash(password)
 
-    # number = db.session.query(User.user_id).order_by(User.user_id.desc()).first()
-    # new = number[0]
-    # new_id = new + 1
+        number = db.session.query(User.user_id).order_by(User.user_id.desc()).first()
+        new = number[0]
+        new_id = new + 1
 
-    # new_user = User(user_id=new_id, email=email, password=hashed, first_name=first_name,
-    #                 last_name=last_name)
+        new_user = User(user_id=new_id, email=email, password=hashed, first_name=first_name,
+                        last_name=last_name)
 
-    # db.session.add(new_user)
-    # db.session.commit()
+        db.session.add(new_user)
+    db.session.commit()
 
-    flash("User %s added." % email)
+    flash("User %s added" % email)
 
-    hike_log = ["No hikes saved yet!"]
+    hike_log = [{"trail_name": "No hikes saved yet!", "comment": ""}]
 
     return render_template("profile.html", user=new_user, hike_log=hike_log)
 

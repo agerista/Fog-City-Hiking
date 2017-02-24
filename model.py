@@ -15,7 +15,7 @@ class User(db.Model):
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String(75))
-    password = db.Column(db.String(75))
+    password = db.Column(db.String(100))
     first_name = db.Column(db.String(40))
     last_name = db.Column(db.String(40))
 

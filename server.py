@@ -7,6 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Trail, Park, Hike, Attributes
 from yelp import get_yelp_reviews
 from weather import weather_forecast
+from passlib.hash import argon2
 
 app = Flask(__name__)
 
@@ -58,19 +59,29 @@ def register_new_user():
     """Register a new user."""
 
     email = request.form["email"]
+    verification = request.form["verify-email"]
     password = request.form["password"]
-    first_name = request.form["first_name"]
-    last_name = request.form["last_name"]
+    first_name = request.form["first-name"]
+    last_name = request.form["last-name"]
 
-    number = db.session.query(User.user_id).order_by(User.user_id.desc()).first()
-    new = number[0]
-    new_id = new + 1
+    if password == verification:
+   
+        print password
+        # hashed = argon2.hash(password)
 
-    new_user = User(user_id=new_id, email=email, password=password, first_name=first_name,
-                    last_name=last_name)
+    else:
 
-    db.session.add(new_user)
-    db.session.commit()
+        flash("Passwords do not match")
+
+    # number = db.session.query(User.user_id).order_by(User.user_id.desc()).first()
+    # new = number[0]
+    # new_id = new + 1
+
+    # new_user = User(user_id=new_id, email=email, password=hashed, first_name=first_name,
+    #                 last_name=last_name)
+
+    # db.session.add(new_user)
+    # db.session.commit()
 
     flash("User %s added." % email)
 

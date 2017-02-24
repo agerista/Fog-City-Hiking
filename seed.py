@@ -200,7 +200,7 @@ def add_attributes():
 def add_trips():
     """Add trips to trail table"""
 
-    trails = trailheads(46)
+    trails = trailheads()
 
     for t in trails:
 
@@ -274,9 +274,11 @@ def add_users():
         user_id, email, password, first_name, last_name,\
             _, _, _, _, _, _, _ = row.split(",")
 
+        hashed = argon2.hash(password)
+
         user = User(user_id=user_id,
                     email=email,
-                    password=password,
+                    password=hashed,
                     first_name=first_name,
                     last_name=last_name)
 
@@ -309,6 +311,7 @@ def add_hikes():
 ################################################################################
 if __name__ == "__main__":
 
+    from passlib.hash import argon2
     from server import app
     connect_to_db(app)
 
@@ -320,9 +323,9 @@ if __name__ == "__main__":
     # seed_trail_table()
     # add_maps()
     # add_images()
-    # add_trips()
+    add_trips()
     # add_attributes()
     # add_trail_id_attributes()
     # add_users()
     # add_hikes()
-    add_difficulties()
+    #add_difficulties()

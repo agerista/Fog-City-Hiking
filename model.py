@@ -82,7 +82,6 @@ class Trail(db.Model):
 
     hike = db.relationship("Hike")
 
-
     def __repr__(self):
         """Provide helpful representation when printed"""
 

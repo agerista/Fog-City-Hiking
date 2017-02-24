@@ -181,7 +181,7 @@ def results_from_search():
 
     trail = request.form.get("trail")
     parking = request.form.get("parking")
-    restrooms = request.form.get("restrooms")
+    restrooms = request.form.get("restroom")
     print trail, parking, restrooms
     # if trail or parking or restrooms:
 
@@ -260,10 +260,12 @@ def trail_details(trail_id):
     """See details for a chosen trail"""
 
     trail = Trail.query.get(trail_id)
+    trail_id = trail.trail_id
 
-    # select yelp_id from parks join trails on trails.park_name = parks.park_name where trail_id = 580 limit 1;
+    business = db.session.query(Park.yelp_id).filter(Trail.park_name == Park.park_name).filter(Trail.trail_id == trail_id).first()
+    business_id = business[0]
 
-    trail_reviews = get_yelp_reviews("twin-peaks-san-francisco")
+    trail_reviews = get_yelp_reviews(business_id)
 
     print trail_reviews
 
@@ -283,8 +285,12 @@ def park_description(park_id):
     """See details for a chosen trail"""
 
     park = Park.query.get(park_id)
+    park_id = park.park_id
 
-    park_reviews = get_yelp_reviews("twin-peaks-san-francisco")
+    business = db.session.query(Park.yelp_id).filter(Park.park_id == park_id).first()
+    business_id = business[0]
+
+    park_reviews = get_yelp_reviews(business_id)
 
     return render_template("park.html", park=park, park_reviews=park_reviews)
 

@@ -131,16 +131,15 @@ def log_into_account():
 def profile_page():
     """Direct route to users profile page"""
 
-    user = session.get("email")
+    active = session['user_id']
 
-    if user:
-        setattr(g, "user", user)
-        return user
+    if active:
 
-    else:
-        return flash("Please log-in to your account")
+        current = db.session.query(User).filter(User.user_id == active)
+        user = current[0]
+        hike_log = db.session.query(Hike).filter(Hike.user_id == active)
 
-    return render_template("profile.html", user=user)
+    return render_template("profile.html", user=user, hike_log=hike_log)
 
 
 @app.route('/logout')
@@ -153,38 +152,6 @@ def log_out():
     return redirect("/")  # to-do: can we keep them on the same page?
 
 
-@app.route('/search', methods=["POST"])
-def results_from_search():
-    """Allows a user to search for hikes."""
-
-    trail = request.form.get("trail")
-    parking = request.form.get("parking")
-    restrooms = request.form.get("restrooms")
-    db.session.rollback()
-    print trail, restrooms, parking
-
-    if trail:
-        trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'))
-        print trails
-
-    if parking == "yes":
-        trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),\
-            Attributes.parking == True)
-        print trails
-
-    if restrooms == "yes":
-        trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),\
-            Attributes.parking == True, Attributes.restrooms == True)
-        print trails
-        # trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
-    else:
-        trail = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct()
-
-    results = trails.all()
-    print results
-
-    return render_template("search_form.html", results=results)  # , trail_reviews=trail_reviews
-
 @app.route('/search', methods=['GET'])
 def search_for_hikes():
     """Empty search form"""
@@ -193,6 +160,77 @@ def search_for_hikes():
 
     return render_template("search_form.html", results=results)
 
+
+@app.route('/search', methods=["POST"])
+def results_from_search():
+    """Allows a user to search for hikes."""
+
+    trail = request.form.get("trail")
+    parking = request.form.get("parking")
+    restrooms = request.form.get("restrooms")
+    print trail, parking, restrooms
+    # if trail or parking or restrooms:
+
+    if trail:
+        tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'))
+        print tr.all()
+
+    if parking == "yes":
+        tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),
+            Attributes.parking == True)
+        print tr.all()
+
+    if restrooms == "yes":
+        tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),
+            Attributes.parking == True, Attributes.restrooms == True)
+        print tr.all()
+        # trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
+    else:
+        trails = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct()
+
+    search_results = tr.all()
+
+    results = []
+
+    for result in search_results:
+
+        match = {}
+
+        match["trail_id"] = result.trail_id
+        match["trail_name"] = result.trail_name
+        match["description"] = result.description
+
+        results.append(match)
+
+    trail = request.form.get("trail_id")
+    completed = request.form.get("completed")
+    bookmark = request.form.get("bookmark")
+    date_completed = request.form.get("date-completed")
+    temperature = request.form.get("temperature")
+    condition = request.form.get("condition")
+    comment = request.form.get("comment")
+    rating = request.form.get("rating")
+
+    if completed or bookmark or date_completed or temperature or condition or comment or rating:
+
+        trail_id = trail
+
+        if session['user_id']:
+
+            hiker = db.session.query(Hike.hike_id).order_by(Hike.hike_id.desc()).first()
+            new = hiker[0]
+            new_hiker = new + 1
+
+            new_log = User(user_id=new_hiker, trail_id=trail_id, completed=completed,
+                           date=date_completed, temperature=temperature, condition=condition,
+                           comment=comment, rating=rating)
+
+            print new_log
+
+        else:
+            flash("Please log in to continue")
+
+    return render_template("search_form.html", results=results)  # , trail_reviews=trail_reviews
 
 
 @app.route('/trail')

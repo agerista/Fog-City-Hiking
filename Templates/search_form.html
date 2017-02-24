@@ -61,13 +61,16 @@
     {% for result in results %}
     
     <ul>
-      <li>{{result}}<li>
-      <li>Hike Completed<input type="checkbox" name="completed" value="true">
-          Bookmark<input type="checkbox" name="bookmark" value="true">  </li>
-      <li>Date Completed<input type="text" name="date-completed" placeholder="01/01/2017"></li>
-      <li>Temperature<input type="text" name="temperature" placeholder="75"></li>
-      <li>Condition<input type="text" name="condition" placeholder="Warm and sunny"></li>
-      <li>Comment<textarea name="comment" placeholder="Add a note here"
+      <li>{{result['trail_name']}}<li>
+      <li>{{result['description']}}</li>
+      <li>Trail Id: <input type="text"  size="4" name="trail-id" 
+        value="{{result['trail_id']}}" placeholder="{{result['trail_id']}}"></li>
+      <li>Hike Completed: <input type="checkbox" name="completed" value="true">
+          Bookmark: <input type="checkbox" name="bookmark" value="true">  </li>
+      <li>Date Completed: <input type="text" name="date-completed" placeholder="01/01/2017"></li>
+      <li>Temperature: <input type="text" name="temperature" placeholder="75"></li>
+      <li>Condition: <input type="text" name="condition" placeholder="Warm and sunny"></li>
+      <li>Comment: <textarea name="comment" placeholder="Add a note here"
         rows="4" cols="50" maxlength="400"></textarea></li>
       <li>Rating: 1<input type="radio" value="one"> 2<input type="radio" value="two">
         3<input type="radio" value="three"> 4<input type="radio" value="four">
@@ -78,7 +81,7 @@
     {% endfor %}
   {% endif %}
 
-  <input type="submit" value="Search">
+  <input type="submit" value="Save">
 </form>
 </div>
   {% endblock %}

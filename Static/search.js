@@ -10,7 +10,7 @@ function showSearchResults(results) {
 }
 
 function submitSearch(evt) {
-
+    evt.preventDefault();
     
     var formValues = {
 
@@ -36,10 +36,11 @@ function saveHikestoDB(results) {
 }
 
 function submitHikes(evt) {
-
+    evt.preventDefault();
     
     var formValues = {
 
+        "trail_id": $("#trail_id").val(),
         "completed": $("#completed").val(),
         "bookmark": $("#bookmark").val(),
         "date-completed": $("#date-completed").val(),
@@ -55,24 +56,3 @@ function submitHikes(evt) {
 }
 
 $("#wishlist").on("submit", submitSearch);
-
-/////////////////////////////////////////////////////
-//Look into this for possible multi submit purposes// 
-/////////////////////////////////////////////////////
-
-
-// function onSingleSubmitButtonClicked(button)
-// {
-//   var bookmark = $('form');
-//   var data =  frm.serialize();
-//   var url = frm.attr('action');
-//   var method = frm.attr('data-ajax-method');
-//   var target = frm.attr('data-ajax-update');
-//   $.ajax({
-//     type: method,
-//     url: url,
-//     data: data,
-//     beforeSend: function() {showLoader();},
-//     complete: function(response) {$(target).html(response.responseText);hideLoader();}
-//   });
-// }

@@ -5,7 +5,7 @@ from flask import Flask, jsonify, render_template, redirect, request, flash, ses
 # from flask_sqlalchemy import SQLAlchemy
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Trail, Park, Hike, Attributes
-from yelp import get_yelp_reviews
+from yelp import get_yelp_reviews, yelp_information
 from weather import weather_forecast
 from passlib.hash import argon2
 
@@ -195,7 +195,7 @@ def results_from_search():
         print tr.all()
 
     if restrooms == "yes":
-        tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),
+        tr = Trail.query.join(Attributes, Park).filter(Trail.trail_name.like('%trail%'),
             Attributes.parking == True, Attributes.restrooms == True)
         print tr.all()
         # trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
@@ -210,9 +210,23 @@ def results_from_search():
 
         match = {}
 
-        match["trail_id"] = result.trail_id
+        #to-do: get business id for each trail to use for yelp call
+
+        trail_id = result.trail_id
+        business = db.session.query(Park.yelp_id).filter(Park.park_name == Trail.park_name).first()  # this is slow, optomize for better runtime
+        business_id = business[0]
+        print business_id
+        info = yelp_information(business_id)
+        print info
+        match["trail_id"] = trail_id
         match["trail_name"] = result.trail_name
         match["description"] = result.description
+        match["image_url"] = info['image_url']
+        match["photo"] = info['photos']
+        match["open_now"] = info['open_now']
+        match["open"] = info['opens']
+        match["closes"] = info['closes']
+        match["rating"] = info['rating']
 
         results.append(match)
 

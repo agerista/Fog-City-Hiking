@@ -55,12 +55,18 @@
         </div><
 -->
 
-<div>
+<div class="wishlist">
   <form id="wishlist">
   {% if results %}
     {% for result in results %}
     
     <ul>
+      <li>{{result.photo}}</li>
+      <img src="{{result.image_url}}">
+      <li>{{result.open}}</li>
+      <li>{{result.closes}}</li>
+      <li>{{result.open_now}}</li>
+      <li>{{result.rating}}</li>
       <li>{{result['trail_name']}}<li>
       <li>{{result['description']}}</li>
       <li>Trail Id: <input type="text"  size="4" name="trail-id" 

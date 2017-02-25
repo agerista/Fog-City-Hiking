@@ -69,7 +69,9 @@ h3{
     margin: 5px 200px 100px 200px;
 }
 
-
+.wishlist img{
+    resize: 10%;
+}
 
 .log-in{
     background-color: #f0f0f0;

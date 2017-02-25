@@ -42,23 +42,27 @@ def yelp_information(business_id):
     response = requests.get(endpoint, headers=get_header())
 
     info = response.json()
-    print info
 
     yelp_info = {}
 
-    image_url = info['image_url']
-    rating = info['rating']
-    print image_url, rating
+    yelp_info["image_url"] = info['image_url']
 
-    ### key error if hours are not included.
+    yelp_info["rating"] = info["rating"]
 
-    ## opens = info['hours']    # [:]["start"]
-    ## closes = info['hours']   # [:]["end"]
+    try:
+        yelp_info["photos"] = info["photos"]
+        yelp_info["open_now"] = info['hours'][0]["is_open_now"]
+        yelp_info["opens"] = info['hours'][0]["open"][0]['start']
+        yelp_info["closes"] = info['hours'][0]["open"][0]['end']
 
-    yelp_info["image_url"] = image_url,
-    yelp_info["rating"] = rating
-    ## ["opens"] = opens,
-    ## ["closes"] = closes
+    except KeyError:
+        yelp_info["photos"] = ''
+        yelp_info["open_now"] = ''
+        yelp_info["opens"] = ''
+        yelp_info["closes"] = ''
+
+    ### to-do: key error if hours are not included.
+
     print yelp_info
     return yelp_info
 

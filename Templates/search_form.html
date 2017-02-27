@@ -12,16 +12,13 @@
 
       <div class="row">
         <div class="col-xs-12">
-          Trail Name: <input type="text" name="trail" value="" placeholder="Enter a trail">
+          Trail Name: <input type="text" name="trail" placeholder="Enter a trail">
           City: <input type="text" name="city" placeholder="Enter a city">
         </div><!--column-->  
       </div><!--row-->
       <div class="row">
          <div class="col-xs-12">
-          Has Restrooms: Yes<input type="radio" name="restroom" value="yes">
-          No<input type="radio" name="restroom" value="no">
-          Has Parking: Yes<input type="radio" name="parking" value="yes">
-          No<input type="radio" name="parking" value="no">
+          Length: <input type="text" name="length" placeholder="Distance in miles">
         </div><!--column-->  
       </div><!--row--> 
           <div class="row">
@@ -62,18 +59,21 @@
     
     <ul>      
       <div class="container-fluid">
-        <span class"hike-photos"><p><img height="128px" width="128px" src="{{result.image_url}}">
-          {% if result.photo %}
-            <img src="{{result.photo}}" height="100px" width="100px"></p></span>
-          {% endif %}
+        <h3><b>{{result.trail_name}}</b></h3>
+        <span class"hike-photos"><p><img height="128px" width="128px" src="{{result.image_url}}"></p></span>
+          {% for image in result.photo %}
+            <img src="{{image}}" height="100px" width="100px">
+          {% endfor %}
       </div>
       <p>Opens: {{result.open}} Closes: {{result.closes}} Open Now: {{result.open_now}}</p>
       <p>{{ result.rating }}  <img src="/static/web_and_ios/small/small_{{ result.rating }}.png"
         height="12px"></p>
-      <li>{{result.trail_name}}<li>
-      <li>{{result.description}}</li>
+
+
+      
+      <li>Length: {{result.length}} Elevation: {{result.intensity}}</li>
       <li>Trail Id: <input type="text"  size="4" name="trail-id" 
-        value="{{result['trail_id']}}" placeholder="{{result['trail_id']}}"></li>
+        value="{{result.trail_id}}" placeholder="{{result.trail_id}}"></li>
       <li>Hike Completed: <input type="checkbox" name="completed" value="true">
           Bookmark: <input type="checkbox" name="bookmark" value="true">  </li>
       <li>Date Completed: <input type="text" name="date-completed" placeholder="01/01/2017"></li>

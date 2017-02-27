@@ -70,7 +70,8 @@ function initMap() {
           // Define the content of the infoWindow
           html = (
               '<div class="window-content">' +
-                  '<p><b>weather summary: </p>' + weath.summary + '</p>' +
+                  '<p><b>' + weath.city + '</b></p>' +
+                  '<p><b>Weather Summary: </b>' + weath.summary + '</p>' +
               '</div>');
 
           // Inside the loop we call bindInfoWindow passing it the marker,

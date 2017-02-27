@@ -25,33 +25,36 @@ def weather_forecast():
     continuing until tomorrow evening.'}
     """
 
-    # coordinates =  Park.session.query(Park.latitude, Park.longitude).filter_by(city).distinct().limit(10)
-    coordinates = [("San Francisco", 37.7749, -122.4194), ("Oakland", 37.8044, -122.2711),
-                   ("Berkeley", 37.8716, -122.2727), ("Marin", 38.0834, -122.7633),
-                   ("Pacifica", 37.6138, -122.4869)]
+    coordinates = db.session.query(Park.latitude, Park.longitude, Park.city).filter(
+        Park.city != None).distinct(Park.city).all()
+    # coordinates = [("San Francisco", 37.7749, -122.4194), ("Oakland", 37.8044, -122.2711),
+                   # ("Berkeley", 37.8716, -122.2727), ("Marin", 38.0834, -122.7633),
+                   # ("Pacifica", 37.6138, -122.4869)]
 
+    print coordinates
     weather_info = []
 
     for coordinate in coordinates:
 
         city = {}
 
-        lat = coordinate[1]
-        city["latitude"] = lat
+        city["city"] = coordinate[2]
 
-        lng = coordinate[2]
-        city["longitude"] = lng
+        city["latitude"] = coordinate[0]
 
-        weather = forecastio.load_forecast(api_key, lat, lng)
+        city["longitude"] = coordinate[1]
 
-        hour = weather.hourly()
-        summary = hour.summary
+        weather = forecastio.load_forecast(api_key, city["latitude"], city["longitude"])
+
+        day = weather.daily()
+        summary = day.summary
         city["summary"] = summary
 
-        # temperature = hour.temperature
+
+        # temperature = day.temperature
         # city["temperature"] = temperature
 
-        icon = hour.icon
+        icon = day.icon
         city["icon"] = icon
 
         weather_info.append(city)

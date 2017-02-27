@@ -180,27 +180,31 @@ def results_from_search():
     """Allows a user to search for hikes."""
 
     trail = request.form.get("trail")
-    parking = request.form.get("parking")
-    restrooms = request.form.get("restroom")
+    t = "%" + trail + "%"
+    miles = request.form.get("length")
+    # restrooms = request.form.get("restroom")
+    print trail, miles
 
-    if trail != "":
-        tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'))
+    if trail:
+        hike = Trail.query.filter(Trail.trail_name.like(t)).limit(5)
+        print hike
 
-    if trail and parking == "yes":
-        tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),
-            Attributes.parking == True)
+    if miles:
+        hike = Trail.query.filter(Trail.length == miles, Trail.trail_name.like(t)).limit(5)
+        print hike.all()
 
-    if trail and parking == "yes" and restrooms == "yes":
-        tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),
-            Attributes.parking == True, Attributes.restrooms == True)
+    # if restrooms == "yes":
+    #     hike = Trail.query.join(Attributes).filter(Trail.trail_name.like(t),
+    #         Attributes.parking == True, Attributes.restrooms == True).limit(5)
+    #     print hike.all()
         # trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
-    if trail == "":
-        tr = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct()
+    else:
+        hike = Trail.query.filter(Trail.park_name != None).distinct().limit(5)  # to-do: make this a view and include all trails
 
-    search_results = tr.all()
-    print "********************"
+    search_results = hike.all()
+    print "*******************"
     print search_results
-    print "*********************"
+    print "*******************"
 
     results = []
 
@@ -210,12 +214,14 @@ def results_from_search():
 
         #to-do: get business id for each trail to use for yelp call
 
-        trail_id = result.trail_id
+        trail_id = trail
         business = db.session.query(Park.yelp_id).filter(Park.park_name == Trail.park_name).first()  # this is slow, optomize for better runtime
         business_id = business[0]
         info = yelp_information(business_id)
-        match["trail_id"] = trail_id
+        match["trail_id"] = result.trail_id
         match["trail_name"] = result.trail_name
+        match["length"] = result.length
+        match["intensity"] = result.intensity
         match["description"] = result.description
         match["image_url"] = info['image_url']
         match["photo"] = info['photos']
@@ -226,35 +232,42 @@ def results_from_search():
 
         results.append(match)
 
-    trail = request.form.get("trail_id")
-    completed = request.form.get("completed")
-    bookmark = request.form.get("bookmark")
-    date_completed = request.form.get("date-completed")
-    temperature = request.form.get("temperature")
-    condition = request.form.get("condition")
-    comment = request.form.get("comment")
-    rating = request.form.get("rating")
+    return render_template("search_form.html", results=results, search_results=search_results)
 
-    if completed or bookmark or date_completed or temperature or condition or comment or rating:
 
-        trail_id = trail
+@app.route('/search', methods=["POST"])
+def save_results_hikelog():
+    """Save hike to profile hike log"""
 
-        if session['user_id']:
+    # trail = request.form.get("trail_id")
+    # completed = request.form.get("completed")
+    # bookmark = request.form.get("bookmark")
+    # date_completed = request.form.get("date-completed")
+    # temperature = request.form.get("temperature")
+    # condition = request.form.get("condition")
+    # comment = request.form.get("comment")
+    # rating = request.form.get("rating")
 
-            hiker = db.session.query(Hike.hike_id).order_by(Hike.hike_id.desc()).first()
-            new = hiker[0]
-            new_hiker = new + 1
+    # if completed or bookmark or date_completed or temperature or condition or comment or rating:
 
-            new_log = User(user_id=new_hiker, trail_id=trail_id, completed=completed,
-                           date=date_completed, temperature=temperature, condition=condition,
-                           comment=comment, rating=rating)
+    #     trail_id = trail
 
-            print new_log
+    #     if session['user_id']:
 
-        else:
-            flash("Please log in to continue")
+    #         hiker = db.session.query(Hike.hike_id).order_by(Hike.hike_id.desc()).first()
+    #         new = hiker[0]
+    #         new_hiker = new + 1
 
-    return render_template("search_form.html", results=results)  # , trail_reviews=trail_reviews
+    #         new_log = User(user_id=new_hiker, trail_id=trail_id, completed=completed,
+    #                        date=date_completed, temperature=temperature, condition=condition,
+    #                        comment=comment, rating=rating)
+
+    #         print new_log
+
+    #     else:
+    #         flash("Please log in to continue")
+
+ # , trail_reviews=trail_reviews
 
 
 @app.route('/trail')

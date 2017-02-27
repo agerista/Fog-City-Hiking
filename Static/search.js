@@ -15,8 +15,7 @@ function submitSearch(evt) {
     var formValues = {
 
         "trail": $("#trail").val(),
-        "parking": $("#parking").val(),
-        "restrooms": $("#restrooms").val(),
+        "length": $("#length").val(),
     };
 
     $.post("/search",

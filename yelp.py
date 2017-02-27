@@ -46,7 +46,6 @@ def yelp_information(business_id):
     yelp_info = {}
 
     yelp_info["image_url"] = info['image_url']
-
     yelp_info["rating"] = info["rating"]
 
     try:

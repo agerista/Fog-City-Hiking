@@ -84,23 +84,30 @@ def add_difficulties():
     for row in open("static/length-intensity.csv"):
 
         row = row.rstrip()
+        print row
 
         #trail_name, city, miles, description, total elevation:, intensity(elevation change)
         trail_name, city, length, description, total, intensity = row.split("|")
 
-        trail_name = trail_name
-        length = length
-        description = description
-        intensity = intensity
+        name = "%" + trail_name[:15] + "%"
+        print name
+        # length = length
+        # description = description
+        # intensity = intensity
 
-        trail = db.session.query(Trail).filter(Trail.trail_name.like('%trail_name'))
+        tr = db.session.query(Trail.trail_name).filter(Trail.trail_name.like(name)).all()
+        print tr
 
-        if trail:
+        if tr != []:
+            trail = tr[0][0]
+            print trail
 
-            db.session.query(Trail).filter(Trail.trail_name == trail).update({"length": length,
-                                                                      "intensity": intensity,
-                                                                      "description": description})
-                                                                 
+            if trail:
+
+                db.session.query(Trail).filter(Trail.trail_name == trail).update({"length": length,
+                                                                                  "intensity": intensity,
+                                                                                  "description": description})
+
 
     db.session.commit()
     print "Done committing trips"
@@ -323,9 +330,9 @@ if __name__ == "__main__":
     # seed_trail_table()
     # add_maps()
     # add_images()
-    add_trips()
+    # add_trips()
     # add_attributes()
     # add_trail_id_attributes()
     # add_users()
     # add_hikes()
-    #add_difficulties()
+    # add_difficulties()

@@ -7,15 +7,18 @@
   <h2>Description</h2>
   <p>{{ trail_info.rating }}  <img src="/static/web_and_ios/small/small_{{trail_info.rating}}.png"
     height="12px"></p>
+  <p>Opens: {{ trail_info.opens }}Closes: {{ trail_info.closes }}Open Now: {{ trail_info.open_now }}</p>
   
 <ul>
 
-  <li>{{ trail_info.photos }}</li>
-  
-  
-  <li>{{ trail_info.open_now }}</li>
-  <li>{{ trail_info.opens }}</li>
-  <li>{{ trail_info.closes }}</li>
+
+    {% for photo in trail_info.photos %}
+      <img src="{{photo}}" height="128px" width="128px">
+    {% endfor %}
+
+
+
+
 
     
   {% for trail in trail_reviews %}

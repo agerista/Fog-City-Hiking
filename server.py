@@ -183,7 +183,7 @@ def results_from_search():
     parking = request.form.get("parking")
     restrooms = request.form.get("restroom")
 
-    if trail:
+    if trail != "":
         tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'))
 
     if trail and parking == "yes":
@@ -194,7 +194,7 @@ def results_from_search():
         tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),
             Attributes.parking == True, Attributes.restrooms == True)
         # trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
-    if not trail:
+    if trail == "":
         tr = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct()
 
     search_results = tr.all()

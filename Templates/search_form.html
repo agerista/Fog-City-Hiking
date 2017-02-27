@@ -12,7 +12,7 @@
 
       <div class="row">
         <div class="col-xs-12">
-          Trail Name: <input type="text" name="trail" value="twin peaks" placeholder="Enter a trail">
+          Trail Name: <input type="text" name="trail" value="" placeholder="Enter a trail">
           City: <input type="text" name="city" placeholder="Enter a city">
         </div><!--column-->  
       </div><!--row-->
@@ -60,15 +60,16 @@
   {% if results %}
     {% for result in results %}
     
-    <ul>
-      <li>{{result.photo}}</li>
+    <ul>      
       <div class="container-fluid">
-        <span class"hike-photos"><img height="100px" width="100px" img-align="center" src="{{result.image_url}}"></span>
+        <span class"hike-photos"><p><img height="128px" width="128px" src="{{result.image_url}}">
+          {% if result.photo %}
+            <img src="{{result.photo}}" height="100px" width="100px"></p></span>
+          {% endif %}
       </div>
-      <li>{{result.open}}</li>
-      <li>{{result.closes}}</li>
-      <li>{{result.open_now}}</li>
-      <li>{{result.rating}}</li>
+      <p>Opens: {{result.open}} Closes: {{result.closes}} Open Now: {{result.open_now}}</p>
+      <p>{{ result.rating }}  <img src="/static/web_and_ios/small/small_{{ result.rating }}.png"
+        height="12px"></p>
       <li>{{result['trail_name']}}<li>
       <li>{{result['description']}}</li>
       <li>Trail Id: <input type="text"  size="4" name="trail-id" 

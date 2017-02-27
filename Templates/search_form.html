@@ -12,7 +12,7 @@
 
       <div class="row">
         <div class="col-xs-12">
-          Trail Name: <input type="text" name="trail" placeholder="Enter a trail">
+          Trail Name: <input type="text" name="trail" value="twin peaks" placeholder="Enter a trail">
           City: <input type="text" name="city" placeholder="Enter a city">
         </div><!--column-->  
       </div><!--row-->
@@ -62,7 +62,9 @@
     
     <ul>
       <li>{{result.photo}}</li>
-      <img src="{{result.image_url}}">
+      <div class="container-fluid">
+        <span class"hike-photos"><img height="100px" width="100px" img-align="center" src="{{result.image_url}}"></span>
+      </div>
       <li>{{result.open}}</li>
       <li>{{result.closes}}</li>
       <li>{{result.open_now}}</li>

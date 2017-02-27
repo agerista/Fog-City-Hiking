@@ -3,15 +3,20 @@
 
 <div class="trail">
   <h1>{{ trail.trail_name }}</h1>
-  <img src="{{ trail.image }}.jpg" alt="trail image" width="128px" height="128px">
+  <img src="{{ trail_info.image_url }}" alt="trail image" width="128px" height="128px">
   <h2>Description</h2>
+  <p>{{ trail_info.rating }}  <img src="/static/web_and_ios/small/small_{{trail_info.rating}}.png"
+    height="12px"></p>
   
 <ul>
-    <li>{{ trail.description}}</li>
-    <li>{{ trail.length }}, {{ trail.intensity }}, {{ trail.duration }}
-    <li><img src="{{ trail.maps }}"></li>
-</ul>
-<ul>
+
+  <li>{{ trail_info.photos }}</li>
+  
+  
+  <li>{{ trail_info.open_now }}</li>
+  <li>{{ trail_info.opens }}</li>
+  <li>{{ trail_info.closes }}</li>
+
     
   {% for trail in trail_reviews %}
     

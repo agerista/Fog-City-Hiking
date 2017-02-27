@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<!--
+<div class="search-form">
+
+  {% if trails %}
+
+    <h2>Your Matching Hikes:</h2>
+
+    <div class="search-results">
+    <table>
+      {% for trail in trails%}
+      <tr>
+        <td><img src="{{ trail.image }}"></td>
+        <td><input type="checkbox" name="hikes" value="Completed">
+          <input type="checkbox" name="hikes" value="Wishlist"</td>
+        <td>{{ trail.name }}</td>
+        <td>{{ trail.description }}</td>
+        <td>{{ yelp_reviews }}</td> 
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
+</div>
+-->
+
+
+
+{% if results %}
+<!--Search results from search form-->
+<div class="search-results"></div>
+  <h1>{{ results }}</h1>
+  <img src="{{ results }}.jpg" alt="trail image" width="128px" height="128px">
+  <h2>Description</h2>
+  
+<ul>
+    <li>{{ results }}</li>
+    <li><img src="{{ results }}"></li>
+</ul>
+{% endif %}
+{% endblock %}

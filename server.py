@@ -182,27 +182,25 @@ def results_from_search():
     trail = request.form.get("trail")
     parking = request.form.get("parking")
     restrooms = request.form.get("restroom")
-    print trail, parking, restrooms
-    # if trail or parking or restrooms:
 
     if trail:
         tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'))
-        print tr.all()
 
-    if parking == "yes":
+    if trail and parking == "yes":
         tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),
             Attributes.parking == True)
-        print tr.all()
 
-    if restrooms == "yes":
-        tr = Trail.query.join(Attributes, Park).filter(Trail.trail_name.like('%trail%'),
+    if trail and parking == "yes" and restrooms == "yes":
+        tr = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%'),
             Attributes.parking == True, Attributes.restrooms == True)
-        print tr.all()
         # trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
-    else:
-        trails = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct()
+    if not trail:
+        tr = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct()
 
     search_results = tr.all()
+    print "********************"
+    print search_results
+    print "*********************"
 
     results = []
 
@@ -215,9 +213,7 @@ def results_from_search():
         trail_id = result.trail_id
         business = db.session.query(Park.yelp_id).filter(Park.park_name == Trail.park_name).first()  # this is slow, optomize for better runtime
         business_id = business[0]
-        print business_id
         info = yelp_information(business_id)
-        print info
         match["trail_id"] = trail_id
         match["trail_name"] = result.trail_name
         match["description"] = result.description
@@ -278,12 +274,15 @@ def trail_details(trail_id):
 
     business = db.session.query(Park.yelp_id).filter(Trail.park_name == Park.park_name).filter(Trail.trail_id == trail_id).first()
     business_id = business[0]
+    print business_id
 
     trail_reviews = get_yelp_reviews(business_id)
+    trail_info = yelp_information(business_id)
+    print trail_info
 
     print trail_reviews
 
-    return render_template("trail.html", trail=trail, trail_reviews=trail_reviews)
+    return render_template("trail.html", trail=trail, trail_reviews=trail_reviews, trail_info=trail_info)
 
 
 @app.route('/park')
@@ -305,8 +304,9 @@ def park_description(park_id):
     business_id = business[0]
 
     park_reviews = get_yelp_reviews(business_id)
+    park_info = yelp_information(business_id)
 
-    return render_template("park.html", park=park, park_reviews=park_reviews)
+    return render_template("park.html", park=park, park_reviews=park_reviews, park_info=park_info)
 
 
 ################################################################################

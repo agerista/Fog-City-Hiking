@@ -151,6 +151,6 @@ if __name__ == "__main__":
     from server import app
     connect_to_db(app)
     obtain_bearer_token()
-    # get_business_ids()
+    get_business_ids()
     yelp_information(business_id)
     get_yelp_reviews(business_id)

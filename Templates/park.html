@@ -3,24 +3,26 @@
 
 <div class="park">
   <h1>{{ park.park_name }}</h1>
-  <img src="{{ park.image }}">
+  <img src="{{ park_info.image_url }}" alt="park image" width="128px" height="128px">
   <h2>Description</h2>
-  
+  <p>{{ park_info.rating }}  <img src="/static/web_and_ios/small/small_{{ park_info.rating }}.png"
+   height="12px"></p>
+  <p>Opens: {{ park_info.opens }} Closes: {{ park_info.closes }} Open Now: {{ park_info.open_now }}</p>
+
   <ul>
 
-    <li>{{ park.description}}</li>
-    <li><img src="{{ park.image }}"></li>
-<ul>
-    
-  {% for park in park_reviews %}
-    
-    <li>{{ park['text'] }}</li>
-    
-    <li><span><a href="{{ park['url'] }}"> Reviewer: {{ park['name'] }} </span><span>Rating: {{ park['rating']}}</span></li> 
+    {% for photo in park_info.photos %}
+      <img src="{{photo}}" height="128px" width="128px">
+    {% endfor %}
 
-  {% endfor %}
+    {% for park in park_reviews %}
+    
+      <li>{{ park['text'] }}</li>
+    
+      <li><span><a href="{{ park['url'] }}"> Reviewer: {{ park['name'] }} </span><span>Rating: {{ park['rating']}}</span></li> 
 
-</ul>
+    {% endfor %}
+
   </ul>
 </div>
 {% endblock %}

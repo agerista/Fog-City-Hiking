@@ -75,7 +75,7 @@ def add_images():
                 print "done committing images"
 
 
-def add_difficulties():
+def add_difficulties_trails():
     """Add length, intensity, duration to trails from csv file
 
     Transitandtrails api server is down for this portion of hike data
@@ -96,7 +96,7 @@ def add_difficulties():
         # intensity = intensity
 
         tr = db.session.query(Trail.trail_name).filter(Trail.trail_name.like(name)).all()
-        print tr
+        pr = db.session.query(Park.park_name).filter(Park.park_name.like(name)).all()
 
         if tr != []:
             trail = tr[0][0]
@@ -107,7 +107,13 @@ def add_difficulties():
                 db.session.query(Trail).filter(Trail.trail_name == trail).update({"length": length,
                                                                                   "intensity": intensity,
                                                                                   "description": description})
+        if pr != []:
+            park = pr[0][0]
+            print park
 
+            if park:
+
+                db.session.query(Park).filter(Park.park_name == park).update({"city": city})
 
     db.session.commit()
     print "Done committing trips"

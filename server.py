@@ -183,13 +183,15 @@ def results_from_search():
     t = "%" + trail + "%"
     miles = request.form.get("length")
     # restrooms = request.form.get("restroom")
-    print trail, miles
+    print "TRAIL, MILES", trail, miles
 
     if trail:
-        hike = Trail.query.filter(Trail.trail_name.like(t)).limit(5)
-        print hike
+        print "in trail"
+        hike = Trail.query.filter(Trail.trail_name.ilike(t)).limit(5)
+        print "result of HIKE query", hike.all()
 
-    if miles:
+    elif miles:
+        print "in miles"
         hike = Trail.query.filter(Trail.length == miles, Trail.trail_name.like(t)).limit(5)
         print hike.all()
 
@@ -199,6 +201,7 @@ def results_from_search():
     #     print hike.all()
         # trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
     else:
+        print "in else"
         hike = Trail.query.filter(Trail.park_name != None).distinct().limit(5)  # to-do: make this a view and include all trails
 
     search_results = hike.all()
@@ -212,19 +215,19 @@ def results_from_search():
 
         match = {}
 
-        #to-do: get business id for each trail to use for yelp call
-
-        trail_id = trail
+        trail_id = result.trail_id
+        print trail_id
         business = db.session.query(Park.yelp_id).filter(Park.park_name == Trail.park_name).first()  # this is slow, optomize for better runtime
         business_id = business[0]
         info = yelp_information(business_id)
         match["trail_id"] = result.trail_id
         match["trail_name"] = result.trail_name
+        match["trail_image"] = result.image
         match["length"] = result.length
         match["intensity"] = result.intensity
         match["description"] = result.description
         match["image_url"] = info['image_url']
-        match["photo"] = info['photos']
+        match["photos"] = info['photos']
         match["open_now"] = info['open_now']
         match["open"] = info['opens']
         match["closes"] = info['closes']
@@ -234,40 +237,34 @@ def results_from_search():
 
     return render_template("search_form.html", results=results, search_results=search_results)
 
+#     trail = request.form.get("trail_id")
+#     completed = request.form.get("completed")
+#     bookmark = request.form.get("bookmark")
+#     date_completed = request.form.get("date-completed")
+#     temperature = request.form.get("temperature")
+#     condition = request.form.get("condition")
+#     comment = request.form.get("comment")
+#     rating = request.form.get("rating")
 
-@app.route('/search', methods=["POST"])
-def save_results_hikelog():
-    """Save hike to profile hike log"""
+#     if completed or bookmark or date_completed or temperature or condition or comment or rating:
 
-    # trail = request.form.get("trail_id")
-    # completed = request.form.get("completed")
-    # bookmark = request.form.get("bookmark")
-    # date_completed = request.form.get("date-completed")
-    # temperature = request.form.get("temperature")
-    # condition = request.form.get("condition")
-    # comment = request.form.get("comment")
-    # rating = request.form.get("rating")
+#         trail_id = trail
 
-    # if completed or bookmark or date_completed or temperature or condition or comment or rating:
+#         if session['user_id']:
 
-    #     trail_id = trail
+#             hiker = db.session.query(Hike.hike_id).order_by(Hike.hike_id.desc()).first()
+#             new = hiker[0]
+#             new_hiker = new + 1
 
-    #     if session['user_id']:
+#             new_log = User(user_id=new_hiker, trail_id=trail_id, completed=completed,
+#                            date=date_completed, temperature=temperature, condition=condition,
+#                            comment=comment, rating=rating)
 
-    #         hiker = db.session.query(Hike.hike_id).order_by(Hike.hike_id.desc()).first()
-    #         new = hiker[0]
-    #         new_hiker = new + 1
+#             print new_log
 
-    #         new_log = User(user_id=new_hiker, trail_id=trail_id, completed=completed,
-    #                        date=date_completed, temperature=temperature, condition=condition,
-    #                        comment=comment, rating=rating)
-
-    #         print new_log
-
-    #     else:
-    #         flash("Please log in to continue")
-
- # , trail_reviews=trail_reviews
+#         else:
+#             flash("Please log in to continue")
+  # , trail_reviews=trail_reviews
 
 
 @app.route('/trail')

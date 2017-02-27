@@ -6,9 +6,13 @@
   <img src="{{ park_info.image_url }}" alt="park image" width="128px" height="128px">
   <h2>Description</h2>
   <p>{{ park.description }}</p>
+  <ul>
+    <li>City: {{ park.city }}</li>
+    <li>Opens: {{ park_info.opens }} Closes: {{ park_info.closes }} Open Now: {{ park_info.open_now }}</li>
+  </ul>
   <p>{{ park_info.rating }}  <img src="/static/web_and_ios/small/small_{{ park_info.rating }}.png"
    height="12px"></p>
-  <p>Opens: {{ park_info.opens }} Closes: {{ park_info.closes }} Open Now: {{ park_info.open_now }}</p>
+  
 
   <ul>
 

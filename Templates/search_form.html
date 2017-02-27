@@ -57,21 +57,23 @@
   {% if results %}
     {% for result in results %}
     
-    <ul>      
+    <ul>   
+    <!-- Trail Photos -->   
       <div class="container-fluid">
         <h3><b>{{result.trail_name}}</b></h3>
         <span class"hike-photos"><p><img height="128px" width="128px" src="{{result.image_url}}"></p></span>
-          {% for image in result.photo %}
-            <img src="{{image}}" height="100px" width="100px">
+          {% for photo in result.photos %}
+            <img src="{{photo}}" height="100px" width="100px">
           {% endfor %}
       </div>
+      
+      <!-- Trail Info -->
       <p>Opens: {{result.open}} Closes: {{result.closes}} Open Now: {{result.open_now}}</p>
       <p>{{ result.rating }}  <img src="/static/web_and_ios/small/small_{{ result.rating }}.png"
         height="12px"></p>
-
-
-      
       <li>Length: {{result.length}} Elevation: {{result.intensity}}</li>
+      
+      <!-- Hike Log Input -->
       <li>Trail Id: <input type="text"  size="4" name="trail-id" 
         value="{{result.trail_id}}" placeholder="{{result.trail_id}}"></li>
       <li>Hike Completed: <input type="checkbox" name="completed" value="true">

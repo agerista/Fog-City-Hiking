@@ -9,9 +9,12 @@
   <p>Last Name: {{ user.last_name }}</p>
 
   <ul>
-    {% for hike in hike_log %}
-      {{hike}}
-    {% endfor %}  
+      <li>{{hike_log.Trail.trail_name}}</li>
+      <li>{{hike_log.Hike.comment}}</li>
+      <li>{{hike_log.Hike.date}} {{hike_log.Hike.completed}} {{hike_log.Hike.rating}}</li>
+      
+      
+      
 
   </ul>
 

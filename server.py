@@ -158,22 +158,10 @@ def profile_page():
         current = db.session.query(User).filter(User.user_id == active)
         user = current[0]
         # hike_log = db.session.query(Hike).filter(Hike.user_id == active)
-        hikes = db.session.query(Hike, Trail.trail_name).join(Trail).filter(
+        hikes = db.session.query(Hike, Trail).join(Trail).filter(
             Hike.user_id == active).all()
 
-        hike_list = hikes[0]
-
-        hike_log = []
-
-        for hike in hike_list:
-            log = {}
-            log["comment"] = hike.comment
-            log["rating"] = hike.rating
-            log["date"] = hike.date
-            log["temperature"] = hike.temperature
-            log["condition"] = hike.condition
-            # log['trail_name'] = hike.trail_name
-            hike_log.append(hike)
+        hike_log = hikes[0]
 
     return render_template("profile.html", user=user, hike_log=hike_log)
 

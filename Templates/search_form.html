@@ -6,41 +6,25 @@
   <h3>Enter Search Parameters Below:</h3>
 
 <!--Search Form-->
-
   <div class="search-form">
     <form id="search-form" action="/search" method="POST">
-
+      <!-- Name and City -->
       <div class="row">
         <div class="col-xs-12">
           Trail Name: <input type="text" name="trail" placeholder="Enter a trail">
           City: <input type="text" name="city" placeholder="Enter a city">
         </div><!--column-->  
       </div><!--row-->
-      <div class="row">
-         <div class="col-xs-12">
-          Length: <input type="text" name="length" placeholder="Distance in miles">
-        </div><!--column-->  
-      </div><!--row--> 
-          <div class="row">
-            <div class="col-xs-offset-4 col-xs-4">
-              <input type="submit" value="Search">
-            </div>
+          <!-- Length and Intensity of Trail -->
+        <div class="row">
+          <div class="col-xs-6">  
+            Length: <input type="text" name="length" placeholder="Enter distance in miles">
           </div>
-    </form>
-     
-<!--
-         <div class="row">
-          <div class="col-xs-4">
-            Duration:<select name="duration">
-                <option value="Full Day">Full Day</option>
-                <option value="Half Day">Half Day</option>
-              </select>
+          <div class="col-xs-6"> 
+            Elevation: <input type="text" name="intensity" placeholder="Enter Elevation in feet">
           </div>
-          
-          <div class="col-xs-4">  
-            <input type="text" name="length" placeholder="Enter distance in miles">
-           </div>
 
+           <!--column
           <div class="col-xs-4">
             Difficulty:<select name="intensity">
               <option value="Easy">Easy</option>
@@ -48,12 +32,39 @@
               <option value="Difficult">Difficult</option>
               <option value="Strenuous">Strenuous</option>
               </select>
-          </div>
-        </div><
--->
+          </div>   -->
 
+        </div><!--row-->
+        <!-- Trail Attributes -->
+        <div class="row">
+           <div class="col-xs-12">
+            Has Restrooms: Yes<input type="radio" name="restroom" value="yes">
+            No<input type="radio" name="restroom" value="no">
+            Has Parking: Yes<input type="radio" name="parking" value="yes">
+            No<input type="radio" name="parking" value="no">
+          </div><!--column-->  
+        </div><!--row--> 
+        <!--Dog Options-->
+        <div class="row">
+           <div class="col-xs-12">
+            Dog-Free: Yes<input type="radio" name="dog-free" value="yes">
+            Dogs-on-Leash: Yes<input type="radio" name="on-leash" value="yes">
+            Dogs-off-Leash: Yes<input type="radio" name="off-leash" value="yes">
+          </div><!--column-->  
+        </div><!--row--> 
+        <!-- Submit Button -->
+        <div class="row">
+          <div class="col-xs-offset-4 col-xs-4">
+            <input type="submit" value="Search">
+          </div><!--column-->
+        </div><!--row-->
+    </form>
+
+
+<!--Hike Log-->
 <div class="wishlist">
   <form id="wishlist">
+    {{results}}
   {% if results %}
     {% for result in results %}
     
@@ -72,7 +83,7 @@
       <p>{{ result.rating }}  <img src="/static/web_and_ios/small/small_{{ result.rating }}.png"
         height="12px"></p>
       <li>Length: {{result.length}} Elevation: {{result.intensity}}</li>
-      
+
       <!-- Hike Log Input -->
       <li>Trail Id: <input type="text"  size="4" name="trail-id" 
         value="{{result.trail_id}}" placeholder="{{result.trail_id}}"></li>
@@ -94,7 +105,8 @@
 
   <input type="submit" value="Save">
 </form>
-</div>
+</div><!--wishlist-->
+</div><!--search-form-->
   {% endblock %}
 
 

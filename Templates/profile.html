@@ -3,20 +3,17 @@
 
 <div class="park_list">
 
-  <h1>{{ user.email }}</h1>
+<h1>{{ user.email }}</h1>
 
   <p>First Name: {{ user.first_name }}</p>
   <p>Last Name: {{ user.last_name }}</p>
 
   <ul>
-
     {% for hike in hike_log %}
-        
-        <li>{{hike.trail_name}}: {{hike.comment}}</li>
-        
-    {% endfor %}
+      {{hike}}
+    {% endfor %}  
 
-</ul>
+  </ul>
 
 </div>
 {% endblock %}

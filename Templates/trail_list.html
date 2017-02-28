@@ -7,13 +7,14 @@
 
 
 <ul>
-    {% for trail in trails %}
-    <li>
-        <a href="/trail/{{ trail.trail_id }}">{{ trail.trail_name }}</a>
-    </li>
+ 
+      {% for trail in trails %}
+        <li>
+          <a href="/trail/{{ trail.trail_id }}">{{ trail.trail_name }}</a>
+        </li>
+      {% endfor %}
 
-
-    {% endfor %}
 </ul>
 </div>
+
 {% endblock %}

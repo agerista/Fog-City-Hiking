@@ -106,37 +106,43 @@ def log_into_account():
 
     email = request.form["email"]
     password = request.form["password"]
+    # hashed = argon2.hash(password)
 
     user = User.query.filter_by(email=email).first()
     hiker = db.session.query(User.user_id).filter(User.email == email).first()
 
-    if not user:
-        flash("Please try again or register for an account")
-        return redirect("/login")
+    # while True:
 
-    if user.password != password:
-        flash("Your password was incorrect, please try again")
-        return redirect("/login")
+    #     if argon2.verify(password, hashed):
 
     session["user_id"] = user.user_id
 
     flash("You have successfully logged in!")
 
-    hikes = db.session.query(Trail.trail_name, Hike.comment, Hike.user_id)\
-        .join(Hike).filter_by(user_id=hiker).all()
-
     hike_log = []
 
-    for hike in hikes:
+    if not user:
+        flash("Please try again or register for an account")
+        return redirect("/login")
 
-        hike = {}
-        trail_name = hikes[0][0]
-        hike["trail_name"] = trail_name
+    if not password:
+        # argon2.verify(password, hashed):
+        flash("Your password was incorrect, please try again")
+        return redirect("/login")
 
-        comment = hikes[0][1]
-        hike["comment"] = comment
+    # hikes = db.session.query(Trail.trail_name, Hike.comment, Hike.user_id)\
+    #     .join(Hike).filter_by(user_id=hiker).all()
 
-        hike_log.append(hike)
+    # for hike in hikes:
+
+    #     hike = {}
+    #     trail_name = hikes[0][0]
+    #     hike["trail_name"] = trail_name
+
+    #     comment = hikes[0][1]
+    #     hike["comment"] = comment
+
+    #     hike_log.append(hike)
 
     return render_template("profile.html", user=user, hike_log=hike_log)
 
@@ -151,7 +157,23 @@ def profile_page():
 
         current = db.session.query(User).filter(User.user_id == active)
         user = current[0]
-        hike_log = db.session.query(Hike).filter(Hike.user_id == active)
+        # hike_log = db.session.query(Hike).filter(Hike.user_id == active)
+        hikes = db.session.query(Hike, Trail.trail_name).join(Trail).filter(
+            Hike.user_id == active).all()
+
+        hike_list = hikes[0]
+
+        hike_log = []
+
+        for hike in hike_list:
+            log = {}
+            log["comment"] = hike.comment
+            log["rating"] = hike.rating
+            log["date"] = hike.date
+            log["temperature"] = hike.temperature
+            log["condition"] = hike.condition
+            # log['trail_name'] = hike.trail_name
+            hike_log.append(hike)
 
     return render_template("profile.html", user=user, hike_log=hike_log)
 
@@ -182,32 +204,77 @@ def results_from_search():
     trail = request.form.get("trail")
     t = "%" + trail + "%"
     miles = request.form.get("length")
-    # restrooms = request.form.get("restroom")
-    print "TRAIL, MILES", trail, miles
+    intensity = request.form.get("intensity")
+    inten = "%" + str(intensity) + "%"
+    restrooms = request.form.get("restroom")
+    parking = request.form.get("parking")
+    dog_free = request.form.get("dog-free")
+    on_leash = request.form.get("on-leash")
+    off_leash = request.form.get("off_leash")
+    city =request.form.get("city")
+    c = "%" + city + "%"
+
+    print "TRAIL, MILES", trail, miles, intensity, restrooms, parking
 
     if trail:
         print "in trail"
-        hike = Trail.query.filter(Trail.trail_name.ilike(t)).limit(5)
-        print "result of HIKE query", hike.all()
+        hike = Trail.query.join(Attributes).filter(Trail.trail_name.ilike(t)).limit(5)
+
+    elif city:
+        print "in city"
+        hike = Trail.query.join(Attributes).filter(Trail.park_name == Park.park_name).filter(
+            Trail.trail_name.ilike(t)).filter(Park.city.ilike(c)).limit(5)
 
     elif miles:
         print "in miles"
-        hike = Trail.query.filter(Trail.length == miles, Trail.trail_name.like(t)).limit(5)
+        hike = Trail.query.join(Attributes).filter(Trail.park_name == Park.park_name).filter(
+            Trail.length == miles, Trail.trail_name.ilike(t)).filter(Park.city.ilike(c)).limit(5)
+
+
+        # hike = Trail.query.join(Attributes).filter(Trail.length == miles,
+        #     Trail.trail_name.ilike(t)).limit(5)
+        # print hike.all()
+
+    elif intensity:
+        print "in intensity"
+        hike = Trail.query.join(Attributes).filter(Trail.intensity.ilike(inten),
+            Trail.length == miles, Trail.trail_name.ilike(t)).limit(5)
+
+    elif restrooms == "yes":
+        print "in restrooms"
+        hike = Trail.query.join(Attributes).filter(Trail.intensity.ilike(inten)).filter(
+            Trail.trail_name.ilike(t)).filter(Attributes.restrooms == True).limit(5)
         print hike.all()
 
-    # if restrooms == "yes":
-    #     hike = Trail.query.join(Attributes).filter(Trail.trail_name.like(t),
-    #         Attributes.parking == True, Attributes.restrooms == True).limit(5)
-    #     print hike.all()
-        # trails = Trail.query.join(Attributes).filter(Trail.trail_name.like('%trail%')).filter(Attributes.parking == True).filter(Attributes.restrooms == True)
+    elif parking == "yes":
+        print "in parking"
+        hike = Trail.query.join(Attributes).filter(Trail.intensity.ilike(inten),
+            Trail.length == miles,Trail.trail_name.ilike(t)).filter(Attributes.parking
+            == True, Attributes.restrooms == True).limit(5)
+
+    elif dog_free == "yes":
+        print "dog free"
+        hike = Trail.query.join(Attributes).filter(Trail.intensity.ilike(inten),
+            Trail.length == miles,Trail.trail_name.ilike(t)).filter(Attributes.parking
+            == True, Attributes.restrooms == True, Attributes.dog_free == True).limit(5)
+
+    elif on_leash == "yes":
+        print "on_leash"
+        hike = Trail.query.join(Attributes).filter(Trail.intensity.ilike(inten),
+            Trail.length == miles,Trail.trail_name.ilike(t)).filter(Attributes.parking
+            == True, Attributes.restrooms == True, Attributes.dogs_on_leash == True).limit(5)
+
+    elif off_leash == "yes":
+        print "off_leash"
+        hike = Trail.query.join(Attributes).filter(Trail.intensity.ilike(inten),
+            Trail.length == miles,Trail.trail_name.ilike(t)).filter(Attributes.parking
+            == True, Attributes.restrooms == True, Attributes.dogs_off_leash == True).limit(5)
+
     else:
         print "in else"
         hike = Trail.query.filter(Trail.park_name != None).distinct().limit(5)  # to-do: make this a view and include all trails
 
     search_results = hike.all()
-    print "*******************"
-    print search_results
-    print "*******************"
 
     results = []
 
@@ -226,6 +293,7 @@ def results_from_search():
         match["length"] = result.length
         match["intensity"] = result.intensity
         match["description"] = result.description
+        # match["parking"] = result.parking
         match["image_url"] = info['image_url']
         match["photos"] = info['photos']
         match["open_now"] = info['open_now']
@@ -235,43 +303,43 @@ def results_from_search():
 
         results.append(match)
 
-    return render_template("search_form.html", results=results, search_results=search_results)
+    trail = request.form.get("trail_id")
+    completed = request.form.get("completed")
+    bookmark = request.form.get("bookmark")
+    date_completed = request.form.get("date-completed")
+    temperature = request.form.get("temperature")
+    condition = request.form.get("condition")
+    comment = request.form.get("comment")
+    rating = request.form.get("rating")
 
-#     trail = request.form.get("trail_id")
-#     completed = request.form.get("completed")
-#     bookmark = request.form.get("bookmark")
-#     date_completed = request.form.get("date-completed")
-#     temperature = request.form.get("temperature")
-#     condition = request.form.get("condition")
-#     comment = request.form.get("comment")
-#     rating = request.form.get("rating")
+    if completed or bookmark or date_completed or temperature or condition or comment or rating:
 
-#     if completed or bookmark or date_completed or temperature or condition or comment or rating:
+        trail_id = trail
 
-#         trail_id = trail
+        if session['user_id']:
 
-#         if session['user_id']:
+            hiker = db.session.query(Hike.hike_id).order_by(Hike.hike_id.desc()).first()
+            new = hiker[0]
+            new_hiker = new + 1
 
-#             hiker = db.session.query(Hike.hike_id).order_by(Hike.hike_id.desc()).first()
-#             new = hiker[0]
-#             new_hiker = new + 1
+            new_log = User(user_id=new_hiker, trail_id=trail_id, completed=completed,
+                           date=date_completed, temperature=temperature, condition=condition,
+                           comment=comment, rating=rating)
 
-#             new_log = User(user_id=new_hiker, trail_id=trail_id, completed=completed,
-#                            date=date_completed, temperature=temperature, condition=condition,
-#                            comment=comment, rating=rating)
+            print new_log
 
-#             print new_log
-
-#         else:
-#             flash("Please log in to continue")
+        else:
+            flash("Please log in to continue")
   # , trail_reviews=trail_reviews
-
+    return render_template("search_form.html", results=results, search_results=search_results)
 
 @app.route('/trail')
 def trail_list():
     """See a list of all trails."""
 
     trails = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct().all()
+    cities = []
+
     return render_template("trail_list.html", trails=trails)
 
 
@@ -293,6 +361,17 @@ def trail_details(trail_id):
     print trail_reviews
 
     return render_template("trail.html", trail=trail, trail_reviews=trail_reviews, trail_info=trail_info)
+
+@app.route('/trail-by-city')
+def trail_by_city():
+    """Trails organized by city for ease of user"""
+
+    trail = Trail.query.filter(Trail.park_name != None).filter(Trail.trail_name
+             == Park.park_name).order_by("city", "trail_name").all()
+
+    cities = db.session.query(Park.city).filter(Park.city != None).distinct().all()
+
+    return render_template("trail_list.html", trails=trails)
 
 
 @app.route('/park')

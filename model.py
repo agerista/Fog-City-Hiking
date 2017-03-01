@@ -174,16 +174,91 @@ class Park(db.Model):
                                                                         self.image,
                                                                         self.description,
                                                                         self.yelp_id)
+
+
+def example_data():
+    """Create some sample data."""
+
+    # In case this is run more than once, empty out existing data
+    User.query.delete()
+    Hike.query.delete()
+    Trail.query.delete()
+    Park.query.delete()
+    Attributes.query.delete()
+
+    # Add sample data for User
+    nancy = User(user_id=1, email='nbryant0@mapy.cz',
+                 password='$argon2i$v=19$m=512,t=2,p=2$3btXSonROocQgpASQohxDg$6YH87GsmSDlQTlSqsoqlWA',
+                 first_name='Nancy', last_name='Bryant')
+    david = User(user_id=2, email='dfrazier1@booking.com',
+                 password='$argon2i$v=19$m=512,t=2,p=2$N6Y0xtibkzKmFKLUulfqHQ$yC2sFT1qsaANWwYEDPGDTw',
+                 first_name='David',  last_name='Frazier')
+    steven = User(user_id=3, email='swood2@barnesandnoble.com',
+                  password='$argon2i$v=19$m=512,t=2,p=2$5DyHsLaW0jrHuHduDSHEWA$MLxJK2sgloDYEP0MamBFWA',
+                  first_name='Steven',  last_name='Wood')
+
+    # Add sample data for Hike
+    one = Hike(hike_id=1, trail_id=372, user_id=1, comment='consequat', rating=5,
+               date='3/15/2015', completed='t', temperature=62, condition='integer')
+    two = Hike(hike_id=2, trail_id=36, user_id=2, comment='erat', rating=4,
+               date='12/10/2016', completed='t', temperature=65, condition='libero')
+    three = Hike(hike_id=3, trail_id=344, user_id=3, comment='ipsum integer',
+                 rating=5, date='9/10/2015', completed='t', temperature=84, condition='a')
+
+    # Add sample data for Trail
+    abbott = Trail(trail_id=372, trail_name='Abbotts Lagoon', park_name='Point Reyes\
+                   National Seashore', description='out and back along a lagoon\
+                   leading to a sandy beach.', duration=None,
+                   image='https://www.flickr.com/photos/55143739@N03/14453971155',
+                   length=2.3, intensity='about 50 feet', maps=None)
+    alston_trail = Trail(trail_id=36, trail_name='Alston Park', park_name='Alston Park',
+                         description='loop through old orchards and grassy hillsides outside of Napa.',
+                         image='https://www.flickr.com/photos/55143739@N03/14453971155',
+                         duration=None, length=2.7, intensity='about 200 feet',
+                         maps=None)
+    alto = Trail(trail_id=344, trail_name='Alto Bowl Open Space Preserve',
+                 park_name='Camino Alto Open Space Preserve',
+                 description='out and back through preserves bordering residential neighborhoods.',
+                 image='https://www.flickr.com/photos/55143739@N03/14453971155',
+                 duration=None, length=2.2, intensity='about 250 feet', maps=None)
+
+    # Add sample data for Park
+    alston_park = Park(park_id=34, park_name='Alston Park', latitude=38.322951,
+                       longitude=-122.332601, city='Napa', state='CA',
+                       average_temp=None, image='https://www.flickr.com/photos/\
+                       55143739@N03/6254120833', yelp_id='alston-park-napa',
+                       description='')
+    angel_island = Park(park_id=826, park_name='Angel Island State Park',
+                        latitude=37.8675698263637, longitude=-122.435095310211,
+                        city='Marin', state='CA', average_temp=None,
+                        image='https://www.flickr.com/photos/55143739@N03/6254120833',
+                        yelp_id='angel-island-state-park-tiburon', description='Angel Island\
+                        offers spectacular views, secluded beaches, hiking and\
+                        biking trails, camping, a caf&eacute;, and cultural history\
+                        attractions. There are several interesting scenic destinations\
+                        Water Trail users can visit around the island.')
+    annadel = Park(park_id=884, park_name='Annadel State Park',
+                   latitude=38.451979, longitude=-122.633751,
+                   city='Sonoma', state='CA', average_temp=None,
+                   image='https://www.flickr.com/photos/55143739@N03/6254120833',
+                   yelp_id='annadel-state-park-santa-rosa',
+                   description='Ridge Trail access from southeast end of Annadel')
+
+
+    db.session.add_all([nancy, david, steven, one, two, three, abbott, alston_trail,
+                        alto, alston_park, angel_island, annadel])
+    db.session.commit()
 ##############################################################################
 # Helper functions
 
 
-def connect_to_db(app):
+def connect_to_db(app, db_uri="postgresql:///hikes"):
     """Connect the database to our Flask app."""
 
     # Configure to use PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///hikes'
-    app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_ECHO'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
 

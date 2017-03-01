@@ -5,4 +5,3 @@ secrets.sh
 *pyc
 fog_city_data_model.xlsx
 /test
-.coverage

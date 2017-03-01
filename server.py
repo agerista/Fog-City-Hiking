@@ -371,7 +371,7 @@ def park_list():
 
 
 @app.route('/park/<int:park_id>')
-def park_description(park_id):
+def park_details(park_id):
     """See details for a chosen trail"""
 
     park = Park.query.get(park_id)

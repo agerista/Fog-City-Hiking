@@ -2,14 +2,15 @@
 {% block content %}
 <title>Fog City Hiking</title>
 <form action="/search">
-    <h3>Welcome to Fog City Hiking!</h3>
+  <h3>Welcome to Fog City Hiking!</h3>
 </form>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbyzcfHvc0GftM_-KFtQAFJNi_6SEzIUw&callback=initMap">
-    </script>
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="/static/weather.js"></script>
-      <div id="weather-map"></div>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbyzcfHvc0GftM_-KFtQAFJNi_6SEzIUw&callback=initMap">
+  </script>
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="/static/weather.js"></script>
+<div id="weather-map"></div>
 
-
+<a href="https://darksky.net/poweredby/"> 
+  <image src="https://darksky.net/dev/img/attribution/poweredby.png" height="50px"></a>
 {% endblock %}

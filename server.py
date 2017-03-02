@@ -352,7 +352,7 @@ def trail_details(trail_id):
 
 @app.route('/trails-by-city')
 def trail_by_city():
-    """Trails organized by city for ease of user"""
+    """Organize trails by city for user experience"""
 
     trail = db.session.query(Trail.trail_name, Park.city).filter(Park.city != None).filter(
         Trail.trail_name == Park.park_name).order_by(Park.city, Trail.trail_name).distinct().all()
@@ -394,6 +394,27 @@ def park_details(park_id):
     park_info = yelp_information(business_id)
 
     return render_template("park.html", park=park, park_reviews=park_reviews, park_info=park_info)
+
+@app.route('/parks-by-city')
+def parks_by_city():
+    """Organize trail by city for user experience"""
+
+    park = db.session.query(Park.park_name, Park.city).filter(Park.city
+        != None).order_by(Park.city, Park.park_name).distinct().all()
+
+    parks = {}
+
+    for p in park:
+        a = str(p[0])
+        b = str(p[1])
+        if b not in parks:
+            parks[b] = []
+            parks[b].append(a)
+        else:
+            parks[b].append(a)
+    print parks
+
+    return render_template("parks-by-city.html", parks=parks)
 
 
 ################################################################################

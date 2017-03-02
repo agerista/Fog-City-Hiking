@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="trail-list">
+<h1>Fog City Hiking</h1>
+<h3>All available trails in the Bay Area<h3>
+
+
+<ul>
+  {% for key, value in trails.iteritems() %}
+    <h2>{{ key }}</h2>
+    {% for v in value|sort %}
+      <li>{{ v }}</li>
+    {% endfor %}
+  {% endfor %} 
+
+</ul>
+</div>
+
+{% endblock %}

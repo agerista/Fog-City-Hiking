@@ -350,16 +350,26 @@ def trail_details(trail_id):
 
     return render_template("trail.html", trail=trail, trail_reviews=trail_reviews, trail_info=trail_info)
 
-@app.route('/trail-by-city')
+@app.route('/trails-by-city')
 def trail_by_city():
     """Trails organized by city for ease of user"""
 
-    trail = Trail.query.filter(Trail.park_name != None).filter(Trail.trail_name
-             == Park.park_name).order_by("city", "trail_name").all()
+    trail = db.session.query(Trail.trail_name, Park.city).filter(Park.city != None).filter(
+        Trail.trail_name == Park.park_name).order_by(Park.city, Trail.trail_name).distinct().all()
 
-    cities = db.session.query(Park.city).filter(Park.city != None).distinct().all()
+    trails = {}
 
-    return render_template("trail_list.html", trails=trails)
+    for t in trail:
+        a = str(t[0])
+        b = str(t[1])
+        if b not in trails:
+            trails[b] = []
+            trails[b].append(a)
+        else:
+            trails[b].append(a)
+    print trails
+
+    return render_template("trails-by-city.html", trails=trails)
 
 
 @app.route('/park')

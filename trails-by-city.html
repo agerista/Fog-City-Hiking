@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="trail-by-city">
+<h1>Fog City Hiking</h1>
+<h3>All available trails in the Bay Area<h3>
+
+
+<ul>
+  {% for t in trails %}
+    {{trail}}
+      
+</ul>
+</div>
+
+{% endblock %}

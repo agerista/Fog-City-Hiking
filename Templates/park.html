@@ -24,7 +24,8 @@
     
       <li>{{ park['text'] }}</li>
     
-      <li><span><a href="{{ park['url'] }}"> Reviewer: {{ park['name'] }} </span><span>Rating: {{ park['rating']}}</span></li> 
+      <li><span><a href="{{ park['url'] }}"> Reviewer: {{ park['name'] }}Rating: {{ park['rating']}}
+        <img src="/static/web_and_ios/small/small_{{ park['rating']}}.png" height="12px"></a></span></li> 
 
     {% endfor %}
 

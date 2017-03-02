@@ -326,7 +326,6 @@ def trail_list():
     """See a list of all trails."""
 
     trails = Trail.query.filter(Trail.park_name != None).order_by("trail_name asc").distinct().all()
-    cities = []
 
     return render_template("trail_list.html", trails=trails)
 
@@ -338,17 +337,41 @@ def trail_details(trail_id):
     trail = Trail.query.get(trail_id)
     trail_id = trail.trail_id
 
-    business = db.session.query(Park.yelp_id).filter(Trail.park_name == Park.park_name).filter(Trail.trail_id == trail_id).first()
+    attr = db.session.query(Attributes).filter(Attributes.trail_id ==
+                 trail_id).one()
+
+    attributes = {}
+    attribute_list = []
+
+    attributes['water'] = attr.water
+    attributes['restrooms'] = attr.restrooms
+    attributes['visitor_center'] = attr.visitor_center
+    attributes['parking'] = attr.parking
+    attributes['birding'] = attr.birding
+    attributes['picnic_tables'] = attr.picnic_tables
+    attributes['dirt_path'] = attr.dirt_path
+    attributes['paved_path'] = attr.paved_path
+    attributes['gravel_path'] = attr.gravel_path
+    attributes['dog_free'] = attr.dog_free
+    attributes['dogs_off_leash'] = attr.dogs_off_leash
+    attributes['dogs_on_leash'] = attr.dogs_on_leash
+
+    for key, value in attributes.iteritems():
+
+        if value == True:
+
+            attribute_list.append(key)
+
+    business = db.session.query(Park.yelp_id).filter(Trail.park_name ==
+                Park.park_name).filter(Trail.trail_id == trail_id).first()
     business_id = business[0]
-    print business_id
 
     trail_reviews = get_yelp_reviews(business_id)
     trail_info = yelp_information(business_id)
-    print trail_info
 
-    print trail_reviews
+    return render_template("trail.html", trail=trail, trail_reviews=trail_reviews,
+                           trail_info=trail_info, attribute_list=attribute_list)
 
-    return render_template("trail.html", trail=trail, trail_reviews=trail_reviews, trail_info=trail_info)
 
 @app.route('/trails-by-city')
 def trail_by_city():
@@ -386,6 +409,33 @@ def park_details(park_id):
 
     park = Park.query.get(park_id)
     park_id = park.park_id
+
+    # to-do: figure out query for park attributes
+
+    # attr = db.session.query(Attributes).filter(Attributes.trail_id ==
+    #          trail_id).one()
+
+    # attributes = {}
+    # attribute_list = []
+
+    # attributes['water'] = attr.water
+    # attributes['restrooms'] = attr.restrooms
+    # attributes['visitor_center'] = attr.visitor_center
+    # attributes['parking'] = attr.parking
+    # attributes['birding'] = attr.birding
+    # attributes['picnic_tables'] = attr.picnic_tables
+    # attributes['dirt_path'] = attr.dirt_path
+    # attributes['paved_path'] = attr.paved_path
+    # attributes['gravel_path'] = attr.gravel_path
+    # attributes['dog_free'] = attr.dog_free
+    # attributes['dogs_off_leash'] = attr.dogs_off_leash
+    # attributes['dogs_on_leash'] = attr.dogs_on_leash
+
+    # for key, value in attributes.iteritems():
+
+    #     if value == True:
+
+    #         attribute_list.append(key)
 
     business = db.session.query(Park.yelp_id).filter(Park.park_id == park_id).first()
     business_id = business[0]

@@ -303,9 +303,13 @@ def results_from_search():
 
         trail_id = result.trail_id
         print trail_id
-        business = db.session.query(Park.yelp_id).filter(Park.park_name == Trail.park_name).first()  # this is slow, optomize for better runtime
+        # business = db.session.query(Park.yelp_id).filter(Park.park_name == Trail.park_name).first()  # this is slow, optomize for better runtime
+        business = db.session.query(Park.yelp_id).filter(Park.park_name == Trail.park_name).filter(Trail.trail_id == trail_id).first()
+        print business
         business_id = business[0]
+        print business_id
         info = yelp_information(business_id)
+
         match["trail_id"] = result.trail_id
         match["trail_name"] = result.trail_name
         match["trail_image"] = result.image
@@ -315,12 +319,20 @@ def results_from_search():
         # match["parking"] = result.parking
         match["image_url"] = info['image_url']
         match["photos"] = info['photos']
+        info['photos']
         match["open_now"] = info['open_now']
         match["open"] = info['opens']
         match["closes"] = info['closes']
         match["rating"] = info['rating']
 
         results.append(match)
+
+    return render_template("search_form.html", results=results, search_results=search_results)
+
+
+@app.route('/save', methods=["POST"])
+def save_hike_results():
+    """Save hike from search form"""
 
     trail = request.form.get("trail_id")
     completed = request.form.get("completed")
@@ -332,10 +344,11 @@ def results_from_search():
     rating = request.form.get("rating")
 
     if completed or bookmark or date_completed or temperature or condition or comment or rating:
-
+        print comment
         trail_id = trail
 
         if session['user_id']:
+            print session['user_id']
 
             hiker = db.session.query(Hike.hike_id).order_by(Hike.hike_id.desc()).first()
             new = hiker[0]
@@ -345,10 +358,16 @@ def results_from_search():
                            date=date_completed, temperature=temperature, condition=condition,
                            comment=comment, rating=rating)
 
+            db.session.add(new_log)
+            print "added"
+            db.session.commit()
+            print "committed"
             print new_log
 
         else:
             flash("Please log in to continue")
+
+            # to-do: window.load()? for saving search results to hike log? research.
   # , trail_reviews=trail_reviews
     return render_template("search_form.html", results=results, search_results=search_results)
 

@@ -18,7 +18,7 @@ function submitSearch(evt) {
         "length": $("#length").val(),
     };
 
-    $.post("/search",
+    $.post("/save",
           formInputs,
           showSearchResults);
 }
@@ -54,4 +54,4 @@ function submitHikes(evt) {
           showSearchResults);
 }
 
-$("#wishlist").on("submit", submitSearch);
+$("#wishlist").on("submit", submitHikes);

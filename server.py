@@ -516,6 +516,14 @@ def parks_by_city():
 
     return render_template("parks-by-city.html", parks=parks)
 
+@app.route('/dog-friendly')
+def dog_friendly_hikes():
+    """List of all trails that are dog-friendly"""
+
+    dogs = db.session.query(Trail.trail_name).join(Attributes).filter(
+            Attributes.dogs_on_leash == True, Attributes.dogs_off_leash == True).all()
+
+    return render_template("dog-friendly.html", dogs=dogs)
 
 ################################################################################
 if __name__ == "__main__":

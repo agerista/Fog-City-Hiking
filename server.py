@@ -88,7 +88,8 @@ def register_new_user():
 
     flash("User %s added" % email)
 
-    hike_log = [{"trail_name": "No hikes saved yet!", "comment": ""}]
+    hike_log = [{"trail_name": "No hikes saved yet", "comment": ""}]
+
 
     return render_template("profile.html", user=new_user, hike_log=hike_log)
 
@@ -106,43 +107,53 @@ def log_into_account():
 
     email = request.form["email"]
     password = request.form["password"]
-    # hashed = argon2.hash(password)
+    hashed = argon2.hash(password)
 
     user = User.query.filter_by(email=email).first()
     hiker = db.session.query(User.user_id).filter(User.email == email).first()
 
-    # while True:
+    while True:
 
-    #     if argon2.verify(password, hashed):
+        if argon2.verify(password, hashed):
 
-    session["user_id"] = user.user_id
+            session["user_id"] = user.user_id
 
-    flash("You have successfully logged in!")
+            flash("You have successfully logged in!")
 
-    hike_log = []
+            hikes = db.session.query(Hike.comment, Hike.temperature, Hike.rating,
+                Hike.date, Hike.completed, Hike.condition, Trail.trail_name,
+                Trail.length, Trail.intensity).join(Trail).filter(Hike.user_id == hiker).all()
 
-    if not user:
-        flash("Please try again or register for an account")
-        return redirect("/login")
+            hike_log = []
 
-    if not password:
-        # argon2.verify(password, hashed):
-        flash("Your password was incorrect, please try again")
-        return redirect("/login")
+            for hike in hikes:
 
-    # hikes = db.session.query(Trail.trail_name, Hike.comment, Hike.user_id)\
-    #     .join(Hike).filter_by(user_id=hiker).all()
+                log = {}
 
-    # for hike in hikes:
+                log['comment'] = hike.comment
+                log['temperature'] = hike.temperature
+                log['rating'] = hike.rating
+                log['date'] = hike.date
+                log['completed'] = hike.completed
+                log['condition'] = hike.condition
+                log['trail_name'] = hike.trail_name
+                log['length'] = hike.length
+                log['intensity'] = hike.intensity
 
-    #     hike = {}
-    #     trail_name = hikes[0][0]
-    #     hike["trail_name"] = trail_name
+                hike_log.append(log)
 
-    #     comment = hikes[0][1]
-    #     hike["comment"] = comment
+                print hike_log
 
-    #     hike_log.append(hike)
+            break
+
+        if not user:
+            flash("Please try again or register for an account")
+            return redirect("/login")
+
+        if not password:
+            argon2.verify(password, hashed)
+            flash("Your password was incorrect, please try again")
+            return redirect("/login")
 
     return render_template("profile.html", user=user, hike_log=hike_log)
 
@@ -155,13 +166,33 @@ def profile_page():
 
     if active:
 
-        current = db.session.query(User).filter(User.user_id == active)
-        user = current[0]
-        # hike_log = db.session.query(Hike).filter(Hike.user_id == active)
-        hikes = db.session.query(Hike, Trail).join(Trail).filter(
-            Hike.user_id == active).all()
+        user = db.session.query(User).filter(User.user_id == active).first()
 
-        hike_log = hikes[0]
+        # hike_log = db.session.query(Hike).filter(Hike.user_id == active)
+        hikes = db.session.query(Hike.comment, Hike.temperature, Hike.rating,
+            Hike.date, Hike.completed, Hike.condition, Trail.trail_name,
+            Trail.length, Trail.intensity).join(Trail).filter(Hike.user_id == user.user_id).all()
+
+        hike_log = []
+
+        for hike in hikes:
+
+            log = {}
+
+            log['comment'] = hike.comment
+            log['temperature'] = hike.temperature
+            log['rating'] = hike.rating
+            log['date'] = hike.date
+            log['completed'] = hike.completed
+            log['condition'] = hike.condition
+            log['trail_name'] = hike.trail_name
+            log['length'] = hike.length
+            log['intensity'] = hike.intensity
+
+            hike_log.append(log)
+
+            print hike_log
+
 
     return render_template("profile.html", user=user, hike_log=hike_log)
 

@@ -3,20 +3,24 @@
 
 <div class="park_list">
 
-<h1>{{ user.email }}</h1>
-<h3>Your personal hiking log</h3>
-  <p>First Name: {{ user.first_name }}</p>
-  <p>Last Name: {{ user.last_name }}</p>
+
+<h1>{{ user.first_name }} {{ user.last_name }}'s hike log</h1>
+<h3>{{ user.email }}</h3>
+
 
   <ul>
-      <li>{{hike_log.Trail.trail_name}}</li>
-      <li>{{hike_log.Hike.comment}}</li>
-      <li>{{hike_log.Hike.date}} {{hike_log.Hike.completed}} {{hike_log.Hike.rating}}</li>
-      
-      
-      
-
+      {% for hike in hike_log %}
+            <li><b>{{hike.trail_name}}</b></li> 
+            <li>Length: {{hike.length}} Total elevation is {{hike.intensity}}</li>
+            <li>Completed: {{hike.completed}} Date: {{hike.date}} Rating: {{hike.rating}} 
+              Temperature: {{hike.temperature}} Condition: {{hike.condition}}
+            <li>Comments: {{hike.comment}}</li>           
+      {% endfor %}
   </ul>
 
 </div>
 {% endblock %}
+
+        <li>{{hike_log.Trail.trail_name}}</li>
+      <li>{{hike_log.Hike.comment}}</li>
+      <li>{{hike_log.Hike.date}} {{hike_log.Hike.completed}} {{hike_log.Hike.rating}}</li>

@@ -79,39 +79,73 @@
     <ul>   
     <!-- Trail Photos -->   
       <div class="container-fluid">
-        <h3><b>{{result.trail_name}}</b></h3>
-        <span class"hike-photos"><p><img height="275px" width="275px" src="{{result.image_url}}"></p></span>
-          {% for photo in result.photos %}
-            <img src="{{photo}}" height="100px" width="100px">
-          {% endfor %}
-      </div>
-      
+        <div>
+        <table>
+        <tr>     
+          <td><h3><b>{{result.trail_name}}</b></h3></td>
+        </tr>
+        <tr>
+            <td><span class"hike-photos"><p><img height="275px" width="275px" 
+              src="{{result.image_url}}"></p></span></td>
+        </tr>
+        <tr>
+            <td>
+              {% for photo in result.photos %}
+                img src="{{photo}}" height="100px" width="100px">
+              {% endfor %}
+            </td>
+        </tr>
+      </div>    
       <!-- Trail Info -->
-      <p>Opens: {{result.open}} Closes: {{result.closes}} Open Now: {{result.open_now}}</p>
-      <p>{{ result.rating }}  <img src="/static/web_and_ios/small/small_{{ result.rating }}.png"
-        height="12px"></p>
-      <li>Length: {{result.length}} Elevation: {{result.intensity}}</li>
-
+        <tr>
+          <td>Opens: {{result.open}}&nbsp&nbsp&nbsp&nbsp
+          Closes: {{result.closes}}&nbsp&nbsp&nbsp&nbsp
+          Open Now: {{result.open_now}}</td>
+        </tr>
+        <tr>
+          <td><p>{{ result.rating }}  <img src="/static/web_and_ios/small/small_{{ result.rating }}.png"
+          height="12px"></p></td>
+        </tr>
+        <tr>
+          <td>Length: {{result.length}} Elevation {{result.intensity}}</td>
+        </tr>
       <!-- Hike Log Input -->
-      <li>Trail Id: <input type="text"  size="4" name="trail-id" 
-        value="{{result.trail_id}}" placeholder="{{result.trail_id}}"></li>
-      <li>Hike Completed: <input type="checkbox" name="completed" value="true">
-          Bookmark: <input type="checkbox" name="bookmark" value="true">  </li>
-      <li>Date Completed: <input type="text" name="date-completed" placeholder="01/01/2017"></li>
-      <li>Temperature: <input type="text" name="temperature" placeholder="75"></li>
-      <li>Condition: <input type="text" name="condition" placeholder="Warm and sunny"></li>
-      <li>Comment: <textarea name="comment" placeholder="Add a note here"
-        rows="4" cols="50" maxlength="400"></textarea></li>
-      <li>Rating: 1<input type="radio" value="one"> 2<input type="radio" value="two">
-        3<input type="radio" value="three"> 4<input type="radio" value="four">
-        5<input type="radio" value="five"></li>
-      <br><br>
-    </ul>
-  <img src="/static/yelp-logo.png" width="50px" align="right">
-  <input type="submit" value="Save"/>
+        <tr>
+          <td>Trail Id: <input type="text"  size="4" name="trail-id" 
+            value="{{result.trail_id}}" placeholder="{{result.trail_id}}"></td>
+        </tr>
+        <tr>
+          <td>Hike Completed: <input type="checkbox" name="completed" value="true">
+              Bookmark: <input type="checkbox" name="bookmark" value="true"></td>
+        </tr>
+        <tr>
+          <td>Date Completed: <input type="text" name="date-completed" placeholder="01/01/2017"></td>
+        </tr>
+        <tr>
+          <td>Temperature: <input type="text" name="temperature" placeholder="75"></td>
+        </tr>
+        <tr>
+          <td>Condition: <input type="text" name="condition" placeholder="Warm and sunny"></td>
+        </tr>
+        <tr>
+          <td>Comment: <textarea name="comment" placeholder="Add a note here"
+            rows="4" cols="50" maxlength="400"></textarea></td>
+        </tr>
+        <tr>
+          <td>Rating: 1<input type="radio" value="one"> 2<input type="radio" value="two">
+            3<input type="radio" value="three"> 4<input type="radio" value="four">
+            5<input type="radio" value="five"></td>
+        </tr>
+          <br><br>
+        <tr>
+          <td><input type="submit" value="Save"/></td>
+        </tr>
       {% endfor %}
   {% endif %}
+</table>
+<img src="/static/yelp-logo.png" width="75px" align="right">
 </form>
+</div><!--container fluid-->
 </div><!--wishlist-->
 </div><!--search-form-->
   {% endblock %}

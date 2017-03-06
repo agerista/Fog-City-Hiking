@@ -18,20 +18,25 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="/">Fog City Hiking</a>
-    </div>
+  </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="col-xs-offset-8">
       <ul class="nav navbar-nav">
         <li class="active"><a href="/trail">Trails<span class="sr-only">(current)</span></a></li>
         <li><a href="/park">Parks</a></li>
         <li><a href="/search">Search</a></li>
         <li><a href="/profile">Profile</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
+          aria-haspopup="true" aria-expanded="false">Menu<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/trail">Trail List</a></li>
-            <li><a href="/park">Park List</a></li>
+            <li><a href="/trail">Trail List A-Z</a></li>
+            <li><a href="/trails-by-city">Trail List by City</a></li>
+            <li><a href="/dog-friendly">Dog Friendly Trails</a></li>
+            <li><a href="/park">Park List A-Z</a></li>
+            <li><a href="/parks-by-city">Park List by City</a></li>
             <li><a href="/search">Search Form</a></li>
             <li><a href="/profile">Profile</a></li>
             <li role="separator" class="divider"></li>
@@ -40,18 +45,19 @@
             <li><a href="#">One more separated link</a></li>
           </ul>
         </li>
-      </ul>
-         <button type="button" class="active">
+         <li type="button" class="active">
             {% if "user_id" in session %}
                   <a href="/logout">Logout</a>
                 {% else %}
                   <a href="/login">Login</a>
             {% endif %}
-          <span class="sr-only">(current)</span></a></button>
+          <span class="sr-only">(current)</span></li>
+      </ul>
+      </div><!--col-offset-->
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-</nav> 
+
 <!--Image-->
 <div class="container-fluid">  
   <div class="row fog">

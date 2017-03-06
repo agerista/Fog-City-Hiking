@@ -4,8 +4,8 @@ body {
 }
 
 .nav {
-    color: #f0f0f0;        
-    padding: 1px;
+    color: #f0f0f0;
+    padding: 0;
 }
 
 ul {
@@ -15,20 +15,23 @@ ul {
   padding-top: 25px;
 }
 
-h1{
+h1 {
     color: #494663;
     text-align: center;
 }
 
-h3{
+h3 {
+    text-align: center;
+    color: #494663;
+}
+p {
     text-align: center;
 }
-p{
-    text-align: center;
-}
+
+
 .fog{
-    height: 300px;
-    width: 1500px;
+
+    width: 2000px;
     margin: -25px -50px 25px -50px;
     text-align: center;
    }
@@ -66,8 +69,8 @@ p{
 .search-form{
     background-color: #f0f0f0;
     border: 1px solid #494663;
-    padding: 25px 100px 25px 100px;
-    margin: 5px 200px 100px 200px;
+    padding: 25px 200px 25px 200px;
+    margin: 5px 300px 100px 300px;
 }
 
 
@@ -92,8 +95,8 @@ p{
     margin: 5px 200px 100px 200px;
 }
 #weather-map {
-    width: 100%;
-    height: 800px;
+    height: 1200px;
+    width: 1900px;
 }
 
 /*#f0f8ff*/

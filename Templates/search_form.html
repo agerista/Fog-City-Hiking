@@ -10,19 +10,17 @@
     <form id="search-form" action="/search" method="POST">
       <!-- Name and City -->
       <div class="row">
-        <div class="col-xs-12">
-          Trail Name: <input type="text" name="trail" placeholder="Enter a trail">
-          City: <input type="text" name="city" placeholder="Enter a city">
+        <div class="col-xs">
+          <input type="text" name="trail" placeholder="Enter a trail name">&nbsp
+          <input type="text" name="city" placeholder="Enter a city">
         </div><!--column-->  
-      </div><!--row-->
+      </div></br><!--row-->
           <!-- Length and Intensity of Trail -->
         <div class="row">
-          <div class="col-xs-6">  
-            Length: <input type="text" name="length" placeholder="Enter distance in miles">
-          </div>
-          <div class="col-xs-6"> 
-            Elevation: <input type="text" name="intensity" placeholder="Enter Elevation in feet">
-          </div>
+          <div>  
+            <input type="text" name="length" placeholder="Enter distance in miles">&nbsp
+            <input type="text" name="intensity" placeholder="Enter Elevation in feet">
+          </div></br>
 
            <!--column
           <div class="col-xs-4">
@@ -36,31 +34,39 @@
 
         </div><!--row-->
         <!-- Trail Attributes -->
-        <div class="row">
-           <div class="col-xs-12">
-            Has Restrooms: Yes<input type="radio" name="restroom" value="yes">
-            No<input type="radio" name="restroom" value="no">
-            Has Parking: Yes<input type="radio" name="parking" value="yes">
-            No<input type="radio" name="parking" value="no">
-          </div><!--column-->  
-        </div><!--row--> 
+        <table align="center">
+          <tr>
+            <td>Restrooms</td>
+            <td>Yes<input type="radio" name="restroom" value="yes"></td>
+            <td>No<input type="radio" name="restroom" value="no"></td>
+          </tr>
+          <tr>
+            <td>Parking</td>
+            <td>Yes<input type="radio" name="parking" value="yes"></td>
+            <td>No<input type="radio" name="parking" value="no"></td> 
+          </tr>
         <!--Dog Options-->
-        <div class="row">
-           <div class="col-xs-12">
-            Dog-Free: Yes<input type="radio" name="dog-free" value="yes">
-            No<input type="radio" name="dog-free" value="no">
-            Dogs-on-Leash: Yes<input type="radio" name="on-leash" value="yes">
-            No<input type="radio" name="on-leash" value="no">
-            Dogs-off-Leash: Yes<input type="radio" name="off-leash" value="yes">
-            No<input type="radio" name="off-leash" value="no">
-          </div><!--column-->  
-        </div><!--row--> 
+          <tr>
+            <td>Dogs-on-Leash&nbsp</td> 
+            <td>Yes<input type="radio" name="on-leash" value="yes"></td>
+            <td>No<input type="radio" name="on-leash" value="no"></td>
+          </tr>
+          <tr>
+            <td>Dogs-off-Leash&nbsp</td> 
+            <td>Yes<input type="radio" name="off-leash" value="yes"></td>
+            <td>No<input type="radio" name="off-leash" value="no"></td> 
+          </tr>
+          <tr>
+            <td>Dog-Free&nbsp</td> 
+            <td>Yes<input type="radio" name="dog-free" value="yes"></td>
+            <td>No<input type="radio" name="dog-free" value="no"></td>
+          </tr>
+        </table></br></br>
         <!-- Submit Button -->
         <div class="row">
-          <div class="col-xs-offset-4 col-xs-4">
             <input type="submit" value="Search">
-          </div><!--column-->
         </div><!--row-->
+        
     </form>
 
 
@@ -74,7 +80,7 @@
     <!-- Trail Photos -->   
       <div class="container-fluid">
         <h3><b>{{result.trail_name}}</b></h3>
-        <span class"hike-photos"><p><img height="128px" width="128px" src="{{result.image_url}}"></p></span>
+        <span class"hike-photos"><p><img height="275px" width="275px" src="{{result.image_url}}"></p></span>
           {% for photo in result.photos %}
             <img src="{{photo}}" height="100px" width="100px">
           {% endfor %}

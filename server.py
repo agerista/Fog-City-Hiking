@@ -520,7 +520,7 @@ def parks_by_city():
 def dog_friendly_hikes():
     """List of all trails that are dog-friendly"""
 
-    dogs = db.session.query(Trail.trail_name).join(Attributes).filter(
+    dogs = db.session.query(Trail.trail_name, Trail.trail_id).join(Attributes).filter(
             Attributes.dogs_on_leash == True, Attributes.dogs_off_leash == True).all()
 
     return render_template("dog-friendly.html", dogs=dogs)

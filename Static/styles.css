@@ -15,6 +15,10 @@ ul {
   padding-top: 25px;
 }
 
+li {
+    text-align: left;
+}
+
 h1 {
     color: #494663;
     text-align: center;
@@ -50,6 +54,14 @@ p {
     border: 1px solid #494663;
     padding: 25px 100px 25px 100px;
     margin: 5px 200px 100px 200px;
+}
+
+.left-side {
+
+}
+
+.right-side{
+
 }
 
 .park_list{

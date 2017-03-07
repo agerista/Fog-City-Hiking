@@ -2,19 +2,25 @@
 {% block content %}
 
 <div class="trail-list">
-<h1>Fog City Hiking</h1>
-<h3>All available trails in the Bay Area<h3>
+  <div class="container-fluid">
+    <h1>Fog City Hiking</h1>
+    <h3>All available trails in the Bay Area<h3>
 
 
-<ul>
+    <ul>
  
       {% for trail in trails %}
-        <li>
-          <a href="/trail/{{ trail.trail_id }}">{{ trail.trail_name }}</a>
-        </li>
+      <div class="row">
+        <div class="col-xs-offset-2">
+          <li>
+            <a href="/trail/{{ trail.trail_id }}">{{ trail.trail_name }}</a>
+          </li>
+        </div>
+      </div>
       {% endfor %}
 
-</ul>
+    </ul>
+  </div>
 </div>
 
 {% endblock %}

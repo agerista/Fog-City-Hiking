@@ -1,44 +1,80 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="trail">
+<div class="trail container-fluid">
+  <div text-align="center">
   <h1>{{ trail.trail_name }}</h1>
   <img src="{{ trail_info.image_url }}" alt="trail image" width="275px" height="275px">
-  <h2>Description</h2>
-  <p>{{ trail.description }}</p>
-  <ul>
-    <li>Distance in miles: {{ trail.length }}  Total elevation change {{ trail.intensity }}</li>
-    <li>Opens: {{ trail_info.opens }}Closes: {{ trail_info.closes }}Open Now: {{ trail_info.open_now }}</li>
-    
-    {% for attribute in attribute_list %}
-    
-      <li>{{attribute}}</li>
-    
-    {% endfor %}
+    <div class="row">
+        <h3>Description</h3>
+    </div><br>
 
-  </ul>
-  <p>{{ trail_info.rating }}  <img src="/static/web_and_ios/small/small_{{trail_info.rating}}.png" height="12px"></p>
-<ul>
-  <!--Photos-->
-    {% for photo in trail_info.photos %}
-    
-      <img src="{{photo}}" height="128px" width="128px">
-    
-    {% endfor %} 
-  <!--Map-->
-    {% if trail.maps %}  
-      <li><img src="{{trail.maps}}.jpg" height="128px"></li>
-    {% endif %}  
-  <!--Yelp reviews-->
-  {% for trail in trail_reviews %}
-    
-    <li>{{ trail['text'] }}</li>  
-    <li><span><a href="{{ trail['url'] }}"> Reviewer: {{ trail['name'] }} Rating: {{ trail['rating']}}
-      <img src="/static/web_and_ios/small/small_{{ trail['rating']}}.png" height="12px"></a></span></li> 
+    <div class="row">
+        <p>{{ trail.description|capitalize }}</p>
+    </div>
 
-  {% endfor %}
-  <img src="/static/yelp-logo.png" width="50px" align="right">
-</ul>
+    <div class="row">
+          <p>Distance in miles: {{ trail.length }}&nbsp&nbsp&nbsp&nbspTotal elevation change {{ trail.intensity }}</p>
+    </div>
+
+    <div class="row">
+          <p>Opens: {{ trail_info.opens }}&nbsp&nbspCloses: {{ trail_info.closes }}&nbsp&nbsp
+          Open Now: {{ trail_info.open_now }}</p>
+    </div> 
+    <div class="row">
+        <p>{{ trail_info.rating }}  <img src="/static/web_and_ios/small/small_{{trail_info.rating}}.png" 
+        height="12px"></p>
+    </div><br><br>
+    <div class="row">
+        <h3>At this park:<h3>
+    </div>
+
+      <div class="row">
+        {% for attr in attr1 %} 
+          <div class="col-xs-4">
+            <li>{{attr}}</li>
+          </div>
+
+        {% endfor %}
+        {% for attribute in attr2 %}
+            <div class="col-xs-4">
+              <li>{{attribute}}</li>
+            </div>
+      
+        {% endfor %}
+      </div>
+
+    <!--Photos-->
+      <div class="row">
+        {% for photo in trail_info.photos %}
+          <div class="col-xs-4"><img src="{{photo}}" height="128px" width="128px"></div>
+        {% endfor %} 
+      </div>
+    <!--Map-->
+    <div class="row">
+        {% if trail.maps %}  
+          <img src="{{trail.maps}}.jpg" height="128px"></div>
+        {% endif %}
+    </div>
+    <!--Yelp reviews-->
+    <div class="row">
+        <h3>Reviews:<h3>
+    </div>
+    
+    {% for trail in trail_reviews %} 
+    <div class="row">
+        <p>{{ trail['text'] }}</p>
+    </div>
+    
+    <div class="row">
+          <p><a href="{{ trail['url'] }}"> Reviewer: {{ trail['name'] }} Rating: {{ trail['rating']}}
+          <img src="/static/web_and_ios/small/small_{{ trail['rating']}}.png" height="12px"></a>
+      {% endfor %}
+        <img src="/static/yelp-logo.png" width="50px" align="right"></p>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 

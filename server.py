@@ -412,6 +412,10 @@ def trail_details(trail_id):
 
             attribute_list.append(key)
 
+    mid = int(len(attribute_list) / 2)
+    attr1 = attribute_list[mid:]
+    attr2 = attribute_list[:mid]
+
     business = db.session.query(Park.yelp_id).filter(Trail.park_name ==
                 Park.park_name).filter(Trail.trail_id == trail_id).first()
     business_id = business[0]
@@ -420,7 +424,7 @@ def trail_details(trail_id):
     trail_info = yelp_information(business_id)
 
     return render_template("trail.html", trail=trail, trail_reviews=trail_reviews,
-                           trail_info=trail_info, attribute_list=attribute_list)
+                           trail_info=trail_info, attr1=attr1, attr2=attr2)
 
 
 @app.route('/trails-by-city')

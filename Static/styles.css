@@ -11,7 +11,7 @@ body {
 ul {
   list-style-type: none;
   color: #485E85;
-  text-align: left;
+  text-align: center;
   padding-top: 25px;
 }
 
@@ -47,7 +47,7 @@ p {
 #weather-map {
     height: 1200px;
     width: 2100px;
-    margin: -100px;
+    margin: -150px;
 }
 
 .trail-list{
@@ -63,12 +63,11 @@ p {
     margin: 5px 200px 100px 200px;
 }
 
-.left-side {
-
-}
-
-.right-side{
-
+.dog-friendly {
+    background-color: #f0f0f0;
+    border: 1px solid #494663;
+    padding: 25px 100px 25px 100px;
+    margin: 5px 200px 100px 200px;
 }
 
 .park_list{

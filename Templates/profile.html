@@ -27,26 +27,26 @@
         </div>
         
         <div class="row">
-          <div class="span3 offset3">
-            Length: {{hike.length}}
+          <div class="col-xs-offset-3">
+            <li>Length: {{hike.length}}</li>
           </div>
-          <div class="span3 offset8">
-            Total elevation is {{hike.intensity}}
+          <div class="col-xs-offset-3">
+            <li>Total elevation is {{hike.intensity}}</li>
           </div>
         </div>
         
         <div class="row">
           <div class="col-xs-offset-3">
-            <span>Completed: {{hike.completed}}</span>
-            <span>Date: {{hike.date}}</span>
-            <span>Rating: {{hike.rating}}</span>
+            <li>Completed: {{hike.completed}}</li>
+            <li>Date: {{hike.date}}</li>
+            <li>Rating: {{hike.rating}}</li>
           </div>
         </div>
         
         <div class="row">
           <div class="col-xs-offset-3">
-            <span>Temperature: {{hike.temperature}}</span>
-            <span>Condition: {{hike.condition}}</span>
+            <li>Temperature: {{hike.temperature}}</li>
+            <li>Condition: {{hike.condition}}</li>
           </div>
         </div>   
       {% endfor %}

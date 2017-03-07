@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="container-fluid">
-  <div class="trail-list">
+  <div class="dog-friendly">
     <div class="row">
       <h1>Fog City Hiking</h1>
     </div>
@@ -11,8 +11,8 @@
     </div>
     <ul>
       {% for dog in dogs %}
-      <div class="row">
-        <div class="col-xs-offset-4">
+      <div class="row" text-align="center"> 
+        <div class="col-xs-offset-3">
           <li><a href="/trail/{{ dog.trail_id }}">{{ dog.trail_name }}</a></li>
         </div>
       </div> 

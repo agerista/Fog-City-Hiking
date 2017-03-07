@@ -3,9 +3,16 @@
 <head>
     <link rel="stylesheet"
           href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.css"/>
+          <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+          <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+          <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/styles.css"/>
-    
 </head>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('dropdown-toggle').dropdown()
+});
+</script>   
 <body>
 <nav class="navbar navbar-default navbar-fixed-top ">
   <div class="container-fluid">
@@ -22,12 +29,18 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <div class="col-xs-offset-6">
+      <div class="col-xs-offset-9">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/trail">Trails<span class="sr-only">(current)</span></a></li>
-        <li><a href="/park">Parks</a></li>
-        <li><a href="/search">Search</a></li>
-        <li><a href="/profile">Profile</a></li>
+        <li class="active"><a href="/trail">Trails<span class="sr-only">(current)></span></a></li>
+        <li class="active"><a href="/park">Parks<span class="sr-only">(current)></span></a></li>
+        <li class="active"><a href="/search">Search<span class="sr-only">(current)></span></a></li>
+        <li type="button" class="active">
+          {% if "user_id" in session %}
+                <a href="/logout">Logout</a>
+              {% else %}
+                <a href="/login">Login</a>
+          {% endif %}
+        <span class="sr-only">(current)</span></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
           aria-haspopup="true" aria-expanded="false">Menu<span class="caret"></span></a>
@@ -38,20 +51,13 @@
             <li><a href="/park">Park List A-Z</a></li>
             <li><a href="/parks-by-city">Park List by City</a></li>
             <li><a href="/search">Search Form</a></li>
+            <li role="separator" class="divider"></li>
             <li><a href="/profile">Profile</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+            <li><a href="/register">Register</a></li>
           </ul>
         </li>
-         <li type="button" class="active">
-            {% if "user_id" in session %}
-                  <a href="/logout">Logout</a>
-                {% else %}
-                  <a href="/login">Login</a>
-            {% endif %}
-          <span class="sr-only">(current)</span></li>
+         
       </ul>
       </div><!--col-offset-->
     </div><!-- /.navbar-collapse -->

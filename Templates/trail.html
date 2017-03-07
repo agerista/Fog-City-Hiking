@@ -3,7 +3,8 @@
 
 <div class="trail container-fluid">
   <div text-align="center">
-  <h1>{{ trail.trail_name }}</h1>
+  
+  <h1>{{ trail.trail_name }}</h1><br>
   <img src="{{ trail_info.image_url }}" alt="trail image" width="275px" height="275px">
     <div class="row">
         <h3>Description</h3>
@@ -24,9 +25,9 @@
     <div class="row">
         <p>{{ trail_info.rating }}  <img src="/static/web_and_ios/small/small_{{trail_info.rating}}.png" 
         height="12px"></p>
-    </div><br><br>
+    </div><br>
     <div class="row">
-        <h3>At this park:<h3>
+        <h3>At this park:<h3><br>
     </div>
 
       <div class="row">
@@ -58,7 +59,7 @@
     </div>
     <!--Yelp reviews-->
     <div class="row">
-        <h3>Reviews:<h3>
+        <h3>Reviews:<h3><br>
     </div>
     
     {% for trail in trail_reviews %} 
@@ -67,12 +68,14 @@
     </div>
     
     <div class="row">
-          <p><a href="{{ trail['url'] }}"> Reviewer: {{ trail['name'] }} Rating: {{ trail['rating']}}
-          <img src="/static/web_and_ios/small/small_{{ trail['rating']}}.png" height="12px"></a>
-      {% endfor %}
-        <img src="/static/yelp-logo.png" width="50px" align="right"></p>
-      </div>
+      <p><a href="{{ trail['url'] }}"> Reviewer: {{ trail['name'] }} Rating: {{ trail['rating']}}
+      <img src="/static/web_and_ios/small/small_{{ trail['rating']}}.png" height="12px"></a></p>
     </div>
+    {% endfor %}
+    <div class="row">
+        <img src="/static/yelp-logo.png" width="50px" align="right">
+    </div>
+    
 
   </div>
 </div>

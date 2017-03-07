@@ -1,34 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
-
+<div class="container-fluid">
 <div class="park">
-  <h1>{{ park.park_name }}</h1>
-  <img src="{{ park_info.image_url }}" alt="park image" width="275px" height="275px">
-  <h2>Description</h2>
-  <p>{{ park.description }}</p>
-  <ul>
-    <li>City: {{ park.city }}</li>
-    <li>Opens: {{ park_info.opens }} Closes: {{ park_info.closes }} Open Now: {{ park_info.open_now }}</li>
-  </ul>
-  <p>{{ park_info.rating }}  <img src="/static/web_and_ios/small/small_{{ park_info.rating }}.png"
-   height="12px"></p>
   
-
-  <ul>
-
+  <div class="row">
+    <h1>{{ park.park_name }}</h1><br>
+  </div>
+  <div class="row">
+    <img src="{{ park_info.image_url }}" alt="park image" width="275px" height="275px">
+  </div>
+  <div class="row">
+    <h3>City: {{ park.city }}</h3><br>
+  </div>
+  <div class="row">
+    <h3>Description</h3>
+  </div>
+  <div class="row">
+    <p>{{ park.description }}</p>
+  </div>
+  <div class="row">
+    <p>Opens: {{ park_info.opens }} Closes: {{ park_info.closes }} Open Now: {{ park_info.open_now }}</p>
+  </div>
+  <div class="row">
+    <p>{{ park_info.rating }}  <img src="/static/web_and_ios/small/small_{{ park_info.rating }}.png"
+    height="12px"></p>
+  </div>
+  <div class="row">
     {% for photo in park_info.photos %}
-      <img src="{{photo}}" height="128px" width="128px">
+      <div class="col-xs-4"><img src="{{photo}}" height="128px" width="128px"></div>
     {% endfor %}
+  </div>
+    <div class="row">
+      <h3>Reviews:</h3><br>
+    </div>
 
     {% for park in park_reviews %}
-    
-      <li>{{ park['text'] }}</li>
-    
-      <li><span><a href="{{ park['url'] }}"> Reviewer: {{ park['name'] }}Rating: {{ park['rating']}}
-        <img src="/static/web_and_ios/small/small_{{ park['rating']}}.png" height="12px"></a></span></li> 
-
+      <div class="row">
+        <p>{{ park['text'] }}
+        <a href="{{ park['url'] }}"> Reviewer: {{ park['name'] }}Rating: {{ park['rating'] }}
+        <img src="/static/web_and_ios/small/small_{{ park['rating']}}.png" height="12px"></a></p>
+      </div>
     {% endfor %}
-
-  </ul>
+    <div class="row">
+        <img src="/static/yelp-logo.png" width="50px" align="right">
+    </div>
+</div>
 </div>
 {% endblock %}

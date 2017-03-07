@@ -1,17 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="search-form">
-<form action="/login", method="POST">
-    <div >
-        Email: <input type="text" name="email" placeholder="Enter your email" required></br>
-        Password: <input type="password" name="password" placeholder="Enter your password" required></br>
-        <input type="submit" value="Log In">
+<div class="container-fluid">
+  <div class="search-form">
+    <form action="/login", method="POST">
+      <div class="row">
+        <input type="text" name="email" placeholder="Enter your email" 
+        size="30" required></br>
+      </div>
+      
+      <div class="row">
+        <input type="password" name="password" placeholder="Enter your password" 
+        size="30" required></br>
+      </div>
+      
+      <div class="row">
+        <div class="col-xs-offset-4 col-xs-1">
+          <input type="submit" value="Log-In">
+        </div>
+    </form>
+    
+    <form action="/register">
+      <div class="col-xs-offset-1 col-xs-1">
+        <input type="submit" value="Register">
+      </div>
     </div>
-</form>
-<form action="/register">
-    <input type="submit" value="Register">
-</form>
+    </form>
+  </div>
 </div>
 
 {% endblock %} 

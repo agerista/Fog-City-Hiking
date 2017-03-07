@@ -86,78 +86,90 @@
 <div class="wishlist">
   <form id="wishlist">
   {% if results %}
-    {% for result in results %}
-    
-    <ul>   
-    <!-- Trail Photos -->   
-      <div class="container-fluid">
-        <div>
-        <table>
-        <tr>     
-          <td><h3><b>{{result.trail_name}}</b></h3></td>
-        </tr>
-        <tr>
-            <td><span class"hike-photos"><p><img height="275px" width="275px" 
-              src="{{result.image_url}}"></p></span></td>
-        </tr>
-        <tr>
-            <td>
-              {% for photo in result.photos %}
-                img src="{{photo}}" height="100px" width="100px">
-              {% endfor %}
-            </td>
-        </tr>
-      </div>    
+    {% for result in results %}   
+    <!-- Trail Photos -->
+      <div class="row">
+        <h3><b>{{result.trail_name}}</b></h3><br>
+      </div>
+      
+      <div class="row">
+        <img height="275px" width="275px" src="{{result.image_url}}"><br>
+      </div>
+      <br>
+  
       <!-- Trail Info -->
-        <tr>
-          <td>Opens: {{result.open}}&nbsp&nbsp&nbsp&nbsp
-          Closes: {{result.closes}}&nbsp&nbsp&nbsp&nbsp
-          Open Now: {{result.open_now}}</td>
-        </tr>
-        <tr>
-          <td><p>{{ result.rating }}  <img src="/static/web_and_ios/small/small_{{ result.rating }}.png"
-          height="12px"></p></td>
-        </tr>
-        <tr>
-          <td>Length: {{result.length}} Elevation {{result.intensity}}</td>
-        </tr>
+        <div class="row">
+          Opens: {{result.open}}
+          Closes: {{result.closes}}
+          Open Now: {{result.open_now}}
+        </div>
+        <div>
+          Length: {{result.length}} Elevation {{result.intensity}}
+        </div>
+        <div class="row">
+          {{ result.rating }}  <img src="/static/web_and_ios/small/small_{{ result.rating }}.png"
+          height="12px"><br>
+        </div>
+        <!--photos-->
+        <div class="row">
+          {% for photo in result.photos %}
+          <div class="col-xs-4">
+            <img src="{{photo}}" height="100px" width="100px">
+          </div>
+        {% endfor %}
+      </div>
+      <br>
+        
       <!-- Hike Log Input -->
-        <tr>
-          <td>Trail Id: <input type="text"  size="4" name="trail-id" 
-            value="{{result.trail_id}}" placeholder="{{result.trail_id}}"></td>
-        </tr>
-        <tr>
-          <td>Hike Completed: <input type="checkbox" name="completed" value="true">
-              Bookmark: <input type="checkbox" name="bookmark" value="true"></td>
-        </tr>
-        <tr>
-          <td>Date Completed: <input type="text" name="date-completed" placeholder="01/01/2017"></td>
-        </tr>
-        <tr>
-          <td>Temperature: <input type="text" name="temperature" placeholder="75"></td>
-        </tr>
-        <tr>
-          <td>Condition: <input type="text" name="condition" placeholder="Warm and sunny"></td>
-        </tr>
-        <tr>
-          <td>Comment: <textarea name="comment" placeholder="Add a note here"
-            rows="4" cols="50" maxlength="400"></textarea></td>
-        </tr>
-        <tr>
-          <td>Rating: 1<input type="radio" value="one"> 2<input type="radio" value="two">
-            3<input type="radio" value="three"> 4<input type="radio" value="four">
-            5<input type="radio" value="five"></td>
-        </tr>
-          <br><br>
-        <tr>
-          <td><input type="submit" value="Save"/></td>
-        </tr>
+      <div class="row" align="left">
+        <div class="col-xs-offset-3">
+          <input type="text"  size="4" name="trail-id" 
+          value="{{result.trail_id}}" placeholder="{{result.trail_id}}"> Trail Id
+        </div>
+      </div>
+      <div class="row" align="left">
+        <div class="col-xs-offset-3">
+          <input type="checkbox" name="completed" value="true"> Hike Completed
+          <input type="checkbox" name="bookmark" value="true"> Bookmark
+        </div>
+      </div>
+      <div class="row" align="left">
+        <div class="col-xs-offset-3"> 
+          <input type="text" size="12" name="date-completed" 
+          placeholder="01/01/2017"> Date Completed
+          <input type="text" size="4" name="temperature" placeholder="75"> Temperature
+        </div>
+      </div>
+      <div class="row" align="left">
+        <div class="col-xs-offset-3">
+          <input type="text" name="condition" placeholder="Warm and sunny">Condition
+        </div>
+      </div><br>
+      <div class="row" align="left">
+        <div class="col-xs-offset-3">
+          Enter notes below: <textarea name="comment" placeholder="Add a note here"
+          rows="4" cols="50" maxlength="400"></textarea>
+        </div>
+      </div><br>
+      <div class="row" align="left">
+        <div class="col-xs-offset-3">
+          Rating: 1<input type="radio" value="one"> 2<input type="radio" value="two">
+          3<input type="radio" value="three"> 4<input type="radio" value="four">
+          5<input type="radio" value="five">
+        </div>
+      </div>
+        <br>
+      <div class="row" align="left">
+        <div class="col-xs-offset-3">
+          <input type="submit" value="Save"/>
+        </div>
+      </div>
       {% endfor %}
   {% endif %}
         <div class="row">
           <img src="/static/yelp-logo.png" width="75px" align="right">
         </div>
-</table>
+
 </form>
 </div><!--container fluid-->
 </div><!--wishlist-->

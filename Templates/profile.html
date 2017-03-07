@@ -1,23 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="park_list">
+<div class="container-fluid">
+  <div class="park_list">
+    
+    <div class="row">
+      <h1>{{ user.first_name }} {{ user.last_name }}'s Hike Log</h1>
+    </div>
+    
+    <div class="row">
+      <h3>{{ user.email }}</h3>
+    </div>
 
-
-<h1>{{ user.first_name }} {{ user.last_name }}'s hike log</h1>
-<h3>{{ user.email }}</h3>
-
-
-  <ul>
+    <ul>
       {% for hike in hike_log %}
-            <li><b>{{hike.trail_name}}</b></li> 
-            <li>Length: {{hike.length}} Total elevation is {{hike.intensity}}</li>
-            <li>Completed: {{hike.completed}} Date: {{hike.date}} Rating: {{hike.rating}} 
-              Temperature: {{hike.temperature}} Condition: {{hike.condition}}
-            <li>Comments: {{hike.comment}}</li>           
+        <div class="row">
+          <div class="col-xs-offset-3">
+            <li><h4><b>{{hike.trail_name}}</b></h4></li>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-xs-offset-3">
+            <li>Comments: {{hike.comment}}</li><br>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="span3 offset3">
+            Length: {{hike.length}}
+          </div>
+          <div class="span3 offset8">
+            Total elevation is {{hike.intensity}}
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-xs-offset-3">
+            <span>Completed: {{hike.completed}}</span>
+            <span>Date: {{hike.date}}</span>
+            <span>Rating: {{hike.rating}}</span>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-xs-offset-3">
+            <span>Temperature: {{hike.temperature}}</span>
+            <span>Condition: {{hike.condition}}</span>
+          </div>
+        </div>   
       {% endfor %}
-  </ul>
-
+    </ul>
+  </div>
 </div>
 {% endblock %}
 

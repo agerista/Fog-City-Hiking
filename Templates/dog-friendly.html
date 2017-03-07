@@ -1,20 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="trail-list">
-<h1>Fog City Hiking</h1>
-<h3>All available trails in the Bay Area<h3>
-
-
-<ul>
- 
+<div class="container-fluid">
+  <div class="trail-list">
+    <div class="row">
+      <h1>Fog City Hiking</h1>
+    </div>
+    <div class="row">
+      <h3>Dog Friendly Trails in the Bay Area<h3>
+    </div>
+    <ul>
       {% for dog in dogs %}
-        <li>
-          <a href="/trail/{{ dog.trail_id }}">{{ dog.trail_name }}</a>
-        </li>
+      <div class="row">
+        <div class="col-xs-offset-4">
+          <li><a href="/trail/{{ dog.trail_id }}">{{ dog.trail_name }}</a></li>
+        </div>
+      </div> 
       {% endfor %}
-
-</ul>
+    </ul>
+  </div>
 </div>
-
 {% endblock %}

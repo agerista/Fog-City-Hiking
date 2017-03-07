@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <h1>Fog City Hiking</h1>
+  <h1>Fog City Hiking</h1><br><br>
 
-  <h3>Enter Search Parameters Below:</h3>
+
 
 <!--Search Form-->
 <div class="container-fluid">
   <div class="search-form">
     <form id="search-form" action="/search" method="POST">
+      
+      <div class="row">
+        <h3>Enter Search Parameters Below:</h3>
+      </div><br>
       <!-- Name and City -->
       <div class="row">
         <div class="col-xs">
@@ -35,39 +39,46 @@
 
         </div><!--row-->
         <!-- Trail Attributes -->
-        <table align="center">
-          <tr>
-            <td>Restrooms</td>
-            <td>Yes<input type="radio" name="restroom" value="yes"></td>
-            <td>No<input type="radio" name="restroom" value="no"></td>
-          </tr>
-          <tr>
-            <td>Parking</td>
-            <td>Yes<input type="radio" name="parking" value="yes"></td>
-            <td>No<input type="radio" name="parking" value="no"></td> 
-          </tr>
+        <div class="row" align="left">
+          <div class="col-xs-offset-4">
+            Yes<input type="radio" name="restroom" value="yes">
+            No<input type="radio" name="restroom" value="no">
+            <label>Restrooms</label>
+        </div>
+        </div>
+        <div class="row" align="left">
+          <div class="col-xs-offset-4">
+            Yes<input type="radio" name="parking" value="yes">
+            No<input type="radio" name="parking" value="no">
+            <label>Parking</label>
+          </div>
+        </div>
         <!--Dog Options-->
-          <tr>
-            <td>Dogs-on-Leash&nbsp</td> 
-            <td>Yes<input type="radio" name="on-leash" value="yes"></td>
-            <td>No<input type="radio" name="on-leash" value="no"></td>
-          </tr>
-          <tr>
-            <td>Dogs-off-Leash&nbsp</td> 
-            <td>Yes<input type="radio" name="off-leash" value="yes"></td>
-            <td>No<input type="radio" name="off-leash" value="no"></td> 
-          </tr>
-          <tr>
-            <td>Dog-Free&nbsp</td> 
-            <td>Yes<input type="radio" name="dog-free" value="yes"></td>
-            <td>No<input type="radio" name="dog-free" value="no"></td>
-          </tr>
-        </table></br></br>
+        <div class="row" align="left"> 
+          <div class="col-xs-offset-4">
+            Yes<input type="radio" name="on-leash" value="yes">
+            No<input type="radio" name="on-leash" value="no">
+            <label>Dogs-on-Leash</label>
+          </div>
+        </div>
+        <div class="row" align="left"> 
+          <div class="col-xs-offset-4">
+            Yes<input type="radio" name="off-leash" value="yes">
+            No<input type="radio" name="off-leash" value="no">
+            <label>Dogs-off-Leash</label>
+          </div>
+        </div>
+        <div class="row" align="left">
+          <div class="col-xs-offset-4">
+            Yes<input type="radio" name="dog-free" value="yes">
+            No<input type="radio" name="dog-free" value="no">
+            <label>Dog-Free</label> 
+          </div>
+        </div></br></br>
         <!-- Submit Button -->
         <div class="row">
             <input type="submit" value="Search">
-        </div><!--row-->
-        
+        </div><!--row-->      
     </form>
 
 
@@ -143,8 +154,10 @@
         </tr>
       {% endfor %}
   {% endif %}
+        <div class="row">
+          <img src="/static/yelp-logo.png" width="75px" align="right">
+        </div>
 </table>
-<img src="/static/yelp-logo.png" width="75px" align="right">
 </form>
 </div><!--container fluid-->
 </div><!--wishlist-->

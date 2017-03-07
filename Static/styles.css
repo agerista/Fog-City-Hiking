@@ -1,5 +1,5 @@
 body {
-    background: #f0f0f0;
+    background-image: url(/static/felt/felt.png);
     text-align: center;
 }
 
@@ -36,7 +36,7 @@ p {
 .fog{
 
     width: 2000px;
-    margin: -25px -50px 25px -50px;
+    margin: -25px -50px -25px -50px;
     text-align: center;
    }
 .fog img{

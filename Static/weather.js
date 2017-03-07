@@ -5,13 +5,13 @@ function initMap() {
   // Specify where the map is centered
   // Defining this variable outside of the map optios markers
   // it easier to dynamically change if you need to recenter
-  var myLatLng = {lat: 37.8272, lng: -122.2913};
+  var myLatLng = {lat: 36.7468, lng: -119.7726};
 
   // Create a map object and specify the DOM element for display.
   var map = new google.maps.Map(document.getElementById('weather-map'), {
     center: myLatLng,
     scrollwheel: false,
-    zoom: 9,
+    zoom: 8,
     zoomControl: true,
     panControl: false,
     streetViewControl: false,

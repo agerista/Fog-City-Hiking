@@ -23,7 +23,7 @@ API's Used:
 * Transit and Trails
 * Yelp
 
-(https://github.com/agerista/Fog-City-Hiking/blob/master/Static/fog_city.jpg)
+[[https://github.com/agerista/Fog-City-Hiking/blob/master/Static/fog_city.jpg]]
 
 # The Homepage
 

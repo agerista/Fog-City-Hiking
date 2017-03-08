@@ -23,11 +23,13 @@ API's Used:
 * Transit and Trails
 * Yelp
 
+(https://github.com/agerista/Fog-City-Hiking/blob/master/Static/fog_city.jpg)
+
 # The Homepage
 
 On the homepage, you can see a map of the Bay Area thanks to the Google Maps API.  A map alone does not provide a lot of information, so I queried the database to find all of cities that have trails. With that information, I called the Dark Sky API to get weather information, which I rendered with AJAX to put climacons and a weather summary onto the map.
 
-(../static/fog_city.jpeg)
+
 
 The parks and trails are all listed alphabetically, and if you click through any of the entries, you can see the results of a call to the Yelp API, which displays photos and reviews of a particular place, along with a brief description and attributes of the trail from a sqlalchemy query.
 

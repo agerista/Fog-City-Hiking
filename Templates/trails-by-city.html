@@ -2,19 +2,25 @@
 {% block content %}
 
 <div class="trails-by-city">
-<h1>Fog City Hiking</h1>
-<h3>All available trails in the Bay Area<h3>
+  <div class="container-fluid">
+    <h1>Fog City Hiking</h1>
+    <h3>All available trails in the Bay Area</h3>
 
 
-<ul>
-  {% for key, value in trails.iteritems()|sort %}
-    <h2>{{ key }}</h2>
-    {% for v in value %}
-      <li>{{ v }}</li>
-    {% endfor %}
-  {% endfor %} 
+    <ul>
+      {% for key, value in trails.iteritems()|sort %}
+        <h2>{{ key }}</h2>
+        {% for v in value %}
+        <div class="row" align="center">
+          <div class="col-xs-offset-4 col-xs-4">
+            <li>{{ v }}</li>
+          </div>
+        </div>
+        {% endfor %}
+      {% endfor %} 
 
-</ul>
+    </ul>
+  </div>
 </div>
 
 {% endblock %}

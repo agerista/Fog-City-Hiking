@@ -59,11 +59,8 @@ def register_new_user():
     """Register a new user."""
 
     email = request.form["email"]
-    print email
     verification = request.form["verify-password"]
-    print verification
     password = request.form["password"]
-    print password
     first_name = request.form["first-name"]
     last_name = request.form["last-name"]
 
